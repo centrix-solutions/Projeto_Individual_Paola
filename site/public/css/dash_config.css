@@ -1,0 +1,101 @@
+*{
+    font-family: Arial, Helvetica, sans-serif;
+}
+.cursor{
+    cursor: pointer;
+}
+body{
+    margin: 0;
+}
+.container_principal{
+    height: fit-content;
+    display: flex;
+}
+.area_dash{
+    height: 100vh;
+    width: 100%;
+    color: white;
+    padding: 7vh;
+    background: linear-gradient(180deg, #4B3753 0%, #4B3753 0%, #4B3753 0.01%, rgba(90, 52, 169, 0.93) 9.09%,
+            #8565C9 18.18%, rgba(180, 153, 238, 0.96) 27.27%, rgba(170, 143, 225, 0.63) 39.58%,
+            rgba(206, 185, 249, 0.93) 50%, rgba(151, 116, 222, 0.68) 57.29%, rgba(161, 122, 243, 0.85) 64.58%,
+            rgba(167, 131, 242, 0.90) 70.31%, rgba(139, 89, 245, 0.63) 81.82%, #5A34A9 90.91%, rgba(75, 55, 83, 0.99) 100%);
+}
+
+.quinto {
+    background-color: blueviolet;
+}
+
+/*DIV CENTRAL*/
+.div_central{
+    height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+
+/* DIV DA ESQUERDA */
+
+.div_esquerda{
+    width: 50%;
+}
+
+.div_dados {
+    display: flex;
+    flex-direction: column;
+}
+
+.div_dados input {
+    border-radius: 1.5rem;
+    border: none;
+    background-color: #8565c988;
+    width: 80%;
+    height: 6vh;
+    padding: 2vh;
+}
+
+input:focus {
+    outline: none;
+    border: none;
+    box-shadow: 0 0 1rem #5A34A9;
+  }
+  
+
+.div_dados p {
+    width: 100%;
+    font-size: 4vh;
+    color: black;
+}
+
+.botoes {
+    width: 25vw;
+    display: flex;
+    justify-content: center;
+}
+
+.div_dados button {
+    background-color: #8565c988;
+    font-size: 3vh;
+    color: white;
+    border-radius: 1.5rem;
+    border: 0.5vh solid #4B3753;
+    height: 6vh;
+    width: 20vw;
+    margin: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button:hover {
+    box-shadow: 0 0 1rem #5A34A9;
+  }
+  
+
+/* DIV DA DIREITA */
+
+.div_direita {
+    width: 50%;
+}
+

@@ -1,0 +1,971 @@
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@200;300&display=swap');
+
+#manutenacao {
+    display: none;
+}
+
+.botao_entrar a:hover {
+    color: black;
+}
+
+body {
+    margin: auto;
+    font-family: 'Mulish', sans-serif;
+    margin: 0;
+    background: linear-gradient(180deg, #4B3753 0%, #4B3753 0%, #4B3753 0.01%, rgba(90, 52, 169, 0.93) 9.09%, #8565C9 18.18%, rgba(180, 153, 238, 0.96) 27.27%, rgba(170, 143, 225, 0.63) 39.58%, rgba(206, 185, 249, 0.93) 50%, rgba(151, 116, 222, 0.68) 57.29%, rgba(161, 122, 243, 0.85) 64.58%, rgba(167, 131, 242, 0.90) 70.31%, rgba(139, 89, 245, 0.63) 81.82%, #5A34A9 90.91%, rgba(75, 55, 83, 0.99) 100%);
+    height: max-content;
+    color: white;
+    overflow-x: hidden;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.container_mapacontato {
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    height: 72vh;
+}
+
+.parte1 img {
+    width: 100px;
+    height: 100px;
+}
+
+.navBar {
+    display: flex;
+    justify-content: space-evenly;
+    color: white;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 10px;
+    width: 100%;
+    align-items: center;
+}
+
+.parte2 li {
+    display: flex;
+}
+
+.Tnote0 {
+    font-size: 180%;
+    display: flex;
+    justify-content: center;
+}
+
+.parte2 a {
+    text-decoration: none;
+    color: white;
+}
+
+.parte2 a:hover {
+
+    border-bottom: 1px solid white;
+    transform: scale(1.5);
+
+}
+
+.botoes_login {
+    display: flex;
+    flex-direction: row;
+    width: 22vw;
+    justify-content: space-evenly;
+}
+
+.botao_entrar {
+    border: 2px solid #E0E0E0;
+    border-radius: 50px;
+    box-shadow: 4px black;
+    padding: 10px 30px;
+    height: max-content;
+    display: flex;
+    align-items: center;
+
+}
+
+.botao_entrar a {
+    text-decoration: none;
+    color: white;
+}
+
+.botao_entrar:hover {
+    text-decoration: none;
+    background-color: white;
+    cursor: pointer;
+    color: black;
+    transition-duration: 1s;
+}
+
+.botao_entrar a:hover {
+    text-decoration: none;
+    color: black;
+    transition-duration: 1s;
+}
+
+/*Fim do Header*/
+
+/* Inicio da primeira parte do Banner */
+
+.banner_parte_01 {
+    max-height: 95vh;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.Texto {
+    width: 50%;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    padding: 0%;
+}
+
+.banner_parte_01 .Texto span {
+    margin-top: 23%;
+    margin-bottom: 10px;
+    margin-left: 15%;
+    color: #FFF;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-family: Mulish;
+    font-size: 45px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.banner_parte_01 .btn_trabalhe_conosco {
+    width: 200px;
+    margin-left: 15%;
+    height: 50px;
+    border: none;
+    border-radius: 47.5px;
+    background: #A033E3;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #FFF;
+    font-family: Mulish;
+    font-size: 18px;
+    font-style: normal;
+    line-height: 20px;
+}
+
+.banner_parte_01 .btn_trabalhe_conosco:hover {
+    background-color: white !important;
+    cursor: pointer !important;
+    color: black !important;
+    transition-duration: 1s !important;
+}
+
+.imagens {
+    width: 50%;
+    height: 100%;
+}
+
+.banner_parte_01 .imagen {
+    max-width: 100%;
+    max-height: 90%;
+}
+
+/*Fim da primeira parte do Banner*/
+/*Inicio da segunda parte do Banner*/
+
+.banner_parte_02 {
+    max-height: 100vh;
+    max-width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-self: center;
+    margin-top: 100px;
+}
+
+.banner_parte_02 .Texto {
+    width: 40%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.banner_parte_02 .Texto h2 {
+    font-size: 45px;
+    margin-bottom: 1%;
+    margin-top: 2px;
+}
+
+.banner_parte_02 .Texto p {
+    color: #FFF;
+    font-family: Mulish;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    margin-top: 0;
+    margin-bottom: 3px;
+}
+
+.banner_parte_02 .Texto ul {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    margin-top: 10px;
+    margin: 0;
+    /* list-style-image: url(../assets/imgs/Vector.svg); */
+}
+
+.icons_check {
+    display: flex;
+    flex-direction: column;
+}
+
+.icons_check img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.icons_chck {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.icons_chck span {
+    font-size: 18px;
+}
+
+.banner_parte_02 .Texto ul li {
+    font-size: 18px;
+    margin: 1%;
+}
+
+.banner_parte_02 .botao_comeca {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35%;
+    height: 50px;
+    border: none;
+    border-radius: 47.5px;
+    background: #A033E3;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #FFF;
+    font-family: Mulish;
+    font-size: 20px;
+    font-style: normal;
+}
+
+.banner_parte_02 .botao_comeca:hover {
+    background-color: white !important;
+    cursor: pointer !important;
+    color: black !important;
+    transition-duration: 1s !important;
+}
+
+.banner_parte_02 .imagens {
+    width: 40%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25px;
+}
+
+.banner_parte_02 .imagen {
+    width: 100%;
+    height: 0%;
+    border-radius: 5%;
+}
+
+
+/*Fim da segunda parte do Banner*/
+/*Inicio da terceira parte do Banner*/
+
+/* equipe -> display: none para ficar de fora da home */
+.banner_parte_03 {
+    height: 150vh;
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 200px;
+}
+
+.banner_parte_03 h1 {
+    color: #FFF;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-family: Mulish;
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 800;
+    margin-bottom: 2%;
+    line-height: 110%;
+    /* 55px */
+}
+
+.equipe span {
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+}
+
+/* equipe -> display: none para ficar de fora da home */
+.equipe {
+    display: none;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background-image: url(../assets/icon/Group\ 24\ \(1\).png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin-top: 0;
+    margin-right: 60px;
+}
+
+.divider_grid {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.divider_grid span {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 25px;
+    margin-top: 3%;
+}
+
+.divider_grid img {
+    width: 26%;
+    height: 37%;
+    border-radius: 50%;
+    margin-top: 0;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.divider_grid p {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 18px;
+    margin-top: 3%;
+    margin-bottom: 0;
+}
+
+.swiffy-slider {
+    margin-top: 12.5%;
+    width: 60%;
+    height: 50%;
+    margin-left: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slider-container {
+    width: 80%;
+    height: 90%;
+}
+
+.slider-container li {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+
+.equipe .btn_conhecer_equipe {
+    width: 20%;
+    height: 7%;
+    border-radius: 47.5px;
+    border: none;
+    background: #a033e3;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #FFF;
+    font-family: Mulish;
+    font-size: 18px;
+    font-style: normal;
+    line-height: 20px;
+    margin-top: 0;
+    margin-left: 5%;
+}
+
+.equipe .btn_conhecer_equipe:hover {
+    background-color: white !important;
+    cursor: pointer !important;
+    color: black !important;
+    transition-duration: 1s !important;
+}
+
+/*Final da terceira parte do banner*/
+/* Inicio da Quarta parte do Banner*/
+
+.banner_parte_04 {
+    width: 100%;
+    height: 120vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: url(../assets/imgs/fundo.png);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;
+}
+
+.cabecalho {
+    width: 100%;
+    height: 35%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0;
+}
+
+.texto {
+    width: 50%;
+    margin-top: 15%;
+    margin-left: 10%;
+}
+
+.texto h2 {
+    color: #FFF;
+    font-family: Mulish;
+    font-size: 250%;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 110%;
+    /* 66px */
+    margin-bottom: 0;
+}
+
+.texto span {
+    margin-top: 0;
+}
+
+.butao {
+    width: 50%;
+    margin-top: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.butao button {
+    width: 30%;
+    height: 60%;
+    margin-top: 50px;
+    border-radius: 50px;
+    background-color: #A033E3;
+    border: none;
+    color: white;
+    font-size: 3.5vh;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.btn-contact a {
+    text-decoration: none;
+    color: #FFF;
+}
+
+.butao :hover {
+    background-color: white !important;
+    cursor: pointer !important;
+    color: black !important;
+    transition-duration: 1s !important;
+    cursor: pointer;
+}
+
+.banner_parte_04 .imagens {
+    width: 50%;
+    height: 65%;
+    border: none;
+    border-radius: 80px;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.banner_parte_04 .imagens img {
+    width: 100%;
+    height: 90%;
+    margin-top: 60px;
+    border-radius: 3%;
+}
+
+/* Fim do Banner parte 04 */
+
+/* Inicio do banner parte 05 */
+
+.banner_parte_05 {
+    width: 100%;
+    height: 130vh;
+    margin-top: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 150px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.banner_parte_05 .cabecalho {
+    width: 100%;
+    height: 20%;
+}
+
+.banner_parte_05 .cabecalho .texto {
+    width: 50%;
+    height: 100%;
+    margin-top: 0;
+    margin-left: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.banner_parte_05 .cabecalho .butao {
+    width: 50%;
+    height: 100%;
+    margin-top: 0;
+    margin-left: 0;
+}
+
+.banner_parte_05 .cabecalho .butao .btn-contact {
+    width: 30%;
+    height: 30%;
+}
+
+.banner_parte_05 .posts {
+    width: 90%;
+    height: 80%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-left: 70px;
+}
+
+.posts .post .tema_materia {
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+}
+
+.posts .post .descricao {
+    color: white;
+}
+
+/*Final da parte 5 do banner*/
+/*Inicio da parte 6 do banner*/
+
+.banner_parte_06 {
+    width: 80%;
+    height: 90vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.banner_parte_06 .mapa {
+    width: 50%;
+    height: 70%;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    border-radius: 53px 0px 0px 53px;
+}
+
+.cotato_conteiner {
+    width: 50%;
+    border-top-right-radius: 40px;
+    border-bottom-right-radius: 40px;
+    background: rgba(146, 2, 172, 0.44);
+    display: flex;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    font-size: 120%;
+}
+
+.contato h1 {
+    margin-top: 0%;
+    margin-bottom: 1%;
+}
+
+#ad {
+    margin-left: 10px;
+}
+
+.divisao {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+}
+
+.contatos {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.contatos span {
+    font-size: 18px;
+    margin-left: 20px;
+}
+
+.contatos img {
+    width: 60px;
+    height: 50px;
+}
+
+#id_frts {
+    width: 60px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+#id_secn {
+    width: 55px;
+    height: 55px;
+    margin-left: 4px;
+}
+
+.contato button {
+    margin-left: 18%;
+    width: 70%;
+    height: 45px;
+    margin-top: 3%;
+    border: none;
+    border-radius: 30px;
+    background-color: #A033E3;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: white;
+    font-size: 15px;
+}
+
+#desc {
+    margin-top: 10px;
+    margin-left: 23%;
+}
+
+.contact {
+    display: none;
+}
+
+.negrito {
+    font-weight: bold;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+.cinza {
+    color: rgb(2, 1, 1);
+}
+
+.conteiner_notes {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+#telefone {
+    margin-right: 50%;
+}
+
+.note1,
+.note2,
+.note3 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#local {
+    width: fit-content;
+    height: 50%;
+    margin-left: -2%;
+}
+
+#telefone {
+    width: fit-content;
+    height: 50%;
+    margin-right: 5%;
+    margin-left: 1%;
+}
+
+#email {
+    width: fit-content;
+    height: 50%;
+    margin-right: 5%;
+    margin-left: 1%;
+}
+
+#map {
+    height: 100%;
+    width: 50%;
+    border-top-left-radius: 40px;
+    border-bottom-left-radius: 40px;
+}
+
+@media screen and (max-width: 768px) {
+
+    .conteiner_notes {
+        margin-top: -8%;
+    }
+
+    .note1,
+    .note2,
+    .note3 {
+        font-size: 80%;
+    }
+
+    #local {
+        margin-left: -5%;
+    }
+
+    .Tnote0 {
+        margin-top: 20%;
+    }
+
+    .banner_parte_02 .botao_comeca {
+        width: 100%;
+    }
+
+    .botao_entrar {
+        margin-left: 20px;
+    }
+
+    .navBar {
+        margin-right: 20px;
+    }
+
+    .banner_parte_01 .imagen {
+        min-width: 90%;
+        min-height: 60%;
+    }
+
+    .banner_parte_01 {
+        min-height: 50vh;
+        align-items: center;
+    }
+
+    #hed {
+        margin-top: 0%;
+        margin-bottom: 10px;
+        font-size: 30px;
+    }
+
+    #pt2 {
+        min-height: 100vh;
+        min-width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin-top: 150px;
+    }
+
+    #pt2 .Texto {
+        display: flex;
+        width: 80%;
+        font-size: 15px;
+        align-self: center;
+        justify-content: center;
+    }
+
+    #pt2 h2 {
+        font-size: 30px;
+    }
+
+    #pt2 p {
+        font-size: 18px;
+    }
+
+    #imagens {
+        width: 90%;
+    }
+
+    #mt {
+        width: 110%;
+        height: 40vh;
+        border-radius: 30px;
+        margin-left: 12%;
+    }
+
+    .banner_parte_04 {
+        background: none
+    }
+
+    #sp_teams {
+        display: none;
+    }
+
+    #cabeca {
+        display: flex;
+        flex-direction: column;
+        margin-top: -150%;
+    }
+
+    #cabeca H2 {
+        font-size: 30px;
+        margin-bottom: 5%;
+    }
+
+    .butao {
+        width: 100%;
+        margin-top: -5%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #button_cont {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 60%;
+        height: 50px;
+        border: none;
+        border-radius: 47.5px;
+        background: #A033E3;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        color: #FFF;
+        font-family: Mulish;
+        font-size: 20px;
+        font-style: normal;
+    }
+
+    #blogs_hm h2 {
+        font-size: 30px;
+        margin-bottom: 10px;
+    }
+
+    #blogs_hm .texto {
+        margin-left: 70px;
+        text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    #blogs_hm {
+        margin-bottom: 10px;
+    }
+
+    #pst {
+        margin-left: 20px;
+        text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    #btn_cnt {
+        min-width: 40%;
+        min-height: 30%;
+        margin-top: 50px;
+        border-radius: 50px;
+        background-color: #A033E3;
+        border: none;
+        color: white;
+        font-size: 15px;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    }
+
+    #tag {
+        margin-top: 30vh;
+    }
+
+    #bnr_pt6 {
+        display: none;
+    }
+
+    .divisao {
+        display: flex;
+        flex-direction: column;
+        align-self: center;
+        margin-left: 20px;
+    }
+
+    #contact {
+        width: 100%;
+        height: 50vh;
+        display: flex;
+        flex-direction: row;
+    }
+
+    #contact h1 {
+        margin-top: 0%;
+    }
+
+    #contact #mapa {
+        width: 50%;
+        height: 50vh;
+        margin-left: 20px;
+    }
+
+    #contact button {
+        width: 200px;
+        height: 50px;
+        border: none;
+        margin-left: 75px;
+        border-radius: 47.5px;
+        background: #A033E3;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        color: #FFF;
+        font-family: Mulish;
+        font-size: 15px;
+        font-style: normal;
+        line-height: 20px;
+        align-items: center;
+    }
+
+    .contatos {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .contatos span {
+        font-size: 18px;
+        margin-left: 20px;
+    }
+
+    .contatos img {
+        width: 60px;
+        height: 50px;
+    }
+
+    #id_img {
+        margin-top: 0px;
+    }
+
+    .texto {
+        width: 85%;
+        margin-top: 15%;
+        margin-left: 8%;
+    }
+
+    .cotato_conteiner {
+        /* margin: 10%; */
+        height: 60vh;
+        width: 100%;
+        margin-top: 20%;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        border-radius: 40px;
+
+    }
+}

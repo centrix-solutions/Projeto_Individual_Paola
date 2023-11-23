@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../assets/icon/favicon.ico">
+    <title>Dashboard | Funcionários</title>
+    <link rel="stylesheet" href="../css/barra_lateral.css">
+    <link rel="stylesheet" href="../css/dash_funcionarios.css">
+    <script src="../js/dashboard_funcionarios.js"></script>
+    <script src="../js/notificacao.js"></script>
+    <script src="../js/andar.js"></script>
+    <script src="../js/nivelAcesso.js"></script>
+</head>
+
+<body onload="buscarFuncionarios(), buscarAndares(), listarLateral(), resetarToken()">
+    <div class="container_principal">
+        <div class="barra_lateral" id="lateral_barra"></div>
+        <div class="area_dash">
+            <div class="dash_superior">
+                <div class="bem_vindo">
+                    <span class="text_bemVindo1">
+                        Funcionários
+                    </span>
+                    <span class="text_bemVindo2">
+                        Veja as princípais informações dos seus funcionários, cadastre e de
+                        permissões para eles.
+                    </span>
+                </div>
+            </div>
+            <div class="div_central">
+                <div class="div_funcionarios" id="div_funcionarios"></div>
+                <div class="div_direita">
+                    <div class="div_titulo">
+                        Novo Funcionário
+                    </div>
+                    <div class="div_cadastro">
+                        <p>
+                            Nome
+                        </p>
+                        <input type="text" class="input_cadastro" id="nome_input" />
+                        <p>
+                            Email
+                        </p>
+                        <span id="spanEmail"></span>
+                        <input type="text" class="input_cadastro" id="email_input" />
+                        <p>
+                            Nível de Acesso
+                        </p>
+                        <div class="containerAcesso">
+                            <select name="acesso" id="acesso_input" class="select_cadastro">
+                                <option value="1">Lílas</option>
+                                <option value="2">Magenta</option>
+                                <option value="3">Violeta</option>
+                                <option value="4">Púrpura</option>
+                            </select>
+                            <img src="../assets/icon/hint.png" alt="" id="showPopup">
+                        </div>
+                        <div id="popupContainer">
+                            <div id="popupContent">
+                                <span id="closePopup">X</span>
+                                <p class="popupCenter"> Nível de Acesso </p><br>
+                                <div class="popupSeparacao">
+                                    <div class="popupParteUm">
+                                        <div id="lilas" onmouseover="aparecerTextoLilas()" onmouseout="resetLilas()">
+                                            Lílas</div>
+                                        <div id="magenta" onmouseover="aparecerTextoMagenta()"
+                                            onmouseout="resetMagenta()"> Magenta
+                                        </div>
+                                        <div id="violeta" onmouseover="aparecerTextoVioleta()"
+                                            onmouseout="resetVioleta()"> Violeta
+                                        </div>
+                                        <div id="purpura" onmouseover="aparecerTextoPurpura()"
+                                            onmouseout="resetPurpura()"> Púrpura
+                                        </div>
+                                    </div>
+                                    <div class="popupParteDois">
+                                        <div class="popupDica"> Passe o mouse por cima dos níveis de acesso</div>
+                                        <div id="lilasPermissao">
+                                            <li>Tela de Configurações - Visualização e Alteração;</li> <br>
+                                            <li>HelpDesk - Abertura de chamado;</li> <br>
+                                            <li>Download do Sistema - Visualizar e Baixar.</li>
+                                        </div>
+                                        <div id="magentaPermissao">
+                                            <li>Tela Inicial - Visualização;</li> <br>
+                                            <li>Tela Individual - Visualização Geral;</li> <br>
+                                            <li>Tela de Alertas e Rede - Visualização;</li> <br>
+                                            <li>Tela de Configurações - Visualização e Alteração;</li><br>
+                                            <li>Tela de Gráficos - Visualização;</li> <br>
+                                            <li>HelpDesk - Abertura de chamado;</li> <br>
+                                            <li>Download do Sistema - Visualizar e Baixar.</li>
+                                        </div>
+                                        <div id="violetaPermissao">
+                                            <li>Tela Inicial - Visualização e Alteração do lugar do computador;</li>
+                                            <br>
+                                            <li>Tela Individual - Visualização do seu andar; Tela de Alertas e Rede -
+                                                Visualização;</li> <br>
+                                            <li>Tela dos Funcionários - Visualização dos funcionários do seu andar;</li>
+                                            <br>
+                                            <li>Tela de Configurações - Visualização e Alteração;</li> <br>
+                                            <li>Tela de Gráficos - Visualização;</li> <br>
+                                            <li>HelpDesk - Abertura de chamado;</li> <br>
+                                            <li>Download do Sistema - Visualizar e Baixar.</li>
+                                        </div>
+                                        <div id="purpuraPermissao">
+                                            <li>Tela Inicial - Visualização e Cadastro de andar;</li> <br>
+                                            <li>Tela Individual - Visualização Geral;</li> <br>
+                                            <li>Tela de Alertas e Rede - Visualização;</li> <br>
+                                            <li>Tela dos Funcionários - Visualização, Cadastro e Edição dos
+                                                Funcionários;</li><br>
+                                            <li>Tela de Configurações - Visualização e Alteração; </li><br>
+                                            <li>Tela de Gráficos - Visualização;</li> <br>
+                                            <li>HelpDesk - Abertura de chamado;</li> <br>
+                                            <li>HelpDesk - Abertura de chamado;</li>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p>
+                            Selecione o andar que este funcionário pertence
+                        </p>
+                        <select name="andares" class="select_andares" id="andares"></select>
+                        <div onclick="cadastrarFuncionario()" class="botao_cadastrar">
+                            Cadastrar
+                        </div>
+
+                        <div>
+                            <p>
+                                Token de Acesso
+                            </p>
+                            <div class="div_paiToken">
+                                <div class="div_token" id="divToken"></div>
+                            </div>
+                            <p>
+                                *Não perca este acesso, será necessário para o primeiro login e futura alteração da
+                                senha.
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>
+<script>
+    async function buscarFuncionarios() {
+        var idEmpresa = sessionStorage.Empresa;
+        try {
+            var resposta = await fetch("/funcionarios/buscarFuncionarios", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    idEmpresaServer: idEmpresa,
+                })
+            });
+            if (resposta.ok) {
+                var respostaJson = await resposta.json();
+                console.log('JSON Funcionarios: ', respostaJson);
+                var divFuncionarios = document.getElementById("div_funcionarios");
+                for (let i = 0; i < respostaJson.length; i++) {
+                    var acessoUser = respostaJson[i].nivelAcesso;
+                    var idFuncionario = respostaJson[i].idFuncionario;
+
+                    var divFuncionario = document.createElement("div");
+                    divFuncionario.className = "div_funcionario";
+
+                    var divInformacoes = document.createElement("div");
+                    var pNome = document.createElement("p");
+                    var pEmail = document.createElement("p");
+                    var pComputador = document.createElement("p");
+                    divInformacoes.className = "div_informacoes";
+                    pNome.className = "p_nome";
+                    pEmail.className = "p_email";
+                    pComputador.className = "p_computador";
+                    pNome.innerHTML = respostaJson[i].nome;
+                    pEmail.innerHTML = respostaJson[i].email;
+                    pComputador.innerHTML = respostaJson[i].idDispositivo;
+                    divInformacoes.appendChild(pNome);
+                    divInformacoes.appendChild(pEmail);
+                    divInformacoes.appendChild(pComputador);
+                    divFuncionario.appendChild(divInformacoes)
+
+                    var divBotoes = document.createElement("div");
+                    divBotoes.className = "div_botoes";
+
+                    var divNivel = document.createElement("div");
+                    var spanNivel = document.createElement("span");
+                    var selectNivel = document.createElement("select");
+                    var option1 = document.createElement("option");
+                    var option2 = document.createElement("option");
+                    var option3 = document.createElement("option");
+                    var option4 = document.createElement("option");
+                    spanNivel.innerHTML = "Nível de Acesso";
+                    divNivel.className = "div_botao1";
+                    selectNivel.name = "acesso";
+                    selectNivel.className = "select_acesso";
+                    selectNivel.id = `select_acesso-${idFuncionario}`;
+                    option1.value = "nivel1";
+                    option2.value = "nivel2";
+                    option3.value = "nivel3";
+                    option4.value = "nivel4";
+                    option1.innerHTML = "Lílas";
+                    option2.innerHTML = "Magenta";
+                    option3.innerHTML = "Violeta";
+                    option4.innerHTML = "Púrpura";
+
+                    selectNivel.appendChild(option1);
+                    selectNivel.appendChild(option2);
+                    selectNivel.appendChild(option3);
+                    selectNivel.appendChild(option4);
+                    divNivel.appendChild(spanNivel);
+                    divNivel.appendChild(selectNivel);
+                    divFuncionario.appendChild(divNivel);
+
+                    if (acessoUser == 1) selectNivel.value = "nivel1"
+                    else if (acessoUser == 2) selectNivel.value = "nivel2"
+                    else if (acessoUser == 3) selectNivel.value = "nivel3"
+                    else if (acessoUser == 4) selectNivel.value = "nivel4"
+
+                    selectNivel.addEventListener("change", function () {
+                        var idselectNivel = this.id;
+                        idselectNivel = idselectNivel.split('-')[1];
+                        var select = document.getElementById(`select_acesso-${idselectNivel}`)
+                        var opcaoSelecionada = select.options[select.selectedIndex].text;
+                        var tipo = 2;
+                        if (opcaoSelecionada == "Lílas") tipo = 1;
+                        else if (opcaoSelecionada == "Violeta") tipo = 3;
+                        else if (opcaoSelecionada == "Púrpura") tipo = 4;
+                        mudarNivelAcesso(idselectNivel, tipo);
+                    });
+
+                    var divAndar = document.createElement("div");
+                    var spanAndar = document.createElement("span");
+                    var selectAndar = document.createElement("select");
+                    spanAndar.innerHTML = "Andar";
+                    divAndar.className = "div_botao1";
+                    selectAndar.name = "andares";
+                    selectAndar.className = "select_andares";
+                    selectAndar.id = `andares-${idFuncionario}`;
+                    buscarAndares(idFuncionario);
+
+                    divAndar.appendChild(spanAndar);
+                    divAndar.appendChild(selectAndar);
+                    divFuncionario.appendChild(divAndar);
+
+                    selectAndar.addEventListener("change", function () {
+                        var idselectAndar = this.id;
+                        idselectAndar = idselectAndar.split('-')[1];
+                        var select = document.getElementById(`andares-${idselectAndar}`)
+                        var opcaoSelecionada = select.options[select.selectedIndex].value;
+                        opcaoSelecionada = opcaoSelecionada.split('-')[1][0];
+                        mudarAndar(idselectAndar, opcaoSelecionada);
+                    });
+
+                    var divAlerta = document.createElement("div");
+                    var spanAlerta = document.createElement("span");
+                    var buttonAlerta = document.createElement("button");
+                    divAlerta.className = "div_botao1 div_botao2";
+                    buttonAlerta.className = "button_alerta";
+                    spanAlerta.innerHTML = "Enviar Alerta";
+                    buttonAlerta.innerHTML = "ENVIAR";
+                    buttonAlerta.id = `button-${idFuncionario}`;
+                    buttonAlerta.addEventListener('click', function () {
+                        var idButtonAlerta = this.id;
+                        idButtonAlerta = idButtonAlerta.split('-')[1];
+                        enviarAlerta(idButtonAlerta);
+                    });
+                    divAlerta.appendChild(spanAlerta);
+                    divAlerta.appendChild(buttonAlerta);
+                    divFuncionario.appendChild(divAlerta);
+
+                    var divAtividade = document.createElement("div");
+                    var spanAtividade = document.createElement("span");
+                    var divAtividadeTexto = document.createElement("div");
+                    var spanAtividadeTexto = document.createElement("span");
+                    divAtividade.className = "div_botao1 div_botao3";
+                    divAtividadeTexto.className = "div_atividade";
+                    spanAtividade.innerHTML = "Atividade";
+                    spanAtividadeTexto.innerHTML = "ATIVO";
+                    if (respostaJson[i].dataHoraEntrada == null || respostaJson[i].dataHoraEntrada != null && respostaJson[i].dataHoraSaida != null) spanAtividadeTexto.innerHTML = "INATIVO";
+                    divAtividadeTexto.appendChild(spanAtividadeTexto);
+                    divAtividade.appendChild(spanAtividade);
+                    divAtividade.appendChild(divAtividadeTexto);
+                    divFuncionario.appendChild(divAtividade);
+
+                    divFuncionarios.appendChild(divFuncionario);
+                }
+                setTimeout(() => {
+                    for (let i = 0; i < respostaJson.length; i++) {
+                        var idFuncionario = respostaJson[i].idFuncionario;
+                        var selectAndar = document.getElementById(`andares-${idFuncionario}`);
+                        var andarUser = respostaJson[i].fkAndar;
+                        if (andarUser == null) {
+                            selectAndar.value = `andar-0`;
+                        } else {
+                            selectAndar.value = `andar-${andarUser}${idFuncionario}`;
+                        }
+                    }
+                }, 100);
+            }
+        } catch (erro) {
+            console.log("Erro: ", erro);
+        }
+    }
+    async function mudarNivelAcesso(idFuncionario, tipo) {
+        try {
+            var resposta = await fetch("/funcionarios/mudarNivelAcesso", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    idFuncionarioServer: idFuncionario,
+                    tipoServer: tipo,
+                })
+            });
+            if (resposta.ok) {
+                var respostaJson = await resposta.json();
+                console.log('JSON: ', respostaJson);
+            }
+        } catch (erro) {
+            console.log("Erro: ", erro);
+        }
+    }
+    async function mudarAndar(idFuncionario, andar) {
+        try {
+            var resposta = await fetch("/funcionarios/mudarAndar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    idFuncionarioServer: idFuncionario,
+                    andarServer: andar,
+                })
+            });
+            if (resposta.ok) {
+                var respostaJson = await resposta.json();
+                console.log('JSON: ', respostaJson);
+            }
+        } catch (erro) {
+            console.log("Erro: ", erro);
+        }
+    }
+    setTimeout(() => {
+        const atual = document.getElementById('option4');
+        atual.style.backgroundColor = "blueviolet";
+    }, 50);
+</script>
+
+<script>
+    const showPopupButton = document.getElementById("showPopup");
+    const popupContainer = document.getElementById("popupContainer");
+    const closePopupButton = document.getElementById("closePopup");
+
+    showPopupButton.addEventListener("click", function () {
+        popupContainer.style.display = "block";
+    });
+
+    closePopupButton.addEventListener("click", function () {
+        popupContainer.style.display = "none";
+    });
+
+</script>
+
+<script>
+
+    function aparecerTextoLilas() {
+        var lilasPermissao = document.getElementById("lilasPermissao");
+        lilasPermissao.innerHTML = "";
+
+        var ul = document.createElement("ul");
+        var li1 = document.createElement("li");
+        var li2 = document.createElement("li");
+        var li3 = document.createElement("li");
+        li1.textContent = "Tela de Configurações - Visualização e Alteração;";
+        li2.textContent = "HelpDesk - Abertura de chamado;";
+        li3.textContent = "Download do Sistema - Visualizar e Baixar.";
+
+        ul.appendChild(li1);
+        ul.appendChild(li2);
+        ul.appendChild(li3);
+
+        lilasPermissao.appendChild(ul);
+        lilasPermissao.style.display = "block";
+    }
+
+    function aparecerTextoMagenta() {
+        var magentaPermissao = document.getElementById("magentaPermissao");
+        magentaPermissao.innerHTML = "";
+
+        var ul = document.createElement("ul");
+        var li1 = document.createElement("li");
+        var li2 = document.createElement("li");
+        var li3 = document.createElement("li");
+        var li4 = document.createElement("li");
+        var li5 = document.createElement("li");
+        var li6 = document.createElement("li");
+        var li7 = document.createElement("li");
+
+        li1.textContent = "Tela Inicial - Visualização;";
+        li2.textContent = "Tela Individual - Visualização Geral;";
+        li3.textContent = "Tela de Alertas e Rede - Visualização;";
+        li4.textContent = "Tela de Configurações - Visualização e Alteração;";
+        li5.textContent = "Tela de Gráficos - Visualização;";
+        li6.textContent = "HelpDesk - Abertura de chamado;";
+        li7.textContent = "Download do Sistema - Visualizar e Baixar.";
+
+        ul.appendChild(li1);
+        ul.appendChild(li2);
+        ul.appendChild(li3);
+        ul.appendChild(li4);
+        ul.appendChild(li5);
+        ul.appendChild(li6);
+        ul.appendChild(li7);
+
+        magentaPermissao.appendChild(ul);
+        magentaPermissao.style.display = "block";
+    }
+
+    function aparecerTextoVioleta() {
+        var violetaPermissao = document.getElementById("violetaPermissao");
+        violetaPermissao.innerHTML = "";
+
+        var ul = document.createElement("ul");
+        var li1 = document.createElement("li");
+        var li2 = document.createElement("li");
+        var li3 = document.createElement("li");
+        var li4 = document.createElement("li");
+        var li5 = document.createElement("li");
+        var li6 = document.createElement("li");
+        var li7 = document.createElement("li");
+        var li8 = document.createElement("li");
+
+        li1.textContent = "Tela Inicial - Visualização e Alteração do lugar do computador;";
+        li2.textContent = "Tela Individual - Visualização do seu andar; Tela de Alertas e Rede - Visualização;";
+        li3.textContent = "Tela dos Funcionários - Visualização dos funcionários do seu andar;";
+        li4.textContent = "Tela de Configurações - Visualização e Alteração;";
+        li5.textContent = "Tela de Gráficos - Visualização;";
+        li6.textContent = "HelpDesk - Abertura de chamado;";
+        li7.textContent = "Download do Sistema - Visualizar e Baixar.";
+
+        ul.appendChild(li1);
+        ul.appendChild(li2);
+        ul.appendChild(li3);
+        ul.appendChild(li4);
+        ul.appendChild(li5);
+        ul.appendChild(li6);
+        ul.appendChild(li7);
+
+        violetaPermissao.appendChild(ul);
+        violetaPermissao.style.display = "block";
+    }
+
+    function aparecerTextoPurpura() {
+        var purpuraPermissao = document.getElementById("purpuraPermissao");
+        purpuraPermissao.innerHTML = "";
+
+        var ul = document.createElement("ul");
+        var li1 = document.createElement("li");
+        var li2 = document.createElement("li");
+        var li3 = document.createElement("li");
+        var li4 = document.createElement("li");
+        var li5 = document.createElement("li");
+        var li6 = document.createElement("li");
+        var li7 = document.createElement("li");
+        var li8 = document.createElement("li");
+
+        li1.textContent = "Tela Inicial - Visualização e Cadastro de andar;";
+        li2.textContent = "Tela Individual - Visualização Geral;";
+        li3.textContent = "Tela de Alertas e Rede - Visualização;";
+        li4.textContent = "Tela dos Funcionários - Visualização, Cadastro e Edição dos Funcionários;";
+        li5.textContent = "Tela de Configurações - Visualização e Alteração;";
+        li6.textContent = "Tela de Gráficos - Visualização;";
+        li7.textContent = "HelpDesk - Abertura de chamado;";
+        li8.textContent = "Download do Sistema - Visualizar e Baixar.";
+
+        ul.appendChild(li1);
+        ul.appendChild(li2);
+        ul.appendChild(li3);
+        ul.appendChild(li4);
+        ul.appendChild(li5);
+        ul.appendChild(li6);
+        ul.appendChild(li7);
+
+        purpuraPermissao.appendChild(ul);
+        purpuraPermissao.style.display = "block";
+    }
+
+    function resetLilas() {
+        var lilasPermissao = document.getElementById("lilasPermissao");
+        lilasPermissao.style.display = "none";
+        lilasPermissao.innerHTML = "";
+    }
+
+    function resetMagenta() {
+        var magentaPermissao = document.getElementById("magentaPermissao");
+        magentaPermissao.style.display = "none";
+        magentaPermissao.innerHTML = "";
+    }
+
+    function resetVioleta() {
+        var violetaPermissao = document.getElementById("violetaPermissao");
+        violetaPermissao.style.display = "none";
+        violetaPermissao.innerHTML = "";
+    }
+
+    function resetPurpura() {
+        var purpuraPermissao = document.getElementById("purpuraPermissao");
+        purpuraPermissao.style.display = "none";
+        purpuraPermissao.innerHTML = "";
+    }
+
+</script>

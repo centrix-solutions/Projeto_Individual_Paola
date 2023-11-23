@@ -1,0 +1,31 @@
+.barra_lateral {
+    width: 100px;
+    background-color: rgba(36, 36, 36, 1);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    top: 0;
+    bottom: 0;
+}
+.primeiro{
+    margin-top: 100%;
+}
+.barraLateral_option{
+    height: 50px;
+    width: 85px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition-duration: 0.5s;
+    margin-bottom: 5%;
+}
+.barraLateral_option:hover{
+    background-color: blueviolet;
+    transition-duration: 0.5s;
+}
+.cursor{
+    cursor: pointer;
+}

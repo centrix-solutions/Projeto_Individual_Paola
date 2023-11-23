@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ptbr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="./js/sessao.js"></script>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+
+  <link rel="icon" href="assets/icon/favicon.ico">
+  <link rel="stylesheet" href="./css/home.css">
+  <link rel="stylesheet" href="css/blog.css">
+  <link rel="stylesheet" href="css/login.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <title> Centrix Solutions | Home </title>
+
+</head>
+
+<body>
+
+  <script data-jsd-embedded data-key="05451694-b41e-4276-977a-55467b84e7bf"
+    data-base-url="https://jsd-widget.atlassian.com" src="https://jsd-widget.atlassian.com/assets/embed.js"></script>
+
+  <div class="navBar">
+    <div class="parte1">
+      <a href="index.html"><img src="assets/icon/logoSemFundo.png" alt="Logo Centrix Solutions"></a>
+    </div>
+    <div class="parte2">
+      <li>
+        <ul><a href="index.html">Home</a></ul>
+        <ul><a href="sobre_nos.html">Sobre Nós</a></ul>
+        <ul id="retirado"><a href="sobre_nos.html#time_empresa">Equipe</a></ul>
+        <ul id="retirado"><a href="sobre_nos.html#valores_empresa">Valores</a></ul>
+        <ul><a href="blog.html">Blog</a></ul>
+      </li>
+    </div>
+
+    <div class="botoes_login">
+      <a href="cadastro.html">
+        <div class="botao_entrar">
+          Cadastrar
+        </div>
+      </a>
+      <a href="login.html">
+        <div id="login" class="botao_entrar">
+          Login
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="banner_parte_01">
+    <div class="Texto">
+      <span id="hed">
+        Monitoramento de hardware em call centers
+      </span>
+
+      <button onclick="cadastro()" class="btn_trabalhe_conosco">
+        Trabalhe Conosco
+      </button>
+    </div>
+    <div class="imagens">
+      <img class="imagen" src="assets/imgs/Rectangle 39.png" alt="" />
+    </div>
+  </div>
+
+  <div id="pt2" class="banner_parte_02">
+    <div class="Texto">
+      <h2>
+        Nossa Ferramenta em uso...
+      </h2>
+      <p>
+        A partir do monitoramento de hardware, são gerados gráficos e informações referentes ao uso dos componentes da
+        máquina, assim auxiliando na análise e tomada de decisões para melhoria do seu desempenho.
+      </p>
+      <div class="icons_check">
+        <div class="icons_chck"><img src="assets/icon/Vector.png" alt=""> <span>Melhor Segurança</span></div>
+        <div class="icons_chck"><img src="assets/icon/Vector.png" alt=""> <span>Dashboards para melhor visão</span>
+        </div>
+        <div class="icons_chck"><img src="assets/icon/Vector.png" alt=""> <span>Melhor agilidade</span></div>
+      </div>
+      <button onclick="cadastro()" class="botao_comeca">
+        Comece agora
+      </button>
+    </div>
+    <div id="imagens" class="imagens">
+
+      <img id="mt" class="imagen" src="assets/imgs/InicioDash.png" alt="">
+
+    </div>
+  </div>
+
+  <!-- equipe -->
+
+  <!-- <div id="sp_teams" class="banner_parte_03">
+    <div class="equipe">
+
+      <div class="swiffy-slider">
+        <div id="div" class="slider-container">
+          <div id="tem" class="divider_grid">
+            <h1>
+              Nossa Equipe
+            </h1>
+            <img id="pic_team" class="imagens_carrosel" src="assets/imgs/Davi.jpeg">
+            <span>
+              <span>Davi Rodrigues da Silva</span>
+              Desenvolvedor Back-End
+            </span>
+            <p>
+              "Poder fazer parte do crescimento desta empresa e uma honra imensa, afinal posso ver de perto toda a
+              mudança que estamos fazendo."
+            </p>
+          </div>
+          <div id="sp_teams" class="divider_grid">
+            <h1>
+              Nossa Equipe
+            </h1>
+            <img id="pic_team" class="imagens_carrosel" src="assets/imgs/Erica.jpeg">
+            <span>
+              <span>Erica Rodrigues da Cunha</span>
+              Scrum Master
+            </span>
+            <p>
+              "Para mim, nosso projeto não foi apenas uma oportunidade de crescer profissionalmente ao lado de uma
+              equipe incrível mas também a criação de algo que traz a inovação da qual precisamos."
+            </p>
+          </div>
+          <div id="sp_teams" class="divider_grid">
+            <h1>
+              Nossa Equipe
+            </h1>
+            <img id="pic_team" class="imagens_carrosel" src="assets/imgs/Gabriella.jpeg">
+            <span>
+              <span>Gabriella Inácio</span>
+              Administradora de Banco de Dados
+            </span>
+            <p>
+              "Trabalhar na nossa empresa de monitoramento de hardware é uma verdadeira alegria, onde cada dia é uma
+              oportunidade de aprender e crescer."
+            </p>
+          </div>
+          <div id="sp_teams" class="divider_grid">
+            <h1>
+              Nossa Equipe
+            </h1>
+            <img id="pic_team" class="imagens_carrosel" src="assets/imgs/Henryque.jpeg">
+            <span>
+              <span>Henrique Lipert</span>
+              Gestor da ferramenta de suporte
+            </span>
+            <p>
+              "Na estrada da tecnologia, o único limite é a nossa imaginação. Vamos juntos impulsionar o futuro e
+              alcançar as estrelas da inovação! 💻🚀 #InovaçãoSemLimites."
+            </p>
+          </div>
+          <div id="sp_teams" class="divider_grid">
+            <h1>
+              Nossa Equipe
+            </h1>
+            <img id="pic_team" class="imagens_carrosel" src="assets/imgs/Kaory.jpeg">
+            <span>
+              <span>Michelly Kaori</span>
+              Desenvolvedora Front-End
+            </span>
+            <p>
+              "Faça da sua vida mais "Responsivo" ❤️"
+            </p>
+          </div>
+          <div id="sp_teams" class="divider_grid">
+            <h1>
+              Nossa Equipe
+            </h1>
+            <img id="pic_team" class="imagens_carrosel" src="assets/imgs/Sarah.jpeg">
+            <span>
+              <span>Sarah de Lucia</span>
+              Producter Owner
+            </span>
+            <p>
+              "Na nossa empresa, a paixão pela inovação e tecnologia está no centro de tudo o que fazemos, tenho orgulho
+              de participar deste projeto."
+            </p>
+          </div>
+
+        </div>
+
+        <button type="button" class="slider-nav"></button>
+        <button type="button" class="slider-nav slider-nav-next"></button>
+
+        <div class="slider-indicators">
+          <button class="active"></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+        </div>
+      </div>
+      <button onclick="sobrenos()" id="btn_teams" class="btn_conhecer_equipe">Conheça mais a nossa equipe</button>
+    </div>
+  </div> -->
+
+  <div id="manutenacao" class="banner_parte_04">
+    <div id="cabeca" class="cabecalho">
+      <div class="texto">
+        <H2>
+          Conheça mais o nosso projeto
+        </H2>
+        <span>
+          Entre em contato para mais informações, dúvidas ou possível interesse. Conheça tudo que a Centrix Solutions
+          pode oferecer.
+        </span>
+      </div>
+      <div class="butao">
+        <button id="button_cont" class="btn-contact"> <a
+            href="https://centrix-solutions.atlassian.net/servicedesk/customer/portals">Contacte-nos</a></button>
+      </div>
+    </div>
+    <div id="retirado" class="imagens">
+      <img id="id_img" src="" alt="">
+    </div>
+  </div>
+
+  <div id="retirado" class="banner_parte_05">
+    <div id="blogs_hm" class="cabecalho">
+      <div class="texto">
+        <H2>
+          Nossos últimos posts
+        </H2>
+        <!-- <span> retirar?
+          Atualmente, oferecemos suporte para Facebook, Instagram, LinkedIn e Twitter. <br> Mais estão por vir.
+        </span> -->
+      </div>
+      <div class="butao">
+        <button onclick="blog()" id="btn_cnt" class="btn-contact"> Veja Mais posts </button>
+      </div>
+    </div>
+    <div id="pst" class="posts">
+      <div class="post">
+        <img src="assets/imgs/blogImage1.png">
+        <div id="tag" class="tag">
+          <span class="tag_a">Tecnologia</span>
+          <span class="tag_b">Marketing</span>
+        </div>
+
+        <div class="data_postagem">
+          <span>05/12/2022</span>
+          <span class="hora">3 Min de Leitura</span>
+        </div>
+
+        <span class="linha"></span>
+
+        <h2 class="tema_materia">Solucionando o vazamento de dados em um call center com o Centrix Solutions:<br>
+          Um caso de monitoramento de hardware</h2>
+        <span class="descricao">Lidar com informações confidenciais dos clientes requer uma abordagem sólida de
+          proteção de dados. Este artigo explora um caso de sucesso em que um call center conseguiu resolver
+          um problema de vazamento de dados com a ajuda do Centrix Solutions, uma solução de monitoramento de
+          hardware.</span>
+        <a class="visualizar" href="pdfs_blog/PDF1.pdf">Veja mais</a>
+      </div>
+      <div class="post">
+        <img src="assets/imgs/blogImage2.png">
+        <div id="tag" class="tag">
+          <span class="tag_a">Tecnologia</span>
+          <span class="tag_b">Marketing</span>
+        </div>
+
+        <div class="data_postagem">
+          <span>23/04/2023</span>
+          <span class="hora">90 Min de Leitura</span>
+        </div>
+
+        <span class="linha"></span>
+
+        <h2 class="tema_materia">Centrix Solutions: Protegendo o Setor de Saúde com Monitoramento de Hardware
+        </h2>
+        <span class="descricao">A segurança de dados é uma preocupação recorrente as empresas em medida do
+          aumento da digitalização e a conectividade. Neste artigo veremos o papel da Centrix Solutions na
+          proteção de dados por meio do monitoramento de hardware. Descubra como essa solução pode ser uma
+          salvaguarda essencial para sua organização.</span>
+        <a class="visualizar" href="pdfs_blog/PDF2.pdf">Veja Mais</a>
+
+      </div>
+      <div class="post" id="part_2">
+        <img src="assets/imgs/blogImage3.png">
+        <div class="tag">
+          <span class="tag_a">Tecnologia</span>
+          <span class="tag_b">Marketing</span>
+        </div>
+
+        <div class="data_postagem">
+          <span>18/02/2022</span>
+          <span class="hora">30 Min de Leitura</span>
+        </div>
+
+        <span class="linha"></span>
+
+        <h2 class="tema_materia">Centrix Solutions e a Segurança Financeira: Protegendo Dados Bancários com
+          Monitoramento de Hardware</h2>
+        <span class="descricao">As instituições financeiras são alvos comuns para ataques cibernéticos pois
+          possuem
+          dados sensíveis do setor financeiro que gerenciam. Neste artigo é abordado o desempenho da Centrix
+          Solutions para proteção de dados bancários por meio da solução de monitoramento proposta. Descubra
+          como
+          essa solução pode servir para a segurança financeira da sua empresa.</span>
+        <a class="visualizar" href="pdfs_blog/Pdf 3.pdf">Veja Mais</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container_mapacontato">
+    <div id="map"></div>
+    <div class="cotato_conteiner">
+      <div class="conteiner_notes">
+        <div class="note0">
+          <span class="Tnote0"><span class="negrito">Contato</span></span>
+        </div>
+        <div class="note1">
+          <img id="local" src="assets/icon/Rectangle 333 (1).png" alt=""><span class="cursor negrito"
+            onclick="Copiar_Endereco()">Rua Haddock Lobo 595</span>
+        </div>
+        <div class="note2">
+          <img id="telefone" src="assets/icon/Rectangle 334 (1).png" alt=""><span class="negrito cursor"
+            onclick="Copiar_Telefone()">(11) 98888-7777</span>
+        </div>
+        <div class="note3">
+          <img id="email" src="assets/icon/Rectangle 335.png" alt=""><span class="negrito cursor"
+            onclick="Copiar_Email()">centrixsolutions@sptech.school</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--footer inicio-->
+  <div class="footer">
+    <div class="container">
+      <div class="right_resource">
+        <div class="right_startup">
+          <div class="inner_right">
+            <div class="startup_plan">
+              <img src="assets/icon/Group 25.png" alt="">
+              <h3>Plano Inicial</h3>
+              <button><a href="cadastro.html">Comece Agora</a></button>
+            </div>
+            <div class="start_options">
+              <div class="list_options">
+                <img src="assets/icon/Group 27.png" alt="">
+                <p>5 Usuários</p>
+              </div>
+              <div class="list_options">
+                <img src="assets/icon/Group 27.png" alt="">
+                <p>Suporte técnico</p>
+              </div>
+              <div class="list_options">
+                <img src="assets/icon/Group 27.png" alt="">
+                <p>Planejamento</p>
+              </div>
+              <div class="list_options">
+                <img src="assets/icon/Group 27.png" alt="">
+                <p>Ferramentas de análise</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="left_resource">
+        <div id="retirado" class="main_separation">
+          <div id="retirado" class="left_post">
+            <p>Nossas Páginas</p>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="sobre_nos.html">Sobre Nós</a></li>
+              <li><a href="https://centrix-solution.atlassian.net/servicedesk/customer/portal/1">Contato</a></li>
+              <li><a href="blog.html">Blog</a></li>
+            </ul>
+          </div>
+          <div class="right_post">
+            <ul>
+              <li><a href="blog.html">Blog Post</a></li>
+              <li><a href="sobre_nos.html#valores_empresa">Valores</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- Começo do copyrights -->
+      <div class="copyrights">
+        <span>Copyrights | Centrix Solutions</span>
+        <div class="social_icons">
+          <a href="" style="text-decoration:none"><img src="assets/icon/Insta.png" alt=""></a>
+          <a href="" style="text-decoration:none"><img src="assets/icon/Fb.png" alt=""></a>
+          <a href="" style="text-decoration:none"><img src="assets/icon/Twiter.png" alt=""></a>
+          <a href="" style="text-decoration:none"><img src="assets/icon/linken.png" alt=""></a>
+        </div>
+      </div>
+      <!-- Fim do copyrights -->
+      <!-- Começo dos contatos -->
+      <!-- <div class="contact_icons">
+        <a href="henrique.conde@centrix-solutions.atlassian.net" style="text-decoration:none"><img
+            src="assets/icon/email.png" alt=""></a>
+        <a href="" style="text-decoration:none"><img src="assets/icon/whatsapp.webp" alt=""></a>
+      </div> -->
+      <!-- Fim dos contatos -->
+    </div>
+  </div>
+
+  <!--footer fim-->
+</body>
+
+</html>
+
+
+<script>
+
+  function cadastro() {
+    location.href = "cadastro.html"
+  }
+
+  function sobrenos() {
+    location.href = "sobre_nos.html"
+  }
+
+  function blog() {
+    location.href = "blog.html"
+  }
+
+
+  function Copiar_Endereco() {
+    navigator.clipboard.writeText("Rua Haddock Lobo 595 São Paulo - SP, 01414-905");
+    alert("Endereço copiado!");
+  }
+  function Copiar_Telefone() {
+    navigator.clipboard.writeText("(11) 98888-7777");
+    alert("Telefone copiado!");
+  }
+  function Copiar_Email() {
+    navigator.clipboard.writeText("test@sptech.school");
+    alert("Email copiado!");
+  }
+  var map = L.map('map').setView([-23.558101168408747, -46.66160636041288], 22);
+
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  L.marker([-23.558101168408747, -46.66160636041288]).addTo(map).bindPopup('São Paulo Tech School').openPopup();
+
+
+
+</script>

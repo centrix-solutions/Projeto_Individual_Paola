@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="icon" href="assets/icon/favicon.ico">
+    <title> Centrix Solutions | Login </title>
+
+</head>
+
+<body>
+
+    <script data-jsd-embedded data-key="05451694-b41e-4276-977a-55467b84e7bf"
+        data-base-url="https://jsd-widget.atlassian.com"
+        src="https://jsd-widget.atlassian.com/assets/embed.js"></script>
+
+    <!--Header-->
+    <div class="navBar">
+        <div class="parte1">
+            <a href="index.html"><img src="assets/icon/logoSemFundo.png" alt="Logo Centrix Solutions"></a>
+        </div>
+        <div class="parte2">
+            <li>
+                <ul><a href="index.html">Home</a></ul>
+                <ul><a href="sobre_nos.html">Sobre Nós</a></ul>
+                <ul id="retirado"><a href="sobre_nos.html#time_empresa">Equipe</a></ul>
+                <ul id="retirado"><a href="sobre_nos.html#valores_empresa">Valores</a></ul>
+                <ul><a href="blog.html">Blog</a></ul>
+            </li>
+        </div>
+        <div class="botoes_login">
+            <a href="cadastro.html">
+                <div class="botao_entrar">
+                    Cadastrar
+                </div>
+            </a>
+            <a id="retirado" href="dashboard/dashboard_main.html">
+                <div id="login" class="botao_entrar">
+                    Login
+                </div>
+            </a>
+        </div>
+    </div>
+    <!-- End of Header -->
+    <!-- Start of Login  -->
+    <div class="card_log">
+        <div class="log_info">
+            <h1>Login</h1>
+            <span class="nome_input">E-mail:</span>
+            <input type="text" placeholder="Digite o email" id="email_input">
+            <span class="nome_input">Senha:</span>
+            <input type="password" placeholder="Digite a senha" id="senha_input">
+            <!-- <p>Esqueceu sua senha? <a href="">Recuperar Senha</a></p> -->
+            <button onclick="verificar()">Entrar</button>
+        </div>
+    </div>
+
+    <!--footer inicio-->
+    <div class="footer">
+        <div class="container">
+            <div class="right_resource">
+                <div class="right_startup">
+                    <div class="inner_right">
+                        <div class="startup_plan">
+                            <img src="assets/icon/Group 25.png" alt="">
+                            <h3>Plano Inicial</h3>
+                            <button><a href="cadastro.html">Comece Agora</a></button>
+                        </div>
+                        <div class="start_options">
+                            <div class="list_options">
+                                <img src="assets/icon/Group 27.png" alt="">
+                                <p>5 Usuários</p>
+                            </div>
+                            <div class="list_options">
+                                <img src="assets/icon/Group 27.png" alt="">
+                                <p>Suporte técnico</p>
+                            </div>
+                            <div class="list_options">
+                                <img src="assets/icon/Group 27.png" alt="">
+                                <p>Planejamento</p>
+                            </div>
+                            <div class="list_options">
+                                <img src="assets/icon/Group 27.png" alt="">
+                                <p>Ferramentas de análise</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="left_resource">
+                <div id="retirado" class="main_separation">
+                    <div class="left_post">
+                        <p>Nossas Páginas</p>
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="sobre_nos.html">Sobre Nós</a></li>
+                            <li><a href="https://centrix-solution.atlassian.net/servicedesk/customer/portal/1">Contato</a></li>
+                            <li><a href="blog.html">Blog</a></li>
+                        </ul>
+                    </div>
+                    <div class="right_post">
+                        <ul>
+                            <li><a href="blog.html">Blog Post</a></li>
+                            <li><a href="sobre_nos.html#valores_empresa">Valores</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Começo do copyrights -->
+            <div class="copyrights">
+                <span>Copyrights | Centrix Solutions</span>
+                <div class="social_icons">
+                    <a href="" style="text-decoration:none"><img src="assets/icon/Insta.png" alt=""></a>
+                    <a href="" style="text-decoration:none"><img src="assets/icon/Fb.png" alt=""></a>
+                    <a href="" style="text-decoration:none"><img src="assets/icon/Twiter.png" alt=""></a>
+                    <a href="" style="text-decoration:none"><img src="assets/icon/linken.png" alt=""></a>
+                </div>
+            </div>
+            <!-- Fim do copyrights -->
+            <!-- Começo dos contatos -->
+            <!-- <div class="contact_icons">
+                <a href="" style="text-decoration:none"><img src="assets/icon/email.png" alt=""></a>
+                <a href="" style="text-decoration:none"><img src="assets/icon/whatsapp.webp" alt=""></a>
+            </div> -->
+            <!-- Fim dos contatos -->
+        </div>
+    </div>
+    <!--footer fim-->
+</body>
+
+</html>
+<script>
+    // tirar antes de apresentar a sprint
+    email_input.value = "marina@email.com";
+    senha_input.value = "senha1";
+    function verificar() {
+        var emailVar = email_input.value
+        var senhaVar = senha_input.value
+        if (emailVar == "" || senhaVar == "") {
+            alert('preencha todos os campos')
+        } else {
+
+            fetch("/usuarios/autenticar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    emailServer: emailVar,
+                    senhaServer: senhaVar
+                })
+            }).then(function (resposta) {
+                console.log("ESTOU NO THEN DO entrar()!")
+
+                if (resposta.ok) {
+                    console.log(resposta);
+                    resposta.json().then(json => {
+                        console.log(json);
+                        console.log(JSON.stringify(json));
+
+                        sessionStorage.setItem("id", json.id);
+                        sessionStorage.setItem("nome", json.nome);
+                        sessionStorage.setItem("email", json.email);
+                        sessionStorage.setItem("senha", json.senha);
+                        sessionStorage.setItem("NivelAcesso", json.NivelAcesso);
+                        sessionStorage.setItem("Empresa", json.Empresa);
+                        sessionStorage.setItem("fkAndar", json.fkAndar);
+
+                        var nivelAcesso = json.NivelAcesso;
+                        
+                        var windowLocation;
+                        if (nivelAcesso == 1) {
+                            windowLocation = "dashboard/dashboard_config.html";
+                        } else {
+                            windowLocation = "dashboard/dashboard_main.html";
+                        }
+
+                        setTimeout(function () {
+                            window.location = windowLocation;
+                        }, 1000);
+
+                    });
+
+                } else {
+
+                    console.log("Houve um erro ao tentar realizar o login!");
+
+                    resposta.text().then(texto => {
+                        console.error(texto);
+                    });
+                }
+
+            }).catch(function (erro) {
+                console.log(erro);
+            })
+
+            return false;
+        }
+    }
+</script>

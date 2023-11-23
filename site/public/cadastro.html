@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/cadastro.css">
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="icon" href="assets/icon/favicon.ico">
+  <script src="js/cadastro_empresa.js"></script>
+  <title> Centrix Solutions | Cadastro </title>
+
+</head>
+
+<body>
+
+  <script data-jsd-embedded data-key="05451694-b41e-4276-977a-55467b84e7bf"
+    data-base-url="https://jsd-widget.atlassian.com" src="https://jsd-widget.atlassian.com/assets/embed.js"></script>
+
+  <!--Header-->
+  <div class="navBar">
+    <div class="parte1">
+      <a href="index.html"><img src="assets/icon/logoSemFundo.png" alt="Logo Centrix Solutions"></a>
+    </div>
+    <div class="parte2">
+      <li>
+        <ul><a href="index.html">Home</a></ul>
+        <ul><a href="sobre_nos.html">Sobre Nós</a></ul>
+        <ul class="empresa"><a href="#time_empresa">Equipe</a></ul>
+        <ul class="valores"><a href="#valores_empresa">Valores</a></ul>
+        <ul><a href="blog.html">Blog</a></ul>
+      </li>
+    </div>
+    <div class="botoes_login">
+      <a id="retirado" href="cadastro.html">
+        <div class="botao_entrar">
+          Cadastrar
+        </div>
+      </a>
+      <a href="login.html">
+        <div id="login" class="botao_entrar">
+          Login
+        </div>
+      </a>
+    </div>
+  </div>
+  <!-- End of Header -->
+  <div class="card_logC">
+    <div class="log_infoC" id="cadastroEmpresa">
+      <h1>Cadastro empresarial</h1>
+      Nome
+      <input type="text" placeholder="Digite o nome da sua empresa..." id="nome_fantasia_input">
+      CNPJ
+      <input type="text" maxlength="18" placeholder="Insira seu CNPJ..." onkeyup="formatarCNPJ(this)" id="cnpj_input">
+      <button onclick="continuarEndereco()" class="entrar">Prosseguir</button>
+    </div>
+
+    <div class="log_infoC" id="cadastroEndereco" style="display: none;">
+      <h1>Cadastre seu endereço</h1>
+      CEP
+      <input type="text" maxlength="9" placeholder="Digite o CEP" onkeyup="formatarCEP(this)" oninput="ApiCEP()"
+        id="cep_input">
+      Estado
+      <input type="text" disabled placeholder="" id="estado_input">
+      Cidade
+      <input type="text" disabled placeholder="" id="cidade_input">
+      Bairro
+      <input type="text" disabled placeholder="" id="bairro_input">
+      Rua
+      <input type="text" disabled placeholder="" id="rua_input">
+      Número
+      <input type="number" placeholder="Digite o número da sua empresa..." id="numero_input">
+      Complemento
+      <input type="text" placeholder="Digite o complemento do seu endereço" id="complemento_input">
+      <div class="log_info_botoes">
+        <button onclick="voltarEmpresa()" class="voltar">Voltar</button>
+        <button onclick="continuarFuncionario()" class="entrar">Prosseguir</button>
+      </div>
+
+    </div>
+
+    <div class="log_infoC" id="cadastroFuncionario" style="display: none;">
+      <h1>Cadastro do funcionário responsável</h1>
+      <span id="texto_input">Nome</span>
+      <input type="text" placeholder="Digite seu nome" id="funcionario_nome_imput">
+      <span id="texto_input">Email</span>
+      <input type="text" oninput="verificarEmail()" placeholder="Digite seu email" id="funcionario_email_input">
+      <span class="span_alerta" id="span_alerta_email"></span>
+      <span id="texto_input">Senha</span>
+      <input oninput="verificarRequisitoSenha()" type="password" placeholder="Digite sua senha" id="senha_input">
+      <span class="span_alerta" id="span_alerta_senha"></span>
+      <span id="texto_input">Confirmar Senha</span>
+      <input oninput="verificarSenhas()" type="password" placeholder="Confirme sua senha" id="confirmar_senha_input">
+      <span class="span_alerta" id="span_alerta_confirmar_senha"></span>
+
+      <div class="log_info_botoes_func">
+        <button onclick="voltarEndereco()" class="voltar">Voltar</button>
+        <button onclick="continuarResumo()" class="entrar">Prosseguir</button>
+      </div>
+    </div>
+
+    <div class="log_info_resumo" id="resumo" style="display: none;">
+      <div class="resumo_area">
+        <div class="area">
+          <h2 class="area-titulo">Informações da Empresa</h2>
+          <div class="info">
+            <span class="info-titulo">Nome Fantasia: </span>
+            <span class="info-valor" id="nomeFantasia_valor"> </span>
+          </div>
+          <div class="info">
+            <span class="info-titulo">CNPJ: </span>
+            <span class="info-valor" id="CNPJ_valor"></span>
+          </div>
+        </div>
+        <div class="area">
+          <h2 class="area-titulo">Informações de Endereço</h2>
+          <div class="info">
+            <span class="info-titulo">CEP: </span>
+            <span class="info-valor" id="CEP_valor"></span>
+          </div>
+          <div class="info">
+            <span class="info-titulo">Estado: </span>
+            <span class="info-valor" id="estado_valor"></span>
+          </div>
+          <div class="info">
+            <span class="info-titulo">Cidade: </span>
+            <span class="info-valor" id="cidade_valor"></span>
+          </div>
+          <div class="info">
+            <span class="info-titulo">Bairro: </span>
+            <span class="info-valor" id="bairro_valor"></span>
+          </div>
+          <div class="info">
+            <span class="info-titulo">Rua: </span>
+            <span class="info-valor" id="rua_valor"></span>
+          </div>
+          <div class="info">
+            <span class="info-titulo">Número: </span>
+            <span class="info-valor" id="numero_valor"></span>
+          </div>
+          <div class="info">
+            <span class="info-titulo">Complemento: </span>
+            <span class="info-valor" id="complemento_valor"></span>
+          </div>
+        </div>
+
+        <div class="area">
+          <h2 class="area-titulo">Informações do Responsável</h2>
+          <div class="info">
+            <span class="info-titulo">Nome: </span>
+            <span class="info-valor" id="nomeResponsavel_valor"></span>
+          </div>
+          <div class="info">
+            <span class="info-titulo">Email:</span>
+            <span class="info-valor" id="emailResponsavel_valor"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="buttons">
+        <button onclick="voltarFuncionario()" class="voltar">Voltar</button>
+        <button onclick="cadastrar()">Cadastrar</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!--footer inicio-->
+  <div class="footer">
+    <div class="container">
+      <div class="right_resource">
+        <div class="right_startup">
+          <div class="inner_right">
+            <div class="startup_plan">
+              <img src="assets/icon/Group 25.png" alt="">
+              <h3>Plano Inicial</h3>
+              <button><a href="cadastro.html">Comece Agora</a></button>
+            </div>
+            <div class="start_options">
+              <div class="list_options">
+                <img src="assets/icon/Group 27.png" alt="">
+                <p>5 Usuários</p>
+              </div>
+              <div class="list_options">
+                <img src="assets/icon/Group 27.png" alt="">
+                <p>Suporte técnico</p>
+              </div>
+              <div class="list_options">
+                <img src="assets/icon/Group 27.png" alt="">
+                <p>Planejamento</p>
+              </div>
+              <div class="list_options">
+                <img src="assets/icon/Group 27.png" alt="">
+                <p>Ferramentas de análise</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="left_resource">
+        <div class="main_separation">
+          <div class="left_post">
+            <p>Nossas Páginas</p>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="sobre_nos.html">Sobre Nós</a></li>
+              <li><a href="https://centrix-solution.atlassian.net/servicedesk/customer/portal/1">Contato</a></li>
+              <li><a href="blog.html">Blog</a></li>
+            </ul>
+          </div>
+          <div class="right_post">
+            <ul>
+              <li><a href="blog.html">Blog Post</a></li>
+              <li><a href="sobre_nos.html#valores_empresa">Valores</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- Começo do copyrights -->
+  <div class="copyrights">
+    <span>Copyrights | Centrix Solutions</span>
+    <div class="social_icons">
+      <a href="" style="text-decoration:none"><img src="assets/icon/Insta.png" alt=""></a>
+      <a href="" style="text-decoration:none"><img src="assets/icon/Fb.png" alt=""></a>
+      <a href="" style="text-decoration:none"><img src="assets/icon/Twiter.png" alt=""></a>
+      <a href="" style="text-decoration:none"><img src="assets/icon/linken.png" alt=""></a>
+    </div>
+  </div>
+  <!-- Fim do copyrights -->
+  <!-- Começo dos contatos -->
+  <!-- <div class="contact_icons">
+        <a href="" style="text-decoration:none"><img src="assets/icon/email.png" alt=""></a>
+        <a href="" style="text-decoration:none"><img src="assets/icon/whatsapp.webp" alt=""></a>
+      </div> -->
+  <!-- Fim dos contatos -->
+  </div>
+  </div>
+  <!--footer fim-->
+</body>
+
+</html>
+
+<script>
+  var spanEmail = document.getElementById("span_alerta_email");
+  var spanConfirmaSenha = document.getElementById("span_alerta_confirmar_senha");
+  var spanSenha = document.getElementById("span_alerta_senha")
+
+  function verificarEmail() {
+    var emailInput = funcionario_email_input.value;
+    if (emailInput.indexOf("@") < 0) {
+      spanEmail.innerHTML = "@ ausente, verifique o Email";
+      spanEmail.style.color = "#690606";
+
+    } else {
+      spanEmail.innerHTML = "Email válido";
+      spanEmail.style.color = "lime";
+    }
+  }
+
+  function verificarSenhas() {
+    var senhaInput = senha_input.value;
+    var confimacaoSenhaInput = confirmar_senha_input.value;
+
+    if (senhaInput != confimacaoSenhaInput) {
+      spanConfirmaSenha.innerHTML = "As senhas não coincidem!";
+      spanConfirmaSenha.style.color = "#690606";
+    } else {
+      spanConfirmaSenha.innerHTML = "As senhas são iguais.";
+      spanConfirmaSenha.style.color = "lime";
+    }
+  }
+
+  function verificarRequisitoSenha() {
+    var senhaInput = senha_input.value;
+    var senhaEscopo = new RegExp("^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})");
+    var mensagemErro = "";
+
+    if (!/(?=.*[a-z])/.test(senhaInput)) {
+      mensagemErro += "A senha deve conter pelo menos um caractere minúsculo. ";
+    }
+    if (!/(?=.*[0-9])/.test(senhaInput)) {
+      mensagemErro += "<br>A senha deve conter pelo menos um caractere númerico. ";
+    }
+    if (!/(?=.*[!@#$%^&*])/.test(senhaInput)) {
+      mensagemErro += "<br>A senha deve conter pelo menos um caractere especial. ";
+    }
+    if (senhaInput.length < 8) {
+      mensagemErro += "<br>A senha deve ter pelo menos 8 caracteres. ";
+    }
+
+    if (mensagemErro === "") {
+      spanSenha.innerHTML = "A senha atende aos requisitos mínimos.";
+      spanSenha.style.color = "lime";
+    } else {
+      spanSenha.innerHTML = mensagemErro
+      spanSenha.style.color = "#690606";
+    }
+  }
+</script>

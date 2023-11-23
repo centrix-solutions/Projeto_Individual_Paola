@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../assets/icon/favicon.ico">
+    <title>Dashboard | Máquina</title>
+    <link rel="stylesheet" href="../css/barra_lateral.css">
+    <link rel="stylesheet" href="../css/relatorio.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdfmake@0.1.70/build/pdfmake.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdfmake@0.1.70/build/vfs_fonts.js"></script>
+    <script src="../js/sessao.js"></script>
+    <script src="../js/nivelAcesso.js"></script>
+</head>
+
+<body onload="listarLateral(), buscarComputadoresRelatorio(idEmpresa)">
+    <div class="container_principal">
+        <div class="barra_lateral" id="lateral_barra">
+
+        </div>
+        <div class="area_dash">
+            <div class="dash_superior">
+                <div class="bem_vindo">
+                    <span class="text_bemVindo1">
+                        Criar Relatório
+                    </span>
+                    <span class="text_bemVindo2">
+                        Elabore documentos personalizados com as suas principais informações capturadas.
+                    </span>
+                </div>
+                <div class="bem_vindo_botoes">
+                    <button>Gerar Relatório</button>
+                    <button>Visualizar Histórico</button>
+                </div>
+            </div>
+            <div class="card_monitoramento">
+                <div class="area_superior">
+                    <div class="area_superior_esquerda">
+                        <div class="texto_ajuda">
+                            <!-- sempre que hooverar qualquer parte do site, mudar o texto de ajuda -->
+                            <h2>Selecione no minimo 1 componente que voce deseja obter os dados</h2>
+                        </div>
+                        <div class="botoes_filtro">
+                            <button onclick="exibirComp()">Componentes</button>
+                            <button onclick="exibirInicio()">Início</button>
+                            <button onclick="exibirFim()">Fim</button>
+                        </div>
+                        <div class="filtros_opçoes" id="idfiltros" style="display: block;">
+                            <div class="filtros_componentes">
+                                <ul class="lista">
+                                    <li><button onclick="selecionarTodosComponentes()"
+                                            style="color: rgb(0, 255, 0);">Selecionar Todos</button></li>
+                                    <li><input type="checkbox" name="checkComp" id="cpu" value="1">CPU</li>
+                                    <li><input type="checkbox" name="checkComp" id="disco" value="2">DISCO</li>
+                                    <li><input type="checkbox" name="checkComp" id="ram" value="3">RAM</li>
+                                    <li><input type="checkbox" name="checkComp" id="usb" value="4">USB</li>
+                                    <li><input type="checkbox" name="checkComp" id="taxa_dowload" value="5">Taxa Dowload
+                                    </li>
+                                    <li><input type="checkbox" name="checkComp" id="taxa_upload" value="6">Taxa Upload
+                                    </li>
+                                    <li><input type="checkbox" name="checkComp" id="janelas" value="7">Janelas</li>
+                                    <li><input type="checkbox" name="checkComp" id="processos" value="8">Processos</li>
+                                    <li><button onclick="limpar()" id="limpar">Limpar</button>
+                                        <button onclick="exibirInicio()" id="continuar">Continuar</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="filtros_opçoes" id="idInicio" style="display: none;">
+                            <input type="datetime-local" id="input_inicio">
+                        </div>
+                        <div class="filtros_opçoes" id="idFim" style="display: none;">
+                            <input type="datetime-local" id="input_fim">
+                        </div>
+                        <!-- colocar icone computador -->
+                        <div class="container_divisor">
+                            <div class="container_maq">
+                                <div class="select-btn">
+                                    <span class="btn-text">Selecione o(s) computador(es)</span>
+                                    <button onclick="selecionarTodosMaquina()" style="color: rgb(0, 255, 0);">Selecionar
+                                        Todos</button>
+                                    <button onclick="removerTodos()" style="color: red;">Remover Todos</button>
+                                </div>
+
+                                <ul class="list-items" id="computadoresList">
+
+                                </ul>
+                            </div>
+                            <div class="botoes_finais">
+                                <button onclick="criarPrevia()" style="color: rgb(0, 255, 0);">Gerar Prévia</button>
+                                <button style="color: yellow;">Limpar</button><!-- reseta os filtros -->
+                                <button style="color: red;">Cancelar</button><!-- recarrega a pagina -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="area_superior_direita">
+                        <h2 class="titulo_direita">Visualização dos dados</h2>
+                        <div class="input">
+                            <span class="titulo_input">Insira o nome e a extensão do seu documento:</span>
+                        </div>
+                        <div class="documento">
+                            <input type="text" id="input_nome_arquivo">
+                            <select class="select_extensao" name="extensao" id="select_ext">
+                                <option value="pdf">PDF</option>
+                                <option value="csv">CSV</option>
+                            </select>
+                            <button class="baixar_botao" onclick="criarRelatorio()">Criar</button>
+                        </div>
+                        <div id="exibicao">
+                            <h2>Tabela de Monitoramento</h2>
+                            <div id="tabelaContainer">
+                                <table id="tabelaMonitoramento">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Data</th>
+                                            <th>Hora</th>
+                                            <th>Dado</th>
+                                            <th>Componente</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+
+
+    var idEmpresa = sessionStorage.Empresa;
+    var dados = []
+    var rotulo = {
+
+        1: "CPU",
+        2: "DISCO",
+        3: "RAM",
+        4: "USB",
+        5: "Taxa Dowload",
+        6: "Taxa Upload",
+        7: "Janelas",
+        8: "Processos"
+
+    }
+
+    const selectBtn = document.querySelector(".select-btn");
+
+    selectBtn.addEventListener("click", () => {
+        selectBtn.classList.toggle("open");
+    });
+
+    async function buscarComputadoresRelatorio(idEmpresa) {
+        console.log(idEmpresa);
+        try {
+            var resposta = await fetch("/relatorios/buscarComputadoresRelatorio", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    idEmpresaServer: idEmpresa,
+                })
+            });
+            if (resposta.ok) {
+                var respostaJson = await resposta.json();
+                console.log('JSON BuscarComputadores SelecOption: ', respostaJson);
+
+                var computadoresList = document.getElementById("computadoresList");
+                computadoresList.innerHTML = '';
+
+                for (let i = 0; i < respostaJson.length; i++) {
+                    var novoItem = document.createElement("li");
+                    novoItem.classList.add("item");
+
+                    var checkboxMaquina = document.createElement("input");
+                    checkboxMaquina.type = "checkbox";
+                    checkboxMaquina.name = "checkMaqui";
+
+                    checkboxMaquina.value = respostaJson[i].idMaquina;
+
+                    var itemText = document.createElement("span");
+                    itemText.classList.add("item-text");
+                    itemText.textContent = `ID: ${respostaJson[i].Id_do_dispositivo} || SO: ${respostaJson[i].Sistema_Operacional} || Andar: ${respostaJson[i].fkAndarDeTrabalho}`;
+
+                    novoItem.appendChild(checkboxMaquina);
+                    novoItem.appendChild(itemText);
+
+                    computadoresList.appendChild(novoItem);
+                }
+            }
+        } catch (erro) {
+            console.log("Erro: ", erro);
+        }
+    }
+    function exibirComp() {
+        document.getElementById('idfiltros').style.display = 'block'
+        document.getElementById('idInicio').style.display = 'none'
+        document.getElementById('idFim').style.display = 'none'
+    }
+    function exibirInicio() {
+        document.getElementById('idfiltros').style.display = 'none'
+        document.getElementById('idInicio').style.display = 'block'
+        document.getElementById('idFim').style.display = 'none'
+    }
+    function exibirFim() {
+        document.getElementById('idfiltros').style.display = 'none'
+        document.getElementById('idInicio').style.display = 'none'
+        document.getElementById('idFim').style.display = 'block'
+    }
+    function selecionarTodosMaquina() {
+        var todosMaqui = document.querySelectorAll('input[name="checkMaqui"]');
+        todosMaqui.forEach(checkbox => {
+            checkbox.checked = true;
+        });
+    }
+    function selecionarTodosComponentes() {
+
+        var todosComponentes = document.querySelectorAll('input[name="checkComp"]');
+
+        todosComponentes.forEach(function (checkbox) {
+            checkbox.checked = true;
+        });
+    }
+    function limpar() {
+        var todosComponentes = document.querySelectorAll('input[name="checkComp"]');
+
+        todosComponentes.forEach(function (checkbox) {
+            checkbox.checked = false;
+        });
+    }
+    function removerTodos() {
+        var checkboxes = document.querySelectorAll('input[name="checkMaqui"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = false;
+        });
+    }
+    function criarPrevia() {
+
+        var selecionadosComp = []
+        var selecionadosMaqui = []
+
+
+        var varDateTimeInicio = input_inicio.value
+        var varDateTimeFim = input_fim.value
+        var dataHoje = new Date()
+        var dataInicioVerificar = new Date(varDateTimeInicio)
+        var dataFimVerificar = new Date(varDateTimeFim)
+
+        var varDtInicio = varDateTimeInicio.split("T")[0]
+        var varHrInicio = varDateTimeInicio.split("T")[1]
+
+        var varDtFim = varDateTimeFim.split("T")[0]
+        var varHrFim = varDateTimeFim.split("T")[1]
+
+        //teste meo
+        console.log("Data de Início:", varDtInicio)
+        console.log("Hora de Início:", varHrInicio)
+        console.log("Data de Fim:", varDtFim)
+        console.log("Hora de Fim:", varHrFim)
+        console.log("Data de hoje:", dataHoje)
+
+        var componentesEscolhidos = document.querySelectorAll('input[name="checkComp"]:checked')
+        var maquinasEscolhidas = document.querySelectorAll('input[name="checkMaqui"]:checked')
+
+        componentesEscolhidos.forEach(checkbox => {
+            selecionadosComp.push(checkbox.value)
+        })
+
+        maquinasEscolhidas.forEach(checkbox => {
+            selecionadosMaqui.push(checkbox.value)
+        })
+
+        //teste meo
+        console.log("Maquinas Selecionadas:", selecionadosMaqui)
+        console.log("Componentes Selecionados:", selecionadosComp)
+
+        //criar duas funções para verificar se as datas de inicio e fim existem no bd 
+        if (selecionadosComp.length == 0) {
+            //colocar em vermelho no texto de ajuda que vc deve selecionar ao menos 1 componente
+            window.alert("você deve escolher ao menos 1 componente")
+        } else if (selecionadosMaqui.length == 0) {
+            window.alert("você deve escolher ao menos 1 computador")
+        } else if (varDateTimeInicio == "") {
+            window.alert("você deve escolher uma data de inicio")
+        } else if (varDateTimeFim == "") {
+            window.alert("você deve escolher uma data de fim")
+        } else if (dataInicioVerificar > dataHoje) {
+            window.alert("a data de inicio nao pode ser maior que o dia de hoje")
+        } else if (dataFimVerificar < dataInicioVerificar) {
+            window.alert("selecione uma data de fim maior que a data de inicio")
+        } else {
+
+            //arrumar isso 
+            var verificarSelect = `
+        SELECT COUNT(*) as count FROM 
+            Monitoramento 
+        WHERE 
+            fkEmpMaqCompMoni IN (${selecionadosMaqui}) AND 
+            fkCompMoniExistentes IN (${selecionadosComp}) AND 
+        (
+            Data_captura > '${varDtInicio}' OR 
+            (Data_captura = '${varDtInicio}' AND Hora_captura >= '${varHrInicio}')
+        ) AND 
+        (
+            Data_captura < '${varDtFim}' OR 
+            (Data_captura = '${varDtFim}' AND Hora_captura <= '${varHrFim}')
+        );
+        `
+            verificarDatas(verificarSelect)
+
+            var selectGeral = `
+        SELECT
+            maq.Id_do_dispositivo AS Maquina,
+            moni.Data_captura AS Data, 
+            moni.Hora_captura AS Hora, 
+            moni.Dado_Capturado AS Dado, 
+            moni.fkCompMoniExistentes AS Componente 
+        FROM 
+            Monitoramento moni
+        JOIN
+            Maquinas maq ON moni.fkMaqCompMoni = maq.idMaquina
+        WHERE 
+            fkEmpMaqCompMoni IN (${selecionadosMaqui}) AND 
+            fkCompMoniExistentes IN (${selecionadosComp}) AND 
+        (
+            Data_captura > '${varDtInicio}' OR 
+            (Data_captura = '${varDtInicio}' AND Hora_captura >= '${varHrInicio}')
+        ) AND 
+        (
+            Data_captura < '${varDtFim}' OR 
+            (Data_captura = '${varDtFim}' AND Hora_captura <= '${varHrFim}')
+        ) 
+        ORDER BY 
+        maq.Id_do_dispositivo ASC,
+        moni.Data_Captura ASC;
+        `
+
+            buscarSelect(selectGeral)
+
+            function buscarSelect(selectGeral) {
+                fetch("/relatorios/buscarSelect", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        selectGeralServer: selectGeral
+                    })
+                }).then(function (response) {
+                    if (response.ok) {
+                        response.json().then(function (resposta) {
+
+                            dados = resposta
+                            formatarDados(dados)
+                            criarLinhasTabela(dados)
+
+                        });
+                    } else {
+                        console.error('Nenhum dado encontrado ou erro na API');
+                    }
+                })
+                    .catch(function (error) {
+                        console.error(`Erro na obtenção dos dados: ${error.message}`);
+                    });
+            }
+            function verificarDatas(verificarSelect) {
+                fetch("/relatorios/verificarDatas", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        veficarSelectServer: verificarSelect
+                    })
+                }).then(function (response) {
+                    if (response.ok) {
+                        response.json().then(function (resposta) {
+
+                            console.log(`${resposta.value} Registro(s) foram encontrados`)
+
+                        });
+                    } else {
+                        console.error('Nenhum dado encontrado ou erro na API');
+                    }
+                })
+                    .catch(function (error) {
+                        console.error(`Erro na obtenção dos dados: ${error.message}`);
+                    });
+            }
+
+            //fazer 7 funções para trazer o sumary de cada componente (menos usb)
+
+            //criar uma tabela no banco que armazene o nome do relatorio, caminho do arquivo, dtcriação e extensão
+            //ver se da pra criar uns graficos e colocar no pdf com o chartjs
+            //tudo isso até quarta
+            //pagina com o historico de relatorios/csvs,
+            //pagina com a criação de graficos personalizada (acho que nao vai dar tempo mas)  
+            //terminar tudo até dia 26
+        }
+        function formatarDados(dados) {
+
+
+            for (var i = 0; i < dados.length; i++) {
+
+                dados[i].Data = dados[i].Data.split("T")[0]
+
+                dados[i].Hora = dados[i].Hora.split("T")[1]
+                dados[i].Hora = dados[i].Hora.slice(0, 8)
+
+                dados[i].Componente = rotulo[dados[i].Componente] || dados[i].Componente
+            }
+        }
+        function criarLinhasTabela(dados) {
+            var tabela = document.getElementById("tabelaMonitoramento").getElementsByTagName('tbody')[0]
+
+            for (var i = 0; i < dados.length; i++) {
+                var linha = tabela.insertRow(i)
+                var cellID = linha.insertCell(0)
+                var cellData = linha.insertCell(1)
+                var cellHora = linha.insertCell(2)
+                var cellDado = linha.insertCell(3)
+                var cellComponente = linha.insertCell(4)
+
+                cellID.innerHTML = dados[i].Maquina
+                cellData.innerHTML = dados[i].Data
+                cellHora.innerHTML = dados[i].Hora
+                cellDado.innerHTML = dados[i].Dado
+                cellComponente.innerHTML = dados[i].Componente
+            }
+        }
+
+
+    }
+
+    function criarRelatorio(dataHoje, varDtInicio, varDtFim, dados, nomeArquivo) {
+
+        var selectExtensao = document.getElementById('select_ext')
+        var extensaoSelecionada = selectExtensao.value
+        var nomeArquivo = document.getElementById('input_nome_arquivo').value;
+
+        if (extensaoSelecionada === "pdf") {
+            criarPDF(dataHoje, varDtInicio, varDtFim, dados, nomeArquivo)
+            function criarPDF(dataHoje, varDtInicio, varDtFim, dados, nomeArquivo) {
+
+                var docDefinition = {
+
+                    header: {
+                        text: 'CENTRIX SOLUTIONS',
+                        style: 'cabecalho',
+                    },
+
+                    content: [
+                        { text: `Data de criação: ${dataHoje}`, style: 'subtitulo' },
+                        { text: 'Criador:  ', style: 'subtitulo' },
+                        { text: `Dados coletados de ${varDtInicio} até ${varDtFim}`, style: 'subtitulo' },
+                        {
+                            style: 'tabela',
+                            table: {
+                                headerRows: 1,
+                                widths: [50, 100, 100, 100, 100], 
+                                body: [
+                                    ['Maquina', 'Data', 'Hora', 'Dado', 'Componente'], 
+                                ],
+                            },
+                        },
+                    ],
+
+                    styles: {
+                        cabecalho: {
+                            fontSize: 20,
+                            color: 'white',
+                            background: 'purple',
+                        },
+                        subtitulo: {
+                            fontSize: 14,
+                            margin: [0, 5]
+                        },
+                        tabela: {
+                            margin: [0, 10],
+                            lineColor: 'darkpurple'
+                        },
+                    },
+                };
+
+                docDefinition.content.unshift({ text: `Nome do Arquivo: ${nomeArquivo}`, style: 'subtitulo' })
+
+                for (var i = 0; i < dados.length; i++) {
+                    docDefinition.content[3].table.body.push([
+                        dados[i].Maquina,
+                        dados[i].Data,
+                        dados[i].Hora,
+                        dados[i].Dado,
+                        dados[i].Componente,
+                    ]);
+                }
+                pdfMake.createPdf(docDefinition).open()
+            }
+        }
+
+        if (extensaoSelecionada === "csv") {
+            //criar logica para gerar o csv
+        }
+
+    }
+</script>

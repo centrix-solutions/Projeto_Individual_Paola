@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../assets/icon/favicon.ico">
+    <title>Dashboard | Configurações</title>
+    <link rel="stylesheet" href="../css/barra_lateral.css">
+    <link rel="stylesheet" href="../css/dash_config.css">
+    <script src="../js/notificacao.js"></script>
+    <script src="../js/nivelAcesso.js"></script>
+</head>
+
+<body onload="listarLateral()">
+    <div class="container_principal">
+        <div class="barra_lateral" id="lateral_barra"></div>
+        <div class="area_dash">
+            <div class="div_central">
+                <div class="div_esquerda">
+                    <div class="div_dados">
+                        <p>
+                            Nome:
+                        </p>
+                        <input type="text" class="input_dados" id="nome">
+                        <p>
+                            Email:
+                        </p>
+                        <input type="text" class="input_dados" id="email">
+
+                        <div class="botoes">
+                            <button onclick="mudarDados()" class="botao_dados">
+                                Salvar Mudanças
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="div_direita">
+
+                    <div class="div_senha div_dados">
+                        <p>
+                            Senha Atual:
+                        </p>
+                        <input type="text" class="input_dados" id="senhaAtual">
+                        <p>
+                            Nova Senha:
+                        </p>
+                        <input type="text" class="input_dados" id="novaSenha">
+                        <p>
+                            Repita a Nova Senha:
+                        </p>
+                        <input type="text" class="input_dados" id="confirmacaoNovaSenha">
+
+                        <div class="botoes">
+                            <button onclick="mudarDados()" class="botao_dados">
+                                Salvar Nova Senha
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+   setTimeout(() => {
+        const atual = document.getElementById('option5');
+        atual.style.backgroundColor = "blueviolet";
+    }, 50);
+</script>

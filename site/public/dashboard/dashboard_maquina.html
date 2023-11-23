@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../assets/icon/favicon.ico">
+    <title>Dashboard | Máquina</title>
+    <link rel="stylesheet" href="../css/dash_maquina.css">
+    <link rel="stylesheet" href="../css/barra_lateral.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../js/dashboard_maquina.js"></script>
+    <script src="../js/sessao.js"></script>
+    <script src="../js/notificacao.js"></script>
+    <script src="../js/andar.js"></script>
+    <script src="../js/nivelAcesso.js"></script>
+</head>
+
+<body onload="buscarAndares(), listarLateral(), buscarComponentes(idMaquina, idEmpresa), obterDadosGraficos(), buscarDadosMonitoramento(idMaquina, idEmpresa)">
+    <div class="container_principal">
+        <div class="barra_lateral" id="lateral_barra"></div>
+        <div class="area_dash">
+            <div class="dash_superior">
+                <div class="bem_vindo">
+                    <span class="text_bemVindo1">
+                        Computadores
+                    </span>
+                    <span class="text_bemVindo2">
+                        Veja as princípais informações das suas máquinas cadastradas.                    
+                    </span>
+                </div>
+            </div>
+            <div class="card_monitoramento">
+            
+                <div class="info">
+                    <div class="bloco_info">
+                        <h2>Operador</h2>
+                        <h2 class="info_status" id="nome_funcionario"></h2>
+                    </div>
+                    <div class="bloco_info">
+                        <h2>Andar</h2>
+                        <select name="andares" class="select_andares" id="andares"></select>
+                    </div>
+                    <div class="bloco_info">
+                        <h2>Computador</h2>
+                        <select name="computadores" class="select_andares" id="select_computadores"></select>
+                    </div>
+                    <div class="bloco_info">
+                        <h2>ID</h2>
+                        <h2 class="info_status idComputador" id="id_maquina"></h2>
+                    </div>
+                    <div class="bloco_info">
+                        <h2>Atividade</h2>
+                        <h2 class="info_status atividade" id="atividade"></h2>
+                    </div>
+                    <div class="bloco_info">
+                        <h2>Hora Login</h2>
+                        <h2 class="info_status login" id="inicio_turno"></h2>
+                    </div>
+                    <div class="bloco_info">
+                        <h2>Deletar Máquina</h2>
+                        <button class="botao_deletar" onclick="deletarComputador(idMaquina)" id="deletarMaquina" >Deletar</button>
+                    </div>
+                </div>
+                <div class="area_meio">
+                    <div class="area_meio_esquerda">
+                        <div class="painel">
+                            <div class="area_barra">
+                                <h3>Uso de CPU</h3>
+                                <h2 id="cpu"></h2>
+                                <progress class="barra_painel"  max="100" value="60" id="barra_cpu">
+                            </div>
+                            <div class="area_barra">
+                                <h3>Uso de RAM</h3>
+                                <h2 id="ram"></h2>
+                                <progress class="barra_painel" max="100" value="90" id="barra_ram">
+                            </div>
+                            <div class="area_barra">
+                                <h3>Uso de Disco</h3>
+                                <h2 id="disco"></h2>
+                                <progress class="barra_painel" max="100" value="49" id="barra_disco">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="area_meio_direita">
+                        <div class="kpi">
+                            <h3>Velocidade de  Rede</h3>
+                            <h4>Download:<span id="download"></span></h4>
+                            <h4>Upload:<span id="upload"></span></h4>
+                            <img src="../assets/icon/wifi.png" alt="" class="img_wifi">
+                        </div>
+                        <div class="kpi">
+                            <h3>Uso de USB</h3>
+                            <h4 id="usb"></h4>
+                            <img src="../assets/icon/usb.png" alt="" class="img_wifi">
+                        </div>
+                        <div class="kpi">
+                            <h3>Sistema</h3>
+                            <h4>Janelas:<span id="janelas"></span></h4>
+                            <h4>Processos:<span id="processos"></span></h4>
+                            <img src="../assets/icon/sistema.png" alt="" class="img_wifi">
+                        </div>
+                    </div>
+                </div>
+                <div class="area_inferior">
+                    <div class="chart">
+                        <h1>CPU</h1>
+                        <canvas id="grafico_cpu"></canvas>
+                    </div>
+                    <div class="chart">
+                        <h1>RAM</h1>
+                        <canvas id="grafico_ram"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
+<script>
+    setTimeout(() => {
+        var selectAndar = document.getElementById("andares");
+        selectAndar.addEventListener("change", function () {
+            var idComputador = sessionStorage.idComputador;
+            if (idComputador != 0 || idComputador != undefined) {
+                var opcaoSelecionada = selectAndar.options[selectAndar.selectedIndex].value;
+                opcaoSelecionada = opcaoSelecionada.split('-')[1];
+                mudarAndarMaquina(idComputador, opcaoSelecionada);
+            }
+            setTimeout(() => {
+                var idEmpresa = sessionStorage.Empresa;
+                var idAndar = (selectAndar.value).split('-')[1];
+                buscarComputadores(idEmpresa, idAndar);
+            }, 500);
+        });
+        if (sessionStorage.idAndar == '' || sessionStorage.idAndar == undefined) {
+            selectAndar.value = "andar-0";
+        } else {
+            selectAndar.value = sessionStorage.idAndar;
+        }
+        setTimeout(() => {
+            var idEmpresa = sessionStorage.Empresa;
+            var idAndar = (selectAndar.value).split('-')[1];
+            buscarComputadores(idEmpresa, idAndar);
+        }, 10);
+    }, 1000);
+
+    function mudarAndarMaquina(idComputador, andarSelecionado) {
+        fetch("/medidas/mudarAndarMaquina", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                idComputadorServer: idComputador,
+                andarSelecionadoServer: andarSelecionado                                        
+            })
+        })
+    }
+    setTimeout(() => {
+        const atual = document.getElementById('option2');
+        atual.style.backgroundColor = "blueviolet";
+    }, 50);
+
+    async function buscarComputadores(idEmpresa, idAndar) {
+        try {
+            var resposta = await fetch("/medidas/buscarComputadores", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    idEmpresaServer: idEmpresa,
+                    idAndarServer: idAndar
+                })
+            });
+            if (resposta.ok) {
+                var respostaJson = await resposta.json();
+                console.log('JSON BuscarComputadores SelecOption: ', respostaJson);
+                var selectComputadores = document.getElementById("select_computadores");
+                selectComputadores.innerHTML = '';
+                var option = document.createElement("option");
+                option.value = "computadores-0";
+                option.innerHTML = "Sem Computador";
+                selectComputadores.appendChild(option);
+                for (let i = 0; i < respostaJson.length; i++) {
+                    var option = document.createElement("option");
+                    option.value = `computadores-${respostaJson[i].idMaquina}`;
+                    option.innerHTML = `${respostaJson[i].Id_do_dispositivo}`;
+                    selectComputadores.appendChild(option);
+
+                    selectComputadores.addEventListener("change", function () {
+                        var idComputador = selectComputadores.options[selectComputadores.selectedIndex].value;
+                        idComputador = idComputador.split('-')[1];
+                        sessionStorage.setItem('idComputador', idComputador);
+                    });
+                }
+                selectComputadores.value = `computadores-${sessionStorage.idComputador}`;
+            }
+        } catch (erro) {
+            console.log("Erro: ", erro);
+        }
+    }
+</script>

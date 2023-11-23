@@ -1,0 +1,412 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+body {
+    margin: 0;
+}
+
+.container_principal {
+    height: 115vh;
+    display: flex;
+}
+
+.area_dash {
+    height: 100%;
+    width: 100%;
+    color: white;
+    background: linear-gradient(180deg, #4B3753 0%, #4B3753 0%, #4B3753 0.01%, rgba(90, 52, 169, 0.93) 9.09%,
+            #8565C9 18.18%, rgba(180, 153, 238, 0.96) 27.27%, rgba(170, 143, 225, 0.63) 39.58%,
+            rgba(206, 185, 249, 0.93) 50%, rgba(151, 116, 222, 0.68) 57.29%, rgba(161, 122, 243, 0.85) 64.58%,
+            rgba(167, 131, 242, 0.90) 70.31%, rgba(139, 89, 245, 0.63) 81.82%, #5A34A9 90.91%, rgba(75, 55, 83, 0.99) 100%);
+}
+
+.quarto {
+    background-color: blueviolet;
+}
+
+.dash_superior {
+    width: 100%;
+    height: fit-content;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.bem_vindo {
+    display: flex;
+    flex-direction: column;
+    margin-left: 80px;
+}
+
+.text_bemVindo1 {
+    font-size: 4vh;
+    font-weight: bolder;
+}
+
+.text_bemVindo2 {
+    font-size: 3vh;
+}
+
+/*DIV CENTRAL*/
+.div_central {
+    height: 90vh;
+    display: flex;
+    justify-content: space-around;
+}
+
+
+/* DIV DA ESQUERDA */
+
+.div_funcionarios {
+    width: 65%;
+    margin: 2vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+
+.div_funcionario {
+    background-color: #ac8deb5d;
+    display: flex;
+    height: fit-content;
+    border-radius: 1.5rem;
+    width: 95%;
+    column-gap: 1rem;
+    margin: 1rem;
+    padding: 0.5vh;
+    color: black
+}
+
+.div_informacoes {
+    width: 35%;
+    padding: 1vh;
+}
+
+.div_botoes {
+    width: 65%;
+    padding: 1vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.select_acesso {
+    width: 9vw;
+    height: 6vh;
+    font-size: 2.5vh;
+    border-radius: 0.5rem;
+    background: none;
+    border: black solid 1px;
+}
+
+.select_acesso:focus {
+    outline: none;
+    border: none;
+    box-shadow: 0 0 1rem #360149;
+}
+
+.select_andares {
+    width: 7.5vw;
+    height: 6vh;
+    font-size: 2.5vh;
+    border-radius: 0.5rem;
+    background: none;
+    border: black solid 1px;
+}
+
+.select_andares:focus {
+    outline: none;
+    border: none;
+    box-shadow: 0 0 1rem #360149;
+}
+
+.button_alerta {
+    width: 9vw;
+    height: 6vh;
+    font-size: 2.5vh;
+    border-radius: 0.5rem;
+    border: none;
+    background-color: #332d5b96;
+    color: #1B1641;
+    font-weight: bolder;
+    border: black solid 1px;
+}
+
+.div_botao1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0.5vh;
+    width: 12vw;
+}
+
+.div_botao2 {
+    padding: 0.5vh;
+}
+
+.div_botao2 :active {
+    box-shadow: 0 0 1rem #360149;
+}
+
+.div_botao3 {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5vh;
+}
+
+.p_nome {
+    font-size: 3vh;
+    font-weight: bold;
+}
+
+.p_email {
+    font-size: 2.5vh;
+    text-decoration: underline;
+}
+
+.p_computador {
+    font-size: 2vh;
+}
+
+.div_atividade {
+    width: 9vw;
+    height: 6vh;
+    border-radius: 0.5rem;
+    background: none;
+    border: black solid 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* DIV DA DIREITA */
+
+.div_direita {
+    background-color: #231F40;
+    width: 25%;
+    height: fit-content;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 1rem;
+    margin-top: -9vh;
+}
+
+.div_titulo {
+    font-size: 4.5vh;
+}
+
+.div_cadastro {
+    width: 90%;
+    padding: 1vh;
+}
+
+.div_cadastro input {
+    width: 100%;
+    height: 5vh;
+    border: none;
+    border-radius: 0.5rem;
+    background-color: #fcfcfc63;
+}
+
+input:focus {
+    outline: none;
+    border: none;
+    box-shadow: 0 0 1.5rem #ffffff4d;
+}
+
+.div_cadastro select {
+    width: 8vw;
+    height: 5vh;
+    border-radius: 0.5rem;
+    background-color: #fcfcfc63;
+    color: white;
+    border: none;
+}
+
+.div_cadastro select:focus {
+    outline: none;
+    border: none;
+    box-shadow: 0 0 1rem #ffffff4d;
+}
+
+option:nth-child(1),
+option:nth-child(2),
+option:nth-child(3),
+option:nth-child(4) {
+    font-weight: bold;
+    color: black;
+}
+
+.botao_cadastrar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10vw;
+    height: 6vh;
+    border-radius: 0.5rem;
+    background-color: #fcfcfc63;
+    color: white;
+    font-weight: bold;
+    margin-top: 3vh;
+    cursor: pointer;
+}
+
+.botao_cadastrar:hover {
+    text-decoration: none;
+    border: 2px solid;
+    border-color: white;
+    cursor: pointer;
+    transition-duration: 0.1s;
+}
+
+.div_paiToken {
+    width: 100%;
+    height: 5vh;
+    border: none;
+    border-radius: 0.5rem;
+    background-color: #fcfcfc63;
+}
+
+.div_token {
+    padding: 0.5rem;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: #555;
+}
+
+::-webkit-scrollbar-thumb {
+    background: lightgray;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #888;
+}
+
+#popupContainer {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    text-align: 0;
+    z-index: 1;
+}
+
+#popupContent {
+    position: relative;
+    width: 80vw;
+    margin: 100px auto;
+    margin-top: 5vh;
+    background: rgba(0, 0, 0, 0.509);
+    padding: 20px;
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    background-color: #161717 ;
+}
+
+.popupSeparacao {
+    display: flex;
+}
+
+#closePopup {
+    position: absolute;
+    top: 5vh;
+    right: 5vw;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.popupCenter {
+    text-align: center;
+    font-size: 4vh;
+}
+
+.popupParteUm {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    border-right: 3px white solid;
+}
+
+.popupParteUm #lilas, #magenta, #violeta, #purpura {
+    width: 66%;
+    padding: 1rem;
+    margin: 2%;
+    font-size: large;
+    color: white;
+    background-color: #ffffff00;
+    border-radius: 30px;
+    border-color: white;
+    border: 2px solid;
+    font-size: 3vh;
+}
+
+#lilas:hover {
+    background-color: #c8a2c8;
+    transition-duration: 1s;
+
+}
+
+#magenta:hover {
+    background-color: #ff00ff;
+    transition-duration: 1s;
+
+}
+
+#violeta:hover {
+    background-color: #ee82ee;
+    transition-duration: 1s;
+
+}
+
+#purpura:hover {
+    background-color: #800080;
+    transition-duration: 1s;
+}
+
+#lilasPermissao,
+#magentaPermissao,
+#violetaPermissao,
+#purpuraPermissao {
+    display: none;
+}
+
+.popupDica {
+    width: 100%;
+    text-align: center;
+}
+
+.popupParteDois {
+    width: 50%;
+    font-size: 3vh;
+}
+
+#showPopup{
+    height: 4vh;
+    margin-left: 3%;
+    cursor: pointer;
+}
+
+.containerAcesso{
+    display: flex;
+    align-items: center;
+}

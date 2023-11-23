@@ -1,0 +1,337 @@
+*{
+    font-family: Arial, Helvetica, sans-serif;
+}
+.cursor{
+    cursor: pointer;
+}
+body{
+    margin: 0;
+}
+.container_principal{
+    height: 150vh;
+    display: flex;
+}
+.area_dash{
+    height: 100%;
+    width: 100%;
+    color: white;
+    background: linear-gradient(180deg, #4B3753 0%, #4B3753 0%, #4B3753 0.01%, rgba(90, 52, 169, 0.93) 9.09%,
+            #8565C9 18.18%, rgba(180, 153, 238, 0.96) 27.27%, rgba(170, 143, 225, 0.63) 39.58%,
+            rgba(206, 185, 249, 0.93) 50%, rgba(151, 116, 222, 0.68) 57.29%, rgba(161, 122, 243, 0.85) 64.58%,
+            rgba(167, 131, 242, 0.90) 70.31%, rgba(139, 89, 245, 0.63) 81.82%, #5A34A9 90.91%, rgba(75, 55, 83, 0.99) 100%);
+}
+.dash_superior{
+    width: 100%;
+    height: 100px;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+.bem_vindo{
+    display: flex;
+    flex-direction: column;
+    margin-left: 80px;
+}
+.text_bemVindo1{
+    font-size: 4vh;
+    font-weight: bolder;
+}
+.text_bemVindo2{
+    font-size: 3vh;
+}
+.dash_perfil{
+    display: flex;
+    position: relative;
+    left: 20rem;
+}
+.perfil_nome{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 2.5vh;
+}
+.perfil_img{
+    display: flex;
+    align-items: center;
+}
+.perfil_imagem{
+    height: 70px;
+    width: 70px;
+    background-image: url("../assets/imgs/supervisoraGeral.png");
+    background-size: cover;
+    border-radius: 100%;
+    margin: 15px;
+}
+/*DIV CENTRAL*/
+.div_central{
+    background-color: #161717;
+    height: 450px;
+    width: 95%;
+    display: flex;
+    border-radius: 20px;
+    margin-left: 2.5%;
+    align-items: center;
+    justify-content: space-around;
+}
+.div_mapa{
+    height: 400px;
+    width: 500px;
+    background-color: gray;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.div_funcionalidades{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.div_bola{
+    display: flex;
+    align-items: center;
+}
+.bola{
+    height: 10px;
+    width: 10px;
+    border-radius: 100%;
+    margin-right: 2%;
+}
+.verde{
+    background-color: lime;
+}
+.laranja{
+    background-color: orange;
+}
+.vermelha{
+    background-color: red;
+}
+.roxa{
+    background-color: blueviolet;
+}
+.azul{
+    background-color: blue;
+}
+.bola_posicao{
+    height: 10px;
+    width: 10px;
+    border-radius: 100%;
+    position: relative;
+    cursor: pointer;
+}
+.div_func{
+    display: flex;
+    flex-direction: column;
+}
+.func_btn{
+    background-color: #A0A0A0;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    height: 50px;
+    width: 200px;
+    font-size: 20px;
+}
+
+.div_funcoes {
+    font-size: 3vh;
+}
+
+/* DIV INFERIOR */
+.div_inferior{
+    margin-top: 2%;
+    padding: 2vh;
+    background-color: #161717;
+    height: 45vh;
+    width: 93%;
+    border-radius: 20px;
+    margin-left: 2.5%;
+    display: flex;
+}
+.inferior_computadores{
+    width: 60%;
+}
+.inferior_notificacores{
+    width: 40%;
+}
+::-webkit-scrollbar{
+    width: 10px;
+}
+::-webkit-scrollbar-track{
+    border-radius: 10px;
+    background: #555;
+}
+::-webkit-scrollbar-thumb{
+    background: lightgray;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover{
+    background: #888;
+}
+.div_computadores{
+    margin-left: 2%;
+    margin-top: 2%;
+    max-height: 200px;
+    overflow-y: auto;
+}
+.text_computadores{
+    font-size: 18px;
+    margin-left: 5%;
+}
+.div_notificacoes{
+    margin-left: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 70%;
+}
+.computadores_table{
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+}
+.computadores_individual{
+    border-top: 1px solid gray;
+    font-weight: 100;
+    height: 50px;
+}
+.computadores_table tr:first-child td {
+    border-top: 2px solid #FFFFFF;
+}
+.computadores_table thead{
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+.div_cadastrarAndar{
+    display: none;
+    position: fixed;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.conteudo_cadastrarAndar{
+    color: white;
+    background-color: #161717;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 20px;
+    width: 50%;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.div_tituloCadastrarAndar{
+    text-align: center;
+}
+.titulo_novoAndar{
+    font-size: 30px;
+    font-weight: bold;
+}
+.div_crudAndar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-direction: column;
+    padding: 1rem;
+}
+.div_cadastrarAndarInput{
+    display: flex;
+    flex-direction: column;
+    padding: 2vh;
+    margin: 1vh;
+}
+
+.input_cadastrarAndar{
+    height: 40px;
+    width: 140px;
+    background-color: #FCFCFC75;
+    border: none;
+    border-radius: 1rem;
+    color: black;
+}
+
+.div_enviandoImg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-direction: column;
+}
+
+.input_enviandoImg {
+    display: flex;
+    flex-direction: column;
+    padding: 2vh;
+    margin: 1vh;
+    background-color: #FCFCFC75;
+    border: none;
+    border-radius: 1rem;
+    color: rgb(0, 0, 0);
+}
+
+.div_dropImg{
+    height: 120px;
+    width: 200px;
+    border-radius: 1rem;
+    background-color: #FCFCFC75;
+}
+.div_btnCadastrarAndar{
+    display: flex;
+    justify-content: center;
+}
+.btn_cadastrarAndar{
+    height: 40px;
+    width: 140px;
+    background-color: #FCFCFC75;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 20px;
+}
+.close{
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus{
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+.div_andares{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.select_andares{
+    height: 30px;
+    width: 60px;
+    background-color: #FCFCFC75;
+    border: none;
+    border-radius: 10px;
+}
+.btn_andares{
+    height: 5vh;
+    width: 15vw;
+    background-color: #FCFCFC75;
+    border: none;
+    border-radius: 1rem;
+    color: white;
+    font-size: 3vh;
+}
+
+.btn_andares:active {
+    outline: none;
+    box-shadow: 0 0 1.5rem #ffffff4d;
+  }

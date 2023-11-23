@@ -1,0 +1,253 @@
+* {
+    font-family: 'Mulish', sans-serif;
+}
+
+.botao_entrar a:hover {
+    color: black;
+}
+
+.header {
+    height: 5%;
+}
+
+.titulo {
+    font-size: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    font-weight: bolder;
+}
+
+.blog {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    /* display: grid;
+    grid-template-columns: 1fr 1fr 1fr; */
+}
+
+.blog_part2 {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.blog_part2_3 {
+    display: none;
+}
+
+.post {
+    max-width: 50%;
+    margin-top: 3vh;
+    display: flex;
+    flex-direction: column;
+    word-wrap: break-word;
+}
+
+.post img {
+    width: 90%;
+    height: 43vh;
+    /* width: 25vw; */
+    border-radius: 22px;
+}
+
+
+
+.tag {
+    display: flex;
+    font-weight: bold;
+    position: absolute;
+    width: 23%;
+    height: 5%;
+    margin-top: 35vh;
+    text-align: center;
+    font-size: 18px;
+    justify-content: center;
+}
+
+.tag span {
+    display: flex;
+    background-color: white;
+    border-radius: 16px;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    color: rgb(0, 0, 0);
+}
+
+.tag_a {
+    margin-left: 5%;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.tag_b {
+    margin-left: 3%;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.data_postagem {
+    color: rgb(48, 48, 48);
+    margin-top: 8%;
+    width: 25vw;
+    display: flex;
+    justify-content: space-around;
+    font-size: 20px;
+}
+
+.hora {
+    margin-left: 10%;
+}
+
+.linha {
+    margin-top: 5%;
+    background-color: #ffff;
+    min-height: 0.1vh;
+    max-width: 25vw;
+    margin-left: 0.25%;
+}
+
+.tema_materia {
+    color: rgb(44, 44, 45);
+    font-size: 30px;
+    max-width: 27vw;
+    font-weight: bold;
+}
+
+.descricao {
+    color: rgb(57, 57, 57);
+    font-size: 18px;
+    max-width: 26vw;
+}
+
+.descricao span {
+    color: black;
+}
+
+.visualizar {
+    font-weight: bold;
+    color: black;
+    font-size: 20px;
+    margin-top: 3vh;
+    margin-bottom: 10vh;
+    cursor: pointer;
+}
+
+.visualizar:hover {
+    text-decoration-line: underline;
+}
+
+a:hover {
+    border: none;
+    transform: none
+}
+
+/* BLOG RESPONSIVO */
+
+@media screen and (max-width: 768px) {
+
+    .tag_a {
+        margin-left: -40%;
+    }
+
+    .blog_part2 {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+
+
+    .titulo {
+        font-size: xx-large;
+    }
+
+    .linha {
+        min-height: 0.1vh;
+        min-width: 100%;
+    }
+
+    .data_postagem {
+        margin-top: 8%;
+        min-width: 100%;
+        font-size: 18px;
+    }
+
+    #part_2 {
+        display: none;
+    }
+
+    .blog_part2_3 {
+        width: 90%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+
+    .blog {
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+    }
+
+    #post {
+        width: 45%;
+        margin-top: 3vh;
+        display: flex;
+        flex-direction: column;
+        word-wrap: break-word;
+    }
+
+    .tag span {
+        min-width: 100px;
+    }
+
+    .post {
+        margin-top: 3vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .post img {
+        height: auto;
+        width: 200%;
+        margin-left: -50%;
+    }
+
+    #post img {
+        height: 43vh;
+        width: 90%;
+        border-radius: 22px;
+    }
+
+    .descricao {
+        font-size: 16px;
+        min-width: 200%;
+        margin-left: -50%;
+    }
+
+    .tag {
+        width: 30%;
+        height: 5%;
+    }
+
+    .tema_materia {
+        min-width: 200%;
+        font-size: 20px;
+        margin-left: -50%;
+    }
+
+    .contato {
+        margin-left: -12%;
+    }
+
+    .icones {
+        margin-top: 40%;
+        position: absolute;
+    }
+
+
+
+}

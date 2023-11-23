@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../assets/icon/favicon.ico">
+    <title>Dashboard - Alertas e Rede</title>
+    <link rel="stylesheet" href="../css/dash_rede.css">
+    <link rel="stylesheet" href="../css/barra_lateral.css">
+    <script src="../js/andar.js"></script>
+    <script src="../js/nivelAcesso.js"></script>
+    <script src="../js/dash_rede_graph.js"></script>
+</head>
+
+<body onload="buscarAndares(), listarLateral(), obterdados()">
+    <div class="container_principal">
+        <div class="barra_lateral" id="lateral_barra"></div>
+        <div class="area_dash">
+            <div class="dash_superior">
+                <div class="titulo">
+                    <span class="text_titulo">Notificações e Uso Geral da Rede</span>
+                </div>
+                <div class="dash_perfil">
+                    <div class="perfil_nome">
+                        <span class="text_perfilNome" id="nomeFuncionario">Nishikigi Chisato</span>
+                        <span class="text_perfilEmail" id="emailFuncionario">nishikigi.chisato@gmail.com</span>
+                    </div>
+                    <div class="perfil_img">
+                        <div class="perfil_imagem"></div>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="12" viewBox="0 0 18 12"
+                                fill="none">
+                                <path d="M1 1.75L9 10.25L17 1.75" stroke="white" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- COMECO DIV CENTRAL -->
+            <div class="div_central">
+                <div class="notificacoes">
+                    <div class="notificacoes_titulo">
+                        <img src="../assets/imgs/sino_dash.png" alt="">
+                        <span class="text_titulo">Notificações</span>
+                    </div>
+                    <div class="scroll_alertas">
+                        <!-- JAVASCRIPT ALERTA -->
+                        <!-- <div class="cards-container">
+                            <div id="card_1">
+                            </div>
+                            <div id="card_2">
+                            </div>
+                        </div> -->
+                        <!-- JAVASCRIPT ALERTA -->
+                        <div class="card">
+                            <div class="container_card">
+                                <div class="div_bola">
+                                    <div class="bola critico"> </div>
+                                </div>
+                                <p>Computador com o Id: <span>1</span></p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="card">
+                            <div class="container_card">
+                                <div class="div_bola">
+                                    <div class="bola cuidado"> </div>
+                                </div>
+                                <p>Computador com o Id: <span>2</span></p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="card">
+                            <div class="container_card">
+                                <div class="div_bola">
+                                    <div class="bola critico"> </div>
+                                </div>
+                                <p>Computador com o Id: <span>3</span></p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="card">
+                            <div class="container_card">
+                                <div class="div_bola">
+                                    <div class="bola cuidado"></div>
+                                </div>
+                                <p>Computador com o Id: <span>4</span></p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="card">
+                            <div class="container_card">
+                                <div class="div_bola">
+                                    <div class="bola critico"></div>
+                                </div>
+                                <p>Computador com o Id: <span>5</span></p>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+                <div class="graficos_kpi">
+                    <div class="graficos">
+                        <div class="alertas_mes">
+                            <span class="text_alertas">Alertas do último mês </span>
+                            <canvas id="Stacked"></canvas>
+                        </div>
+                        <div class="alertas_andar">
+                            <div class="titulo_select">
+                                <span class="text_alertas">Últimos alertas do andar</span>
+                                <div class="custom_select" style="width:109px;">
+                                    <select onchange="graficoMeiaLua()" name="andares" class="select_andares" id="andares"></select>
+                                </div>
+                            </div>
+                            <div>
+                                <canvas id="meia_lua"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="kpis_computador">
+                        <div class="kpi_card">
+                            <span>Computador com mais alertas de atenção na última semana</span><br>
+                            <span class="cuidado_text">$Computador 001</span>
+                        </div>
+                        <div class="kpi_card">
+                            <span>Computador com mais alertas de perigo na última semana</span><br>
+                            <span class="critico_text">$Computador 001</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- FIM DIV CENTRAL -->
+            <!-- COMECO DIV INFERIOR -->
+            <div class="div_inferior">
+                <div class="titulo_inferior">
+                    <img src="../assets/imgs/wifi_Icon.png" alt="">
+                    <span class="text_inferior">Uso Geral da Rede</span>
+                </div>
+                <div class="kpis_rede">
+                    <div class="kpi_card_rede">
+                        <span>Latência</span><br>
+                        <span>Status: <span class="seguro_text">Seguro</span></span>
+                    </div>
+                    <div class="kpi_card_dowload">
+                        <div class="icon_dowload">
+                            <br>
+                            <img style="width: 50%;" src="../assets/imgs/dowload.png" alt="">
+                        </div>
+                        <div class="text_dowload">
+                            <br>
+                            <span>Dowload</span><br>
+                            <span>Status:<span class="critico_text"> Alta Utilização</span></span><br>
+                            <span>Usado: $100MB</span>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="kpi_card_dowload">
+                        <div class="icon_dowload">
+                            <br>
+                            <img style="width: 50%;" src="../assets/imgs/upload.png" alt="">
+                        </div>
+                        <div class="text_dowload">
+                            <br>
+                            <span>Upload</span><br>
+                            <span>Status:<span class="seguro_text"> Seguro</span></span><br>
+                            <span>Usado: $10MB</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    nomeFuncionario.innerHTML = sessionStorage.nome;
+    emailFuncionario.innerHTML = sessionStorage.email;
+
+    var empresaFunc = sessionStorage.getItem('Empresa');
+
+    
+
+    function obterdados() {
+
+        // buscarImportanciaMaquina(1, empresaFunc);
+        // buscarImportanciaMaquina(2, empresaFunc);
+        // buscarImportanciaMaquina(3, empresaFunc);
+
+        setTimeout(obterdados, 5000);
+    }
+
+    function graficoMeiaLua(){
+        var idAndarVar = Number(andares.value.split('-')[1]);
+        obterDadosGraficoMeiaLua(idAndarVar, 'meia_lua')
+    }
+
+    // ChartJs
+
+    // MEIA LUA
+
+    // const data = {
+    //     labels: ['Perigo', 'Atenção', 'Normal'],
+    //     datasets: [{
+    //         label: 'Últimos alertas do andar ',
+    //         data: [0, 0, 0],
+    //         backgroundColor: [
+    //             'rgba(255, 0, 0, 1)',
+    //             'rgba(255, 167, 34, 1)',
+    //             'rgba(39, 36, 62, 1)'
+    //         ],
+    //         cutout: '80%',
+    //         circumference: 180,
+    //         rotation: 270
+    //     }]
+    // };
+
+    // const doughnutLabel = {
+    //     id: 'doughnutLabel',
+    //     beforeDatasetsDraw(chart, args, pluginsOptions) {
+
+    //         // Definição de qual gráfico e qual Dataset
+    //         const { ctx, data } = chart;
+
+    //         // Configuração Coordenadas
+    //         ctx.save();
+    //         const xCoor = chart.getDatasetMeta(0).data[0].x;
+    //         const yCoor = chart.getDatasetMeta(0).data[0].y;
+
+    //         // Configuração default Labels
+    //         ctx.font = 'bold 12px sans-serif';
+    //         ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+    //         ctx.textAlign = 'center';
+    //         ctx.textBaseline = 'middle';
+
+    //         // Label - Título
+    //         const text = 'Classificação dos Alertas'
+    //         ctx.fillText(text, xCoor, yCoor - 50);
+
+    //         // Label Atenção - Amarelo
+    //         ctx.fillStyle = 'rgba(255, 255, 0, 1)';
+    //         const text2 = `Atenção: ${0}% `
+    //         ctx.fillText(text2, xCoor * 1.45, yCoor - 20);
+
+    //         // Label Perigo - Vermelhos
+    //         ctx.fillStyle = 'rgba(255, 0, 0, 1)';
+    //         const text3 = `Perigo: ${0}%`
+    //         ctx.fillText(text3, xCoor / 1.5, yCoor - 20);
+    //     }
+    // };
+
+    // // config
+    // const config = {
+    //     type: 'doughnut',
+    //     data,
+    //     options: {
+    //         aspectRatio: 2,
+    //         plugins: {
+    //             legend: {
+    //                 display: false
+    //             }
+    //         }
+    //     },
+    //     plugins: [doughnutLabel]
+    // };
+
+    // const ctx = new Chart(
+    //     document.getElementById('meia_lua'),
+    //     config
+    // );
+    // MEIA LUA
+
+    const labels2 = [
+        ` 01/11 - 07/11`,
+        ' 08/11 - 14/11',
+        ' 15/11 - 21/11',
+        ' 22/11 - 30/11'
+    ]
+
+    // STACKED
+    const data2 = {
+        labels: labels2,
+        datasets: [
+            {
+                label: 'Perigo',
+                data: [50, 40, 20, 30],
+                backgroundColor: [
+                    'rgb(96, 64, 155)'
+                ],
+                borderWidth: 1,
+                borderRadius: 10,
+                order: 2
+            },
+            {
+                label: 'Atenção',
+                data: [20, 60, 7, 20],
+                backgroundColor: [
+                    'rgb(159, 131, 221)'
+                ],
+                borderWidth: 1,
+                yAxisID: 'atencao',
+                borderRadius: 10,
+                order: 1,
+                barPercentage: 0.8
+            }
+        ]
+    };
+
+    // config2
+    const config2 = {
+        type: 'bar',
+        data: data2,
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    stacked: true,
+                },
+                y: {
+                    beginAtZero: true,
+                    stacked: true,
+                },
+                atencao: {
+                    beginAtZero: true,
+                    position: 'right',
+                    type: 'linear',
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    };
+
+    const ctx2 = new Chart(
+        document.getElementById('Stacked'),
+        config2
+    );
+
+</script>
