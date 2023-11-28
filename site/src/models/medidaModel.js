@@ -39,27 +39,23 @@ function buscarComponentes(fkMaquina, fkEmpresa) {
 function buscarUltimasMedidasCPU(idMaquina, limite_linhas) {
 
     instrucaoSql = ''
-    
     if (process.env.AMBIENTE_PROCESSO == "producao") {
+        const limite_linhas = 7
         instrucaoSql = `SELECT TOP ${limite_linhas}
                         Dado_Capturado AS cpu, 
-                        Hora_captura,
-                        AS momento_grafico
+                        Hora_captura AS momento_grafico
                     FROM Monitoramento
                     WHERE fkMaqCompMoni = ${idMaquina} AND fkCompMoniExistentes = 1
                     ORDER BY idMonitoramento DESC`;
-
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         const limite_linhas = 7
         instrucaoSql = `SELECT 
                         Dado_Capturado AS cpu, 
-                        Hora_captura
-                        AS momento_grafico
+                        Hora_captura AS momento_grafico
                     FROM  Monitoramento
                     WHERE fkMaqCompMoni = ${idMaquina} AND fkCompMoniExistentes = 1
                     ORDER BY idMonitoramento DESC LIMIT ${limite_linhas}`;
-
 
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
@@ -75,10 +71,10 @@ function buscarUltimasMedidasRAM(idMaquina, limite_linhas) {
     instrucaoSql = ''
     
     if (process.env.AMBIENTE_PROCESSO == "producao") {
+        const limite_linhas = 7
         instrucaoSql = `SELECT TOP ${limite_linhas}
                         Dado_Capturado AS cpu, 
-                        Hora_captura,
-                        AS momento_grafico
+                        Hora_captura AS momento_grafico
                     FROM Monitoramento
                     WHERE fkMaqCompMoni = ${idMaquina} AND fkCompMoniExistentes = 3
                     ORDER BY idMonitoramento DESC`;

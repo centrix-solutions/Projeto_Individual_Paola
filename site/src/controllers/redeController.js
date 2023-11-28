@@ -39,12 +39,12 @@ function contarMaquinasEmpresa(req, res){
     });
 }
 
-function recuperarUltimosAlertasAndarPerigo(req, res){
+function alertasAndarMeiaLua(req, res){
     var fkAndarDeTrabalho = req.params.fkAndarDeTrabalho;
 
     console.log("Recuperando Alertas mais recentes...")
 
-    redeModel.recuperarUltimosAlertasAndarPerigo(fkAndarDeTrabalho).then(function(resultado){
+    redeModel.alertasAndarMeiaLua(fkAndarDeTrabalho).then(function(resultado){
 
         if(resultado >= "0"){
             res.status(200).json(resultado);
@@ -58,31 +58,11 @@ function recuperarUltimosAlertasAndarPerigo(req, res){
     });
 }
 
-function recuperarUltimosAlertasAndarAtencao(req, res){
-    var fkAndarDeTrabalho = req.params.fkAndarDeTrabalho;
+function alertasDoMes(res,res){
+    redeModel.alertasDoMes().then(function(resultado){
+        console.log(resultado)
 
-    console.log("Recuperando Alertas mais recentes...")
-
-    redeModel.recuperarUltimosAlertasAndarAtencao(fkAndarDeTrabalho).then(function(resultado){
-
-        if(resultado >= "0"){
-            res.status(200).json(resultado);
-        }else{
-            res.status(204).send("Nenhum resultado encontrado!");
-        }
-    }).catch(function(erro){
-        console.log(erro);
-        console.log("Houve um erro ao buscar pelos Alertas ", erro.sqlMessage);
-        res.status(500).json(erro.sqlMessage);
-    });
-}
-
-function recuperarTotalMaquinas(req, res){
-    var fkAndarDeTrabalho = req.params.fkAndarDeTrabalho;
-
-    redeModel.recuperarTotalMaquinas(fkAndarDeTrabalho).then(function(resultado){
-
-        if(resultado >"0"){
+        if(resultado != Number){
             res.status(200).json(resultado);
         }else{
             res.status(204).send("Nenhum resultado encontrado!");
@@ -94,11 +74,9 @@ function recuperarTotalMaquinas(req, res){
     });
 }
 
-
 module.exports = {
     buscarImportanciaMaquina,
     contarMaquinasEmpresa,
-    recuperarUltimosAlertasAndarPerigo,
-    recuperarUltimosAlertasAndarAtencao,
-    recuperarTotalMaquinas,
+    alertasAndarMeiaLua,
+    alertasDoMes,
 }

@@ -185,3 +185,50 @@ select * from maquinas;
 select * from notificacao;
 
 Update funcionario set fkNivelAcesso = 4 where idFuncionario = 1;
+
+desc Componentes_Monitorados;
+desc ComponentesQuePrestamosServico;
+
+select * from ComponentesQuePrestamosServico;
+
+desc maquinas;
+insert into maquinas
+values (null, 'windows', '123456789paola7', null, null, 1, 1);
+
+insert into Componentes_Monitorados
+values (null, null, 1, 1, 1),
+       (null, 2, 2, 1, 1);
+
+Update Componentes_Monitorados set valor = null where idComponente_monitorado = 1;
+Update Componentes_Monitorados set valor = 8  where idComponente_monitorado = 2;
+
+desc monitoramento;
+
+insert into monitoramento 
+values (null, '2023-11-26', '01:28', 0.22, 2, 2, 1, 1),
+	   (null, '2023-11-26', '01:28', 1.22, 2, 2, 1, 1),
+       (null, '2023-11-26', '01:28', 2, 2, 2, 1, 1),
+       (null, '2023-11-26', '01:28', 3.22, 2, 2, 1, 1),
+       (null, '2023-11-26', '01:28', 0.42, 2, 2, 1, 1),
+       (null, '2023-11-26', '01:28', 12, 2, 2, 1, 1),
+       (null, '2023-11-26', '01:28', 2.2, 2, 2, 1, 1);
+
+insert into monitoramento 
+values (null, '2023-11-26', '01:28', 22, 1, 1, 1, 1),
+	   (null, '2023-11-26', '01:28', 12, 1, 1, 1, 1),
+       (null, '2023-11-26', '01:28', 28, 1, 1, 1, 1),
+       (null, '2023-11-26', '01:28', 32, 1, 1, 1, 1),
+       (null, '2023-11-26', '01:28', 42, 1, 1, 1, 1),
+       (null, '2023-11-26', '01:28', 12, 1, 1, 1, 1),
+       (null, '2023-11-26', '01:28', 80, 1, 1, 1, 1);
+       
+select avg(Dado_Capturado), max(Dado_Capturado), min(Dado_Capturado) from monitoramento where fkCompMoniExistentes = 1;
+
+select avg(Dado_Capturado) as mediaCPU from monitoramento where fkCompMoniExistentes = 1;
+
+select round(avg(Dado_Capturado),1) as mediaCPU, Hora_captura as horaCaptura
+   from monitoramento 
+   where fkCompMoniExistentes = 1 
+   and fkEmpMaqCompMoni = 1
+   group by horaCaptura;
+   
