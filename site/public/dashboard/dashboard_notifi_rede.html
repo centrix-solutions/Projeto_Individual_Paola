@@ -13,7 +13,9 @@
     <script src="../js/dash_rede_graph.js"></script>
 </head>
 
-<body onload="buscarAndares(), listarLateral(), obterdados()">
+<!-- obterdados(), -->
+
+<body onload="buscarAndares(), listarLateral(), graficoStacked()">
     <div class="container_principal">
         <div class="barra_lateral" id="lateral_barra"></div>
         <div class="area_dash">
@@ -111,7 +113,8 @@
                             <div class="titulo_select">
                                 <span class="text_alertas">Últimos alertas do andar</span>
                                 <div class="custom_select" style="width:109px;">
-                                    <select onchange="graficoMeiaLua()" name="andares" class="select_andares" id="andares"></select>
+                                    <select onchange="graficoMeiaLua()" name="andares" class="select_andares"
+                                        id="andares"></select>
                                 </div>
                             </div>
                             <div>
@@ -185,8 +188,6 @@
 
     var empresaFunc = sessionStorage.getItem('Empresa');
 
-    
-
     function obterdados() {
 
         // buscarImportanciaMaquina(1, empresaFunc);
@@ -196,151 +197,14 @@
         setTimeout(obterdados, 5000);
     }
 
-    function graficoMeiaLua(){
+    // Stacked
+    function graficoStacked() {
+        obterDadosGraficoStacked('Stacked')
+    }
+
+    // Meia Lua
+    function graficoMeiaLua() {
         var idAndarVar = Number(andares.value.split('-')[1]);
         obterDadosGraficoMeiaLua(idAndarVar, 'meia_lua')
     }
-
-    // ChartJs
-
-    // MEIA LUA
-
-    // const data = {
-    //     labels: ['Perigo', 'Atenção', 'Normal'],
-    //     datasets: [{
-    //         label: 'Últimos alertas do andar ',
-    //         data: [0, 0, 0],
-    //         backgroundColor: [
-    //             'rgba(255, 0, 0, 1)',
-    //             'rgba(255, 167, 34, 1)',
-    //             'rgba(39, 36, 62, 1)'
-    //         ],
-    //         cutout: '80%',
-    //         circumference: 180,
-    //         rotation: 270
-    //     }]
-    // };
-
-    // const doughnutLabel = {
-    //     id: 'doughnutLabel',
-    //     beforeDatasetsDraw(chart, args, pluginsOptions) {
-
-    //         // Definição de qual gráfico e qual Dataset
-    //         const { ctx, data } = chart;
-
-    //         // Configuração Coordenadas
-    //         ctx.save();
-    //         const xCoor = chart.getDatasetMeta(0).data[0].x;
-    //         const yCoor = chart.getDatasetMeta(0).data[0].y;
-
-    //         // Configuração default Labels
-    //         ctx.font = 'bold 12px sans-serif';
-    //         ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-    //         ctx.textAlign = 'center';
-    //         ctx.textBaseline = 'middle';
-
-    //         // Label - Título
-    //         const text = 'Classificação dos Alertas'
-    //         ctx.fillText(text, xCoor, yCoor - 50);
-
-    //         // Label Atenção - Amarelo
-    //         ctx.fillStyle = 'rgba(255, 255, 0, 1)';
-    //         const text2 = `Atenção: ${0}% `
-    //         ctx.fillText(text2, xCoor * 1.45, yCoor - 20);
-
-    //         // Label Perigo - Vermelhos
-    //         ctx.fillStyle = 'rgba(255, 0, 0, 1)';
-    //         const text3 = `Perigo: ${0}%`
-    //         ctx.fillText(text3, xCoor / 1.5, yCoor - 20);
-    //     }
-    // };
-
-    // // config
-    // const config = {
-    //     type: 'doughnut',
-    //     data,
-    //     options: {
-    //         aspectRatio: 2,
-    //         plugins: {
-    //             legend: {
-    //                 display: false
-    //             }
-    //         }
-    //     },
-    //     plugins: [doughnutLabel]
-    // };
-
-    // const ctx = new Chart(
-    //     document.getElementById('meia_lua'),
-    //     config
-    // );
-    // MEIA LUA
-
-    const labels2 = [
-        ` 01/11 - 07/11`,
-        ' 08/11 - 14/11',
-        ' 15/11 - 21/11',
-        ' 22/11 - 30/11'
-    ]
-
-    // STACKED
-    const data2 = {
-        labels: labels2,
-        datasets: [
-            {
-                label: 'Perigo',
-                data: [50, 40, 20, 30],
-                backgroundColor: [
-                    'rgb(96, 64, 155)'
-                ],
-                borderWidth: 1,
-                borderRadius: 10,
-                order: 2
-            },
-            {
-                label: 'Atenção',
-                data: [20, 60, 7, 20],
-                backgroundColor: [
-                    'rgb(159, 131, 221)'
-                ],
-                borderWidth: 1,
-                yAxisID: 'atencao',
-                borderRadius: 10,
-                order: 1,
-                barPercentage: 0.8
-            }
-        ]
-    };
-
-    // config2
-    const config2 = {
-        type: 'bar',
-        data: data2,
-        options: {
-            responsive: true,
-            scales: {
-                x: {
-                    stacked: true,
-                },
-                y: {
-                    beginAtZero: true,
-                    stacked: true,
-                },
-                atencao: {
-                    beginAtZero: true,
-                    position: 'right',
-                    type: 'linear',
-                    grid: {
-                        display: false
-                    }
-                }
-            }
-        }
-    };
-
-    const ctx2 = new Chart(
-        document.getElementById('Stacked'),
-        config2
-    );
-
 </script>

@@ -1,34 +1,62 @@
-CREATE VIEW VW_DESEMPENHO_CHART_MEDIA AS
+CREATE VIEW viewDesempenhoMedio AS
 SELECT
-    C.data_hora,
+    cpu.hora,
     'CPU' AS recurso,
-    C.id_maquina,
-    C.media_uso_cpu AS uso
+    cpu.fkEmpMaqCompMoni,
+    cpu.mediaCpu AS uso
 FROM (
     SELECT
-        id_maquina,
-        data_hora,
-        AVG(dado_coletado) AS media_uso_cpu,
-        ROW_NUMBER() OVER (PARTITION BY id_maquina ORDER BY data_hora DESC) AS rn
-    FROM VW_CPU_CHART
-    WHERE id_maquina IN (SELECT id_maquina FROM maquina WHERE fk_linhaM = 1)
-    GROUP BY id_maquina, data_hora
-) AS C
-WHERE C.rn = 1
+        fkEmpMaqCompMoni,
+        hora,
+        AVG(Dado_Capturado) AS mediaCpu,
+        ROW_NUMBER() OVER (PARTITION BY fkEmpMaqCompMoni ORDER BY hora DESC) AS rn
+    FROM viewCpu 
+    WHERE fkEmpMaqCompMoni = 1
+    GROUP BY hora, fkEmpMaqCompMoni
+) AS cpu
+WHERE cpu.rn = 1
 UNION ALL
 SELECT
-    R.data_hora,
+    ram.hora,
     'RAM' AS recurso,
-    R.id_maquina,
-    R.media_uso_ram AS uso
+    ram.fkEmpMaqCompMoni,
+    ram.mediaCpu AS uso
 FROM (
     SELECT
-        id_maquina,
-        data_hora,
-        AVG(usado) AS media_uso_ram,
-        ROW_NUMBER() OVER (PARTITION BY id_maquina ORDER BY data_hora DESC) AS rn
-    FROM VW_RAM_CHART
-    WHERE id_maquina IN (SELECT id_maquina FROM maquina WHERE fk_linhaM = 1)
-    GROUP BY id_maquina, data_hora
-) AS R
-WHERE R.rn = 1;
+        fkEmpMaqCompMoni,
+        hora,
+        AVG(Dado_Capturado) AS mediaCpu,
+        ROW_NUMBER() OVER (PARTITION BY fkEmpMaqCompMoni ORDER BY hora DESC) AS rn
+    FROM viewRam
+     WHERE fkEmpMaqCompMoni = 1
+    GROUP BY hora, fkEmpMaqCompMoni
+) AS ram
+WHERE ram.rn = 1;
+
+select * from viewDesempenhoMedio WHERE fkEmpMaqCompMoni = 1 limit 1;
+
+   CREATE VIEW viewCpu AS
+SELECT
+    Dado_Capturado,
+    Hora_captura as hora,
+    fkEmpMaqCompMoni,
+    fkCompMonitorados
+FROM
+    monitoramento where fkCompMonitorados = 1;
+    
+    select * from viewCpu;
+
+ CREATE VIEW viewRam AS
+SELECT
+    Dado_Capturado,
+    Hora_captura as hora,
+    fkEmpMaqCompMoni,
+    fkCompMonitorados
+FROM
+    monitoramento where fkCompMonitorados = 2;
+    
+    select * from monitoramento;
+    
+    drop view viewCpu;
+    drop view viewRam;
+    drop view viewDesempenhoMedio;

@@ -100,9 +100,139 @@ body {
 }
 
 .div_individual {
-    height: 90vh;
+    height: 95vh;
     width: 85vw;
     background-color: #1E1E1E;
     border-radius: 1rem;
     padding: 1vh;
+}
+
+/* Individual Paola */
+
+#conteudoPaola{
+    height: 100%;
+    width: 100%;
+    display: none;
+    /* background-color: aliceblue; */
+    /* display: flex; */
+}
+
+.kpisPaola {
+    height: 22vh;
+    width: 95%;
+    margin: 1rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: center;
+}
+
+.kpiPaola {
+    display: flex;
+    height: 17vh;
+    width: 12vw;
+    background-color: #231F40;
+    box-shadow: 0 0 1.2rem #67548d;
+    border-radius: 1rem;
+}
+
+.tituloPaolaKpi {
+    width: 100%;
+    height: 4vh;
+    color: whitesmoke;
+    font-size: 2vh;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inferiorPaola {
+    height: 65vh;
+    width: 95%;
+    /* background-color: black; */
+    margin: 1rem;
+    border-radius: 1rem;
+    padding: 1vh;
+}
+
+.tituloPaola {
+    width: 100%;
+    height: 4vh;
+    color: white;
+    font-size: 3vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.graficosPaola{
+    height: 50vh;
+    display: flex;
+    justify-content: space-around;
+}
+
+.graficosPaola h1 {
+    font-size: 3vh;
+    font-weight: 300;
+}
+
+.chartPaola {
+    width: 42vw;
+}
+
+#graficoCpuPaola,
+#graficoRamPaola {
+    background-color: #000000;
+    border-radius: 1rem;
+    margin: 1vh;
+}
+
+/* .tooltip {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .tooltip:hover:after {
+    content: attr(data-hint);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    white-space: nowrap;
+  } */
+  
+
+/* Individual Rafa */
+.conteudoRafael {
+    display: none;
+    height: 100%;
+    width: 100%;
+}
+
+/* Individual Ruan*/
+.conteudoRuan {
+    display: none;
+    height: 100%;
+    width: 100%;
+}
+
+/* Individual Ale */
+.conteudoAle {
+    display: none;
+    height: 100%;
+    width: 100%;
+}
+
+/* Individual Edson */
+
+.conteudoEdson {
+    display: none;
+    height: 100%;
+    width: 100%;
 }

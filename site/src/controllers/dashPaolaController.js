@@ -1,27 +1,27 @@
 var dashPaolaModel = require("../models/dashPaolaModel");
 
-function listar(req, res) {
-   dashPaolaModel.listar()
-        .then(function (resultado) {
-            res.status(200).json(resultado)
-        }).catch(
-            function (erro) {
-                console.log(erro);
-                console.log("Houve um erro ao realizar a consulta! Erro: ", erro.sqlMessage);
-                res.status(500).json(erro.sqlMessage);
-            }
-        );
-}
+// function listar(req, res) {
+//    dashPaolaModel.listar()
+//         .then(function (resultado) {
+//             res.status(200).json(resultado)
+//         }).catch(
+//             function (erro) {
+//                 console.log(erro);
+//                 console.log("Houve um erro ao realizar a consulta! Erro: ", erro.sqlMessage);
+//                 res.status(500).json(erro.sqlMessage);
+//             }
+//         );
+// }
 
 function buscarUltimasMedidasDesempenhoMedia(req, res) {
 
-    const limite_linhas = 1;
+    // const limite_linhas = 1;
 
     var idEmpresa= req.params.idEmpresa;
 
-    console.log(`Recuperando as ultimas ${limite_linhas} medidas`);
+    console.log(`Recuperando as ultimas medidas`);
 
-    medidaModel.buscarUltimasMedidasDesempenhoMedia(idEmpresa, limite_linhas).then(function (resultado) {
+    dashPaolaModel.buscarUltimasMedidasDesempenhoMedia(idEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -35,11 +35,13 @@ function buscarUltimasMedidasDesempenhoMedia(req, res) {
 }
 
 function buscarMedidasEmTempoRealDesempenhoMedia(req, res) {
-    var idEmpresa = req.params.idLinha;
+    var idEmpresa = req.params.idEmpresa;
+
+    console.log(idEmpresa);
 
     console.log(`Recuperando medidas em tempo real`);
 
-    medidaModel.buscarMediasEmTempoRealDesempenho(idEmpresa).then(function (resultado) {
+    dashPaolaModel.buscarMediasEmTempoRealDesempenho(idEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -53,7 +55,7 @@ function buscarMedidasEmTempoRealDesempenhoMedia(req, res) {
 }
 
 module.exports = {
-    listar,
+    // listar,
     buscarUltimasMedidasDesempenhoMedia,
     buscarMedidasEmTempoRealDesempenhoMedia,
 }

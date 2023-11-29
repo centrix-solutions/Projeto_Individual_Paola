@@ -195,12 +195,21 @@ desc maquinas;
 insert into maquinas
 values (null, 'windows', '123456789paola7', null, null, 1, 1);
 
+insert into maquinas
+values (null, 'windows', '123456789jonny7', null, null, 1, 1);
+
 insert into Componentes_Monitorados
 values (null, null, 1, 1, 1),
        (null, 2, 2, 1, 1);
+       
+insert into Componentes_Monitorados
+values (null, null, 1, 2, 1),
+       (null, 2, 2, 2, 1);
 
 Update Componentes_Monitorados set valor = null where idComponente_monitorado = 1;
 Update Componentes_Monitorados set valor = 8  where idComponente_monitorado = 2;
+
+select * from Componentes_Monitorados;
 
 desc monitoramento;
 
@@ -214,21 +223,25 @@ values (null, '2023-11-26', '01:28', 0.22, 2, 2, 1, 1),
        (null, '2023-11-26', '01:28', 2.2, 2, 2, 1, 1);
 
 insert into monitoramento 
-values (null, '2023-11-26', '01:28', 22, 1, 1, 1, 1),
-	   (null, '2023-11-26', '01:28', 12, 1, 1, 1, 1),
-       (null, '2023-11-26', '01:28', 28, 1, 1, 1, 1),
-       (null, '2023-11-26', '01:28', 32, 1, 1, 1, 1),
-       (null, '2023-11-26', '01:28', 42, 1, 1, 1, 1),
-       (null, '2023-11-26', '01:28', 12, 1, 1, 1, 1),
-       (null, '2023-11-26', '01:28', 80, 1, 1, 1, 1);
+values (null, '2023-11-28', '23:17', 6, 2, 1, 2, 1),
+	   (null, '2023-11-28', '23:17', 5, 2, 1, 2, 1),
+       (null, '2023-11-28', '23:17', 89, 1, 1, 2, 1),
+       (null, '2023-11-28', '23:18', 40, 1, 1, 2, 1),
+       (null, '2023-11-28', '23:18', 45, 1, 1, 2, 1),
+       (null, '2023-11-28', '23:18', 36, 1, 1, 2, 1),
+       (null, '2023-11-28', '23:18', 90, 1, 1, 2, 1);
        
-select avg(Dado_Capturado), max(Dado_Capturado), min(Dado_Capturado) from monitoramento where fkCompMoniExistentes = 1;
+select * from monitoramento;
+       
+select avg(Dado_Capturado), max(Dado_Capturado), min(Dado_Capturado) from monitoramento where fkEmpMaqCompMoni = 1;
 
-select avg(Dado_Capturado) as mediaCPU from monitoramento where fkCompMoniExistentes = 1;
+select avg(Dado_Capturado), max(Dado_Capturado), min(Dado_Capturado) from monitoramento;
+
+select avg(Dado_Capturado) as mediaCPU from monitoramento;
 
 select round(avg(Dado_Capturado),1) as mediaCPU, Hora_captura as horaCaptura
    from monitoramento 
    where fkCompMoniExistentes = 1 
    and fkEmpMaqCompMoni = 1
    group by horaCaptura;
-   
+    

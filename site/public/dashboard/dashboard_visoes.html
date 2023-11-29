@@ -1,49 +1,438 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | Engenheiro de NOC</title>
-    <link rel="icon" href="../assets/icon/favicon.ico">
-    <link rel="stylesheet" href="../css/dash_visoes.css">
-    <link rel="stylesheet" href="../css/barra_lateral.css">
-    <script src="../js/nivelAcesso.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Engenheiro de NOC</title>
+  <link rel="icon" href="../assets/icon/favicon.ico">
+  <link rel="stylesheet" href="../css/dash_visoes.css">
+  <link rel="stylesheet" href="../css/barra_lateral.css">
+  <script src="../js/nivelAcesso.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- <script src="../js/dashboard_indi_Paola.js"></script> -->
+
 </head>
 
 <body>
-    <div class="container_principal">
-        <div class="barra_lateral" id="lateral_barra"></div>
-        <div class="area_dash">
-            <div class="dash_superior">
-                <div class="bem_vindo">
-                    <span class="text_bemVindo1">
-                        Veja visões diferentes para os dados
-                    </span>
-                </div>
-            </div>
-            <div class="div_central">
-                <div class="div_conteudo">
-                    <div class="menu_visoes">
-                        <div class="botao_visoes" onclick="aa()">
-                            Paola
-                        </div>
-                        <div class="botao_visoes">
-                            Rafael
-                        </div>
-                        <div class="botao_visoes">
-                            Ruan
-                        </div>
-                        <div class="botao_visoes">
-                            Ale
-                        </div>
-                        <div class="botao_visoes">
-                            Edson
-                        </div>
-                    </div>
-                    <div class="div_individual"></div>
-                </div>
-            </div>
+  <div class="container_principal">
+    <div class="barra_lateral" id="lateral_barra"></div>
+    <div class="area_dash">
+      <div class="dash_superior">
+        <div class="bem_vindo">
+          <span class="text_bemVindo1">
+            Veja visões diferentes para os dados
+          </span>
         </div>
+      </div>
+      <div class="div_central">
+        <div class="div_conteudo">
+          <div class="menu_visoes">
+            <div class="botao_visoes" onclick="carregarPaola()">
+              Dados Gerais
+            </div>
+            <div class="botao_visoes" onclick="carregarRafael()">
+              Rafael
+            </div>
+            <div class="botao_visoes" onclick="carregarRuan()">
+              Ruan
+            </div>
+            <div class="botao_visoes" onclick="carregarAle()">
+              Ale
+            </div>
+            <div class="botao_visoes" onclick="carregarEdson()">
+              Edson
+            </div>
+          </div>
+          <div class="div_individual" id="div_individual">
+
+            <div class="conteudoPaola" id="conteudoPaola">
+              <div class="kpisPaola">
+                <div class="kpiPaola">
+                  <div class="tituloPaolaKpi" id="desempenhoCpuPaola">
+                    Desempenho da CPU
+                  </div>
+
+                </div>
+                <div class="kpiPaola">
+                  <div class="tituloPaolaKpi">
+                    Desempenho da RAM
+                  </div>
+                  <div id="desempenhoRamPaola">
+
+                  </div>
+                </div>
+                <div class="kpiPaola">
+                  <div class="tituloPaolaKpi">
+                    Total de Máquinas
+                  </div>
+                  <div id="totalMaquinaPaola">
+
+                  </div>
+                </div>
+                <div class="kpiPaola">
+                  <div class="tituloPaolaKpi">
+                    Maior valor da CPU
+                  </div>
+                  <div id="maxCpuPaola">
+
+                  </div>
+                </div>
+                <div class="kpiPaola">
+                  <div class="tituloPaolaKpi">
+                    Maior valor da RAM
+                  </div>
+                  <div id="maxRamPaola">
+
+                  </div>
+                </div>
+              </div>
+              <div class="inferiorPaola">
+                <div class="tituloPaola">
+                  Tenha uma visão geral do uso da CPU e RAM a partir de gráficos
+                </div>
+                <div class="graficosPaola">
+
+                  <div class="chartPaola">
+                    <h1>CPU</h1>
+                    <canvas id="graficoCpuPaola"></canvas>
+                  </div>
+                  <div class="chartPaola">
+                    <h1>RAM</h1>
+                    <canvas id="graficoRamPaola"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="conteudoRafael" id="conteudoRafael"></div>
+            <div class="conteudoRuan" id="conteudoRuan"></div>
+            <div class="conteudoAle" id="conteudoAle"></div>
+            <div class="conteudoEdson" id="conteudoEdson"></div>
+
+          </div>
+        </div>
+      </div>
+    </div>
 </body>
+
 </html>
+
+<script>
+
+// var vetoridComponentes = [];
+// var vetorValor = [];
+
+window.onload = async function () {
+        await  listarLateral();
+    };
+
+  function carregarPaola() {
+
+    try {
+            var idEmpresa = Number(sessionStorage.getItem('Empresa'));
+            // await obterDadosMediaRAM(idEmpresa);
+            // await atualizarGraficoRAM(idEmpresa);
+            // await obterDadosMediaCPU(idEmpresa);
+            // await atualizarGraficoMediaCPU(idEmpresa);
+          obterDadosDesempenhoMedia(idEmpresa);
+          atualizarGraficoDesempenhoMedia(idEmpresa);
+        } catch (error) {
+            console.error("Erro no carregamento da página: " + error.message);
+        }
+
+    conteudoPaola.style.display = 'inline'
+    conteudoRafael.style.display = 'none'
+    conteudoRuan.style.display = 'none'
+    conteudoAle.style.display = 'none'
+    conteudoEdson.style.display = 'none'
+
+    // fazendo a a rota do kpi
+
+    var KpiCpuPaola = document.getElementById("desempenhoCpuPaola");
+    var KpiRamPaola = document.getElementById("desempenhoRamPaola");
+    var KpiTotalPaola = document.getElementById("totalMaquinaPaola");
+    var KpiMaxCpuPaola = document.getElementById("maxCpuPaola");
+    var KpiMaxRamPaola = document.getElementById("maxRamPaola");
+
+    function obterDadosDesempenhoMedia(idEmpresa) {
+
+      valoresKpiDesempenho = [KpiCpuPaola, KpiRamPaola]
+      // valorTotal = [KpiTotalPaola]
+      valoresKpiMax = [KpiMaxCpuPaola, KpiMaxRamPaola]
+
+      console.log("Desempenho")
+
+      fetch(`/dashPaola/ultimasDesempenhoMedia/${idEmpresa}`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+          response.json().then(function (resposta) {
+            console.log(`Dados recebidos DE RAM: ${JSON.stringify(resposta)}`);
+            resposta.reverse();
+
+            plotarGraficoDesempenhoMedia(resposta, idEmpresa);
+
+          });
+        } else {
+          console.error('Nenhum dado encontrado ou erro na API');
+        }
+      })
+        .catch(function (error) {
+          console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+    }
+
+    function plotarGraficoDesempenhoMedia(resposta, idEmpresa) {
+      for (i = 0; i < resposta.length; i++) {
+        var registro = resposta[i];
+        if (registro.recurso === "CPU") {
+          valoresKpiDesempenho[0].innerHTML = (registro.uso) + "%";
+          valoresKpiMax[0].innerHTML = (registro.max) + "%";
+        }
+        if (registro.recurso === "RAM") {
+          valoresKpiDesempenho[1].innerHTML = (registro.uso) + "%";
+          valoresKpiMax[1].innerHTML = (registro.max) + "%";
+        }
+      }
+
+      setTimeout(() => atualizarGraficoDesempenhoMedia(idEmpresa), 2000);
+    }
+
+    function atualizarGraficoDesempenhoMedia(idEmpresa) {
+
+      console.log(idEmpresa);
+      fetch(`/dashPaola/tempo-realDesempenhoMedia/${idEmpresa}`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+          response.json().then(function (novoRegistro) {
+            console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
+            valoresKpiDesempenho = [KpiCpuPaola, KpiRamPaola]
+
+            for (i = 0; i < novoRegistro.length; i++) {
+              var dados = novoRegistro[i];
+              if (dados.recurso === "CPU") {
+                valoresKpiDesempenho[0].innerHTML = (dados.uso) + "%";
+                valoresKpiMax[0].innerHTML = (registro.max) + "%";
+              }
+              if (dados.recurso === "RAM") {
+                valoresKpiDesempenho[1].innerHTML = (dados.uso) + "%";
+                valoresKpiMax[1].innerHTML = (registro.max) + "%";
+              }
+
+              // ... outras condições para CPU e RAM
+            }
+
+            // Altere aqui o valor em ms se quiser que o gráfico atualize mais rápido ou mais devagar
+            proximaAtualizacaoDesempenho = setTimeout(() => atualizarGraficoDesempenhoMedia(idEmpresa), 5000);
+          });
+        } else {
+          console.error('Nenhum dado encontrado ou erro na API');
+          // Altere aqui o valor em ms se quiser que o gráfico atualize mais rápido ou mais devagar
+          proximaAtualizacaoDesempenho = setTimeout(() => atualizarGraficoDesempenhoMedia(idEmpresa), 5000);
+        }
+      })
+        .catch(function (error) {
+          console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+
+    }
+
+    function limparDesempenhoMedia() {
+      for (i = 0; i <= valores.length; i++) {
+        valoresKpiDesempenho[i].innerHTML = "";
+        valoresKpiMax[i].innerHTML = "";
+      }
+    }
+
+    // function obterDadosGrafico(idEmpresa) {
+    //   fetch(`/dashPaola/grafico/${idEmpresa}`, { cache: "no-store" })
+    //     .then(function (response) {
+    //       if (response.ok) {
+    //         response.json().then(function (resposta) {
+    //           console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+    //           resposta.reverse();
+
+    //           plotarDadosGrafico(resposta);
+    //         });
+    //       } else {
+    //         console.error("Nenhum dado encontrado ou erro na API");
+    //       }
+    //     })
+    //     .catch(function (error) {
+    //       console.error(
+    //         `Erro na obtenção dos dados p/ gráfico: ${error.message}`
+    //       );
+    //     });
+    // }
+
+    // function plotarDadosGrafico(resposta, idEmpresa) {
+
+    //   //   var data = [];
+    //   // var labels = [];
+    //   // var cores = ["#d83198", "#3b9d17c2", "#d83198c0", "#3b9d17"];
+
+    //   console.log('iniciando plotagem do gráfico...')
+
+    //   let labels = [];
+
+    //   let dados = {
+    //     labels: labels,
+    //     datasets: [{
+    //       label: 'Usada',
+    //       data: [],
+    //       backgroundColor: [],
+    //       borderColor: ['#393d42'],
+    //       tension: 0.3,
+    //       fill: false,
+    //       pointRadius: 6
+    //     }]
+    //   };
+
+    //   console.log('Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":')
+    //   console.log(resposta)
+
+    //   for (var i = resposta.length - 1; i >= 0; i--) {
+    //     var registro = resposta[i]
+    //     // data.push(resposta[i].mediaCPU);
+    //     // labels.push(resposta[i].receita);
+    //     dados.datasets[0].data.push(registro.mediaCPU);
+    //     labels.push(registro.horaCaptura);
+
+    //     // Definindo a cor com base nas condições
+    //   if (registro.media_uso_cpu <= 15) {
+    //     dados.datasets[0].backgroundColor.push('#00FF00');
+    //     // dados.datasets[0].borderColor.push('#00FF00');
+    //   } else if (registro.media_uso_cpu <= 30) {
+    //     dados.datasets[0].backgroundColor.push('#f6ff00');
+    //     // dados.datasets[0].borderColor.push('#f6ff00');
+    //   } else {
+    //     dados.datasets[0].backgroundColor.push('#FF0000');
+    //     // dados.datasets[0].borderColor.push('#FF0000');
+    //   }
+
+    //   console.log('----------------------------------------------')
+    // console.log('O gráfico será plotado com os respectivos valores:')
+    // console.log('Labels:')
+    // console.log(labels)
+    // console.log('Dados:')
+    // console.log(dados.datasets)
+    // console.log('----------------------------------------------')
+
+    //   }
+
+
+    //   // Criando estrutura para plotar gráfico - config
+    // const config = {
+    //   type: 'line',
+    //   data: dados,
+    //   fill: false,
+    // }
+
+    // // Adicionando gráfico criado em div na tela
+    // let chartMediaCPU = new Chart(
+    //   document.getElementById(`graficoCpuPaola`),
+    //   config
+    // );
+
+    // setTimeout(() => atualizarGraficoMediaCPU(idEmpresa, dados, graficoCpuPaola), 5000);
+
+    //   // const ctx = document.getElementById("graficoCpuPaola");
+    //   // new Chart(ctx, {
+    //   //   type: "line",
+    //   //   data: {
+    //   //     labels: data,
+    //   //     datasets: [{
+    //   //       data,
+    //   //       backgroundColor: cores,
+    //   //       borderWidth: 1
+    //   //     },
+    //   //     ],
+    //   //   },
+    //   //   options: {
+    //   //     scales: {
+    //   //       y: {
+    //   //         beginAtZero: true
+    //   //       }
+    //   //     }
+    //   //   }
+    //   // });
+
+    // }
+
+    const ctx = document.getElementById('graficoCpuPaola');
+
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple'],
+        datasets: [{
+          label: '# of Votes',
+          data: [12, 19, 3, 5, 2],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    const ctx2 = document.getElementById('graficoRamPaola');
+
+    new Chart(ctx2, {
+      type: 'line',
+      data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple'],
+        datasets: [{
+          label: '# of Votes',
+          data: [12, 19, 3, 5, 2],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+  }
+
+  function carregarRafael() {
+    conteudoRafael.style.display = 'inline'
+    conteudoPaola.style.display = 'none'
+    conteudoRuan.style.display = 'none'
+    conteudoAle.style.display = 'none'
+    conteudoEdson.style.display = 'none'
+
+
+  }
+
+  function carregarRuan() {
+    conteudoRuan.style.display = 'inline'
+    conteudoPaola.style.display = 'none'
+    conteudoRafael.style.display = 'none'
+    conteudoAle.style.display = 'none'
+    conteudoEdson.style.display = 'none'
+  }
+
+  function carregarAle() {
+    conteudoAle.style.display = 'inline'
+    conteudoPaola.style.display = 'none'
+    conteudoRafael.style.display = 'none'
+    conteudoRuan.style.display = 'none'
+    conteudoEdson.style.display = 'none'
+  }
+
+  function carregarEdson() {
+    conteudoEdson.style.display = 'inline'
+    conteudoPaola.style.display = 'none'
+    conteudoRafael.style.display = 'none'
+    conteudoRuan.style.display = 'none'
+    conteudoAle.style.display = 'none'
+
+  }
+
+</script>
