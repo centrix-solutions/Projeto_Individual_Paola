@@ -39,13 +39,13 @@ function buscarMediasEmTempoRealDesempenho(idEmpresa) {
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucaoSql = `
         select * from viewDesempenhoMedio 
-        WHERE fkEmpMaqCompMoni = ${idEmpresa} limit 1;
+          WHERE fkEmpMaqCompMoni = ${idEmpresa};
         `;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `
         select * from viewDesempenhoMedio 
-        WHERE fkEmpMaqCompMoni = ${idEmpresa} limit 1;
+          WHERE fkEmpMaqCompMoni = ${idEmpresa};
         `;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");

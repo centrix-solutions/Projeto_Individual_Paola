@@ -241,7 +241,9 @@ select avg(Dado_Capturado) as mediaCPU from monitoramento;
 
 select round(avg(Dado_Capturado),1) as mediaCPU, Hora_captura as horaCaptura
    from monitoramento 
-   where fkCompMoniExistentes = 1 
+   where fkCompMoniExistentes = 2
    and fkEmpMaqCompMoni = 1
    group by horaCaptura;
     
+    select * from viewDesempenhoMedio 
+        WHERE fkEmpMaqCompMoni = 1;
