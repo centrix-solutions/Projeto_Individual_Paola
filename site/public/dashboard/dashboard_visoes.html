@@ -199,11 +199,12 @@ window.onload = async function () {
     function atualizarGraficoDesempenhoMedia(idEmpresa) {
 
       console.log(idEmpresa);
-      fetch(`/dashPaola/tempo-realDesempenhoMedia/${idEmpresa}`, { cache: 'no-store' }).then(function (response) {
+      fetch(`/dashPaola/tempoRealDesempenhoMedia/${idEmpresa}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
           response.json().then(function (novoRegistro) {
             console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
             valoresKpiDesempenho = [KpiCpuPaola, KpiRamPaola]
+            valoresKpiMax = [KpiMaxCpuPaola, KpiMaxRamPaola]
 
             for (i = 0; i < novoRegistro.length; i++) {
               var dados = novoRegistro[i];
@@ -215,8 +216,6 @@ window.onload = async function () {
                 valoresKpiDesempenho[1].innerHTML = (dados.uso) + "%";
                 valoresKpiMax[1].innerHTML = (registro.max) + "%";
               }
-
-              // ... outras condições para CPU e RAM
             }
 
             // Altere aqui o valor em ms se quiser que o gráfico atualize mais rápido ou mais devagar
@@ -241,141 +240,141 @@ window.onload = async function () {
       }
     }
 
-    // function obterDadosGrafico(idEmpresa) {
-    //   fetch(`/dashPaola/grafico/${idEmpresa}`, { cache: "no-store" })
-    //     .then(function (response) {
-    //       if (response.ok) {
-    //         response.json().then(function (resposta) {
-    //           console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
-    //           resposta.reverse();
+    function obterDadosGrafico(idEmpresa) {
+      fetch(`/dashPaola/grafico/${idEmpresa}`, { cache: "no-store" })
+        .then(function (response) {
+          if (response.ok) {
+            response.json().then(function (resposta) {
+              console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+              resposta.reverse();
 
-    //           plotarDadosGrafico(resposta);
-    //         });
-    //       } else {
-    //         console.error("Nenhum dado encontrado ou erro na API");
-    //       }
-    //     })
-    //     .catch(function (error) {
-    //       console.error(
-    //         `Erro na obtenção dos dados p/ gráfico: ${error.message}`
-    //       );
-    //     });
-    // }
-
-    // function plotarDadosGrafico(resposta, idEmpresa) {
-
-    //   //   var data = [];
-    //   // var labels = [];
-    //   // var cores = ["#d83198", "#3b9d17c2", "#d83198c0", "#3b9d17"];
-
-    //   console.log('iniciando plotagem do gráfico...')
-
-    //   let labels = [];
-
-    //   let dados = {
-    //     labels: labels,
-    //     datasets: [{
-    //       label: 'Usada',
-    //       data: [],
-    //       backgroundColor: [],
-    //       borderColor: ['#393d42'],
-    //       tension: 0.3,
-    //       fill: false,
-    //       pointRadius: 6
-    //     }]
-    //   };
-
-    //   console.log('Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":')
-    //   console.log(resposta)
-
-    //   for (var i = resposta.length - 1; i >= 0; i--) {
-    //     var registro = resposta[i]
-    //     // data.push(resposta[i].mediaCPU);
-    //     // labels.push(resposta[i].receita);
-    //     dados.datasets[0].data.push(registro.mediaCPU);
-    //     labels.push(registro.horaCaptura);
-
-    //     // Definindo a cor com base nas condições
-    //   if (registro.media_uso_cpu <= 15) {
-    //     dados.datasets[0].backgroundColor.push('#00FF00');
-    //     // dados.datasets[0].borderColor.push('#00FF00');
-    //   } else if (registro.media_uso_cpu <= 30) {
-    //     dados.datasets[0].backgroundColor.push('#f6ff00');
-    //     // dados.datasets[0].borderColor.push('#f6ff00');
-    //   } else {
-    //     dados.datasets[0].backgroundColor.push('#FF0000');
-    //     // dados.datasets[0].borderColor.push('#FF0000');
-    //   }
-
-    //   console.log('----------------------------------------------')
-    // console.log('O gráfico será plotado com os respectivos valores:')
-    // console.log('Labels:')
-    // console.log(labels)
-    // console.log('Dados:')
-    // console.log(dados.datasets)
-    // console.log('----------------------------------------------')
-
-    //   }
-
-
-    //   // Criando estrutura para plotar gráfico - config
-    // const config = {
-    //   type: 'line',
-    //   data: dados,
-    //   fill: false,
-    // }
-
-    // // Adicionando gráfico criado em div na tela
-    // let chartMediaCPU = new Chart(
-    //   document.getElementById(`graficoCpuPaola`),
-    //   config
-    // );
-
-    // setTimeout(() => atualizarGraficoMediaCPU(idEmpresa, dados, graficoCpuPaola), 5000);
-
-    //   // const ctx = document.getElementById("graficoCpuPaola");
-    //   // new Chart(ctx, {
-    //   //   type: "line",
-    //   //   data: {
-    //   //     labels: data,
-    //   //     datasets: [{
-    //   //       data,
-    //   //       backgroundColor: cores,
-    //   //       borderWidth: 1
-    //   //     },
-    //   //     ],
-    //   //   },
-    //   //   options: {
-    //   //     scales: {
-    //   //       y: {
-    //   //         beginAtZero: true
-    //   //       }
-    //   //     }
-    //   //   }
-    //   // });
-
-    // }
-
-    const ctx = document.getElementById('graficoCpuPaola');
-
-    new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple'],
-        datasets: [{
-          label: '# of Votes',
-          data: [12, 19, 3, 5, 2],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
+              plotarDadosGrafico(resposta);
+            });
+          } else {
+            console.error("Nenhum dado encontrado ou erro na API");
           }
-        }
+        })
+        .catch(function (error) {
+          console.error(
+            `Erro na obtenção dos dados p/ gráfico: ${error.message}`
+          );
+        });
+    }
+
+    function plotarDadosGrafico(resposta, idEmpresa) {
+
+      //   var data = [];
+      // var labels = [];
+      // var cores = ["#d83198", "#3b9d17c2", "#d83198c0", "#3b9d17"];
+
+      console.log('iniciando plotagem do gráfico...')
+
+      let labels = [];
+
+      let dados = {
+        labels: labels,
+        datasets: [{
+          label: 'Usada',
+          data: [],
+          backgroundColor: [],
+          borderColor: ['#393d42'],
+          tension: 0.3,
+          fill: false,
+          pointRadius: 6
+        }]
+      };
+
+      console.log('Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":')
+      console.log(resposta)
+
+      for (var i = resposta.length - 1; i >= 0; i--) {
+        var registro = resposta[i]
+        // data.push(resposta[i].mediaCPU);
+        // labels.push(resposta[i].receita);
+        dados.datasets[0].data.push(registro.mediaCPU);
+        labels.push(registro.horaCaptura);
+
+        // Definindo a cor com base nas condições
+      if (registro.media_uso_cpu <= 15) {
+        dados.datasets[0].backgroundColor.push('#00FF00');
+        // dados.datasets[0].borderColor.push('#00FF00');
+      } else if (registro.media_uso_cpu <= 30) {
+        dados.datasets[0].backgroundColor.push('#f6ff00');
+        // dados.datasets[0].borderColor.push('#f6ff00');
+      } else {
+        dados.datasets[0].backgroundColor.push('#FF0000');
+        // dados.datasets[0].borderColor.push('#FF0000');
       }
-    });
+
+      console.log('----------------------------------------------')
+    console.log('O gráfico será plotado com os respectivos valores:')
+    console.log('Labels:')
+    console.log(labels)
+    console.log('Dados:')
+    console.log(dados.datasets)
+    console.log('----------------------------------------------')
+
+      }
+
+
+      // Criando estrutura para plotar gráfico - config
+    const config = {
+      type: 'line',
+      data: dados,
+      fill: false,
+    }
+
+    // Adicionando gráfico criado em div na tela
+    let chartMediaCPU = new Chart(
+      document.getElementById(`graficoCpuPaola`),
+      config
+    );
+
+    setTimeout(() => atualizarGraficoMediaCPU(idEmpresa, dados, graficoCpuPaola), 5000);
+
+      // const ctx = document.getElementById("graficoCpuPaola");
+      // new Chart(ctx, {
+      //   type: "line",
+      //   data: {
+      //     labels: data,
+      //     datasets: [{
+      //       data,
+      //       backgroundColor: cores,
+      //       borderWidth: 1
+      //     },
+      //     ],
+      //   },
+      //   options: {
+      //     scales: {
+      //       y: {
+      //         beginAtZero: true
+      //       }
+      //     }
+      //   }
+      // });
+
+    }
+
+    // const ctx = document.getElementById('graficoCpuPaola');
+
+    // new Chart(ctx, {
+    //   type: 'line',
+    //   data: {
+    //     labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple'],
+    //     datasets: [{
+    //       label: '# of Votes',
+    //       data: [12, 19, 3, 5, 2],
+    //       borderWidth: 1
+    //     }]
+    //   },
+    //   options: {
+    //     scales: {
+    //       y: {
+    //         beginAtZero: true
+    //       }
+    //     }
+    //   }
+    // });
 
     const ctx2 = document.getElementById('graficoRamPaola');
 
@@ -400,16 +399,17 @@ window.onload = async function () {
 
   }
 
+  
+  // individual Rafa
   function carregarRafael() {
     conteudoRafael.style.display = 'inline'
     conteudoPaola.style.display = 'none'
     conteudoRuan.style.display = 'none'
     conteudoAle.style.display = 'none'
     conteudoEdson.style.display = 'none'
-
-
   }
 
+  // individual Ruanzito
   function carregarRuan() {
     conteudoRuan.style.display = 'inline'
     conteudoPaola.style.display = 'none'
@@ -418,6 +418,7 @@ window.onload = async function () {
     conteudoEdson.style.display = 'none'
   }
 
+  // individual Ale
   function carregarAle() {
     conteudoAle.style.display = 'inline'
     conteudoPaola.style.display = 'none'
@@ -426,13 +427,13 @@ window.onload = async function () {
     conteudoEdson.style.display = 'none'
   }
 
+  // individual Edson
   function carregarEdson() {
     conteudoEdson.style.display = 'inline'
     conteudoPaola.style.display = 'none'
     conteudoRafael.style.display = 'none'
     conteudoRuan.style.display = 'none'
     conteudoAle.style.display = 'none'
-
   }
 
 </script>

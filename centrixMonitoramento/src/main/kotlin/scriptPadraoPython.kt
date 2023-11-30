@@ -177,7 +177,7 @@ object scriptPadraoPython {
     }
 
     fun executarScript(arquivo1: String, arquivo2: String) {
-        val pythonProcess1 = Runtime.getRuntime().exec("py $arquivo1")
+            val pythonProcess1 = Runtime.getRuntime().exec("py $arquivo1")
         val pythonProcess2 = Runtime.getRuntime().exec("py $arquivo2")
         pythonProcesses = listOf(pythonProcess1, pythonProcess2)
     }

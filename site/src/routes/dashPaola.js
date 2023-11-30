@@ -3,15 +3,15 @@ var router = express.Router();
 
 var dashPaolaController = require("../controllers/dashPaolaController");
 
-// router.get("/grafico", function (req, res) {
-//     dashPaolaController.listar(req, res);
-// });
+router.get("/grafico", function (req, res) {
+    dashPaolaController.listar(req, res);
+});
 
 router.get("/ultimasDesempenhoMedia/:idEmpresa", function (req, res) {
     dashPaolaController.buscarUltimasMedidasDesempenhoMedia(req, res);
 });
 
-router.get("/tempo-realDesempenhoMedia/:idEmpresa", function (req, res) {
+router.get("/tempoRealDesempenhoMedia/:idEmpresa", function (req, res) {
     dashPaolaController.buscarMedidasEmTempoRealDesempenhoMedia(req, res);
 })
 
