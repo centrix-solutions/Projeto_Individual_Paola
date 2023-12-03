@@ -187,13 +187,11 @@ class Monitoramento {
                         val data = LocalDate.now()
                         val hora = LocalTime.now(zonaFusoHorario)
                         val dado = dados[i]
-                        val fkcompMoni = fkcomponentesMonitorados[i]
                         val fkcompExis = fkcomponentesExistentes[i]
                         repositorioMonitoramento.registrarDados(
                             data,
                             hora,
                             dado,
-                            fkcompMoni,
                             fkcompExis,
                             idMaquina,
                             idEmpresa

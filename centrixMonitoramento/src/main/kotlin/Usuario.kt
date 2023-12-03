@@ -5,5 +5,4 @@ class Usuario {
     var senha: String = ""
     var fkEmpFunc: Int = 0
     var fkNivelAcesso: Int = 0
-    //var Atividade: String = ""
 }

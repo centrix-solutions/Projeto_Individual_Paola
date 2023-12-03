@@ -117,11 +117,11 @@ function buscarUltimasMedidasDesempenhoMedia() {
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucaoSql = `
-        select * from viewDesempenhoMedio;
+        select * from viewDesempenhoMedio where fkEmpMaqCompMoni = 1;
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `
-        select * from viewDesempenhoMedio;
+        select * from viewDesempenhoMedio where fkEmpMaqCompMoni = 1;
         `;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
@@ -140,12 +140,12 @@ function buscarMediasEmTempoRealDesempenho(idEmpresa) {
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucaoSql = `
-        select * from viewDesempenhoMedio;
+        select * from viewDesempenhoMedio where fkEmpMaqCompMoni = 1;
         `;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `
-        select * from viewDesempenhoMedio;
+        select * from viewDesempenhoMedio where fkEmpMaqCompMoni = 1;
         `;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");

@@ -218,6 +218,24 @@ select round(avg(Dado_Capturado),1) as mediaCPU, Hora_captura as horaCaptura
         WHERE fkEmpMaqCompMoni = 1;
         
 SELECT
+    Dado_Capturado as mediaCpu,
+    Hora_captura as horaCaptura
+    FROM monitoramento where fkCompMoniExistentes = 1 and fkEmpMaqCompMoni = 1 limit 3;
+        
+        SELECT
+    Dado_Capturado as mediaCpu,
+    Hora_captura as horaCaptura
+    FROM monitoramento where fkCompMoniExistentes = 1 and fkEmpMaqCompMoni = 1 limit 3;
+        
+SELECT
     round(Dado_Capturado,2) as mediaRAM,
     Hora_captura as horaCaptura
-    FROM monitoramento where fkCompMonitorados = 2 and fkEmpMaqCompMoni = 1;
+    FROM monitoramento where fkCompMoniExistentes = 3 and fkEmpMaqCompMoni = 1;
+    
+SELECT COUNT(*) AS TotalMaquinas FROM Maquinas WHERE fkEmpMaq = 1;
+
+    
+SELECT
+    Dado_Capturado as mediaRAM,
+    Hora_captura as horaCaptura
+    FROM monitoramento where fkCompMoniExistentes = 3 and fkEmpMaqCompMoni = 1 limit 3;

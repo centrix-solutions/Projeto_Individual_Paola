@@ -3,9 +3,11 @@ SELECT
     Dado_Capturado,
     Hora_captura as hora,
     fkEmpMaqCompMoni,
-    fkCompMonitorados
+    fkCompMoniExistentes
 FROM
-    monitoramento where fkCompMonitorados = 1;
+    monitoramento where fkCompMoniExistentes = 1;
+    
+    select * from monitoramento;
     
 SELECT
     Dado_Capturado as mediaCPU,
@@ -19,9 +21,9 @@ SELECT
     Dado_Capturado,
     Hora_captura as hora,
     fkEmpMaqCompMoni,
-    fkCompMonitorados
+    fkCompMoniExistentes
 FROM
-    monitoramento where fkCompMonitorados = 2;
+    monitoramento where fkCompMoniExistentes = 3;
     
     select * from monitoramento;
     
@@ -29,9 +31,12 @@ FROM
     
     drop view viewCpu;
     drop view viewRam;
-    drop view viewDesempenhoMedio;
+    drop view viewDesempenhoMedio3;
     
-    CREATE VIEW viewDesempenhoMedio AS
+    select * from viewDesempenhoMedio2;
+   
+    
+    CREATE VIEW viewDesempenhoMedio2 AS
 SELECT
     tipo,
     CASE
@@ -98,7 +103,9 @@ FROM (
     WHERE ram.rn = 1
 ) AS mergedView;
 
-CREATE VIEW viewDesempenhoMedio AS
+select * from viewDesempenhoMedio;
+
+CREATE VIEW viewDesempenhoMedio3 AS
 SELECT
     tipo,
     CASE
@@ -106,30 +113,28 @@ SELECT
         ELSE NULL
     END AS totalMaquinas,
     hora,
-    fkEmpMaqCompMoni,
     usoMedio,
-    usoMax
+    usoMax,
+    fkEmpMaqCompMoni    
 FROM (
     SELECT
         'TotalMaquinas' AS tipo,
         COUNT(DISTINCT maquina.idMaquina) AS total,
-        NULL AS hora,
-        NULL AS fkEmpMaqCompMoni,
+        hora AS hora,
         NULL AS usoMedio,
-        NULL AS usoMax
+        NULL AS usoMax,
+        NULL AS fkEmpMaqCompMoni
     FROM Maquinas maquina
     JOIN Componentes_Monitorados componentes ON maquina.idMaquina = componentes.fkMaquina
     JOIN Monitoramento monitoramento ON componentes.idComponente_monitorado = monitoramento.fkCompMonitorados
-
     UNION ALL
-
     SELECT
         'CPU' AS tipo,
         NULL AS total,
         cpu.hora,
-        cpu.fkEmpMaqCompMoni,
         cpu.mediaCpu AS usoMedio,
-        cpu.maxCpu as usoMax
+        cpu.maxCpu as usoMax,
+        cpu.fkEmpMaqCompMoni
     FROM (
         SELECT
             fkEmpMaqCompMoni,
@@ -142,16 +147,14 @@ FROM (
         GROUP BY hora, fkEmpMaqCompMoni
     ) AS cpu
     WHERE cpu.rn = 1
-
     UNION ALL
-
     SELECT
         'RAM' AS tipo,
         NULL AS total,
         ram.hora,
-        ram.fkEmpMaqCompMoni,
         ram.mediaRam AS usoMedio,
-        ram.maxRam as usoMax
+        ram.maxRam as usoMax,
+        ram.fkEmpMaqCompMoni
     FROM (
         SELECT
             fkEmpMaqCompMoni,
@@ -180,3 +183,17 @@ select * from viewDesempenhoMedio;
 select * from viewDesempenhoMedio WHERE fkEmpMaqCompMoni = 1;
 select * from viewDesempenhoMedio WHERE fkEmpMaqCompMoni = 2;
 select * from viewDesempenhoMedio WHERE tipo = "TotalMaquinas";
+
+SELECT
+    'TotalMaquinas' AS tipo,
+    COUNT(DISTINCT maquina.idMaquina) AS total,
+    MAX(Monitoramento.Hora_captura) AS hora,
+    MAX(Monitoramento.fkEmpMaqCompMoni) AS fkEmpMaqCompMoni,
+    NULL AS fkCompMoniExistentes,
+    NULL AS fkEmpMaqCompMoni,
+    NULL AS usoMedio,
+    NULL AS usoMax
+FROM Maquinas maquina
+JOIN Componentes_Monitorados componentes ON maquina.idMaquina = componentes.fkMaquina
+JOIN Monitoramento ON componentes.idComponente_monitorado = Monitoramento.fkCompMonitorados
+GROUP BY tipo;

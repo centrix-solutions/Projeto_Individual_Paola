@@ -4,49 +4,46 @@ import java.time.LocalTime
 
 class MonitoramentoRepositorio {
     lateinit var jdbcTemplate: JdbcTemplate
-    //lateinit var jdbcTemplateServer: JdbcTemplate
+    lateinit var jdbcTemplateServer: JdbcTemplate
 
     fun iniciar() {
         jdbcTemplate = Conexao.jdbcTemplate!!
-        //jdbcTemplateServer = Conexao.jdbcTemplateServer!!
+        jdbcTemplateServer = Conexao.jdbcTemplateServer!!
     }
 
     fun registrarDados(
         data: LocalDate,
         hora: LocalTime,
         dado: Float,
-        fkcompMoni: Int,
         fkcompExis: Int,
         idMaquinaDado: Int,
         idEmpresaDado: Int
     ) {
         jdbcTemplate.update(
             """
-        INSERT INTO Monitoramento (Data_captura, Hora_captura, Dado_Capturado, fkCompMonitorados, 
+        INSERT INTO Monitoramento (Data_captura, Hora_captura, Dado_Capturado, 
         fkCompMoniExistentes, fkMaqCompMoni, fkEmpMaqCompMoni)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?)
         """.trimIndent(),
             data,
             hora,
             dado,
-            fkcompMoni,
             fkcompExis,
             idMaquinaDado,
             idEmpresaDado
         )
-        /*jdbcTemplateServer.update(
+        jdbcTemplateServer.update(
             """
-        INSERT INTO monitoramento (Data_captura, Hora_captura, Dado_Capturado, fkCompMonitorados, 
+        INSERT INTO monitoramento (Data_captura, Hora_captura, Dado_Capturado,
         fkCompMoniExistentes, fkMaqCompMoni, fkEmpMaqCompMoni)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?)
         """.trimIndent(),
             data,
             hora,
             dado,
-            fkcompMoni,
             fkcompExis,
             idMaquinaDado,
             idEmpresaDado
-        )*/
+        )
     }
 }
