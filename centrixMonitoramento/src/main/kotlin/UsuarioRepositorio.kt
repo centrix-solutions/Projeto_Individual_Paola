@@ -10,7 +10,6 @@ class UsuarioRepositorio {
     lateinit var jdbcTemplateServer: JdbcTemplate
 
     fun iniciar() {
-
         jdbcTemplate = Conexao.jdbcTemplate!!
         jdbcTemplateServer = Conexao.jdbcTemplateServer!!
     }
@@ -21,7 +20,6 @@ class UsuarioRepositorio {
             arrayOf(logarUsuarioEmail, logarUsuarioSenha),
             Int::class.java
         )
-
         return consulta == 1
     }
 
@@ -56,7 +54,7 @@ class UsuarioRepositorio {
             horaLogin
         )
     }
-    fun atualizarAtividade(usuarioLogado: Usuario, idMaq: Int, atividade: String, horaLogin: LocalDateTime) {
+    /*fun atualizarAtividade(usuarioLogado: Usuario, idMaq: Int, atividade: String, horaLogin: LocalDateTime) {
         jdbcTemplateServer.update(
             """
                 UPDATE Login
@@ -66,7 +64,8 @@ class UsuarioRepositorio {
         """.trimIndent(),
 
         )
-    }
+    }*/
+
     fun registrarSaida(usuarioLogado: Usuario, idMaquina: Int, horaLogout: LocalDateTime) {
         jdbcTemplate.update(
             """
@@ -85,26 +84,5 @@ class UsuarioRepositorio {
             AND idEmpresa = ${usuarioLogado.fkEmpFunc};
         """.trimIndent()
         )
-    }
-   // fun verificarLogin(usuarioLogado: Usuario, idMaquina: Int): LocalDateTime? {
-    //    val sql = """
-   //     SELECT MIN(dataHoraEntrada) AS dataMaisAntigaEntrada
-   //     FROM login
-   //     WHERE idFuncionario = ${usuarioLogado.idFuncionario} AND idMaquina = $idMaquina AND idEmpresa = ${usuarioLogado.fkEmpFunc};
-   // """.trimIndent()
-
-    //    return jdbcTemplate.queryForObject(sql) { rs, _ ->
-    //        rs.getTimestamp("dataMaisAntigaEntrada")?.toLocalDateTime()
-   //     }
-  //  }
-  //  fun apagarLogs(usuarioLogado: Usuario, idMaquina: Int){
-   //    jdbcTemplate.update("""
-    //    DELETE FROM login
-   //     WHERE dataHoraEntrada <= NOW() and idFuncionario = ${usuarioLogado.idFuncionario} AND
-    //    idMaquina = $idMaquina AND idEmpresa = ${usuarioLogado.fkEmpFunc}
-    //    ORDER BY dataHoraEntrada ASC
-    //    LIMIT 6;
-   // """.trimIndent())
-   // }
-
+  }
 }

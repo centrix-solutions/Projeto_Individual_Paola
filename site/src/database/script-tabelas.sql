@@ -161,7 +161,7 @@ update maquinas set fkAndarDeTrabalho = 2 where idMaquina = 2;
  (1, 1, "a", 1);
 INSERT INTO Funcionario (nome, email, senha, fkEmpFunc, fkNivelAcesso, fkAndar)
 VALUES
-    ('Funcionário 1', 'funcionario1@email.com', 'senha1', 1, 4, 1);
+    ('Funcionário 1', 'a', 'b', 1, 4, 1);
   
 INSERT INTO ComponentesQuePrestamosServico (nome) VALUES
     ('CPU'),
@@ -184,7 +184,12 @@ select * from login;
 select * from maquinas;
 select * from notificacao;
 
+select * from monitoramento where fkCompMoniExistentes = 1;
+
 Update funcionario set fkNivelAcesso = 4 where idFuncionario = 1;
+
+Update funcionario set email = "a" where idFuncionario = 1;
+Update funcionario set senha = "b" where idFuncionario = 1;
 
 desc Componentes_Monitorados;
 desc ComponentesQuePrestamosServico;
@@ -192,44 +197,8 @@ desc ComponentesQuePrestamosServico;
 select * from ComponentesQuePrestamosServico;
 
 desc maquinas;
-insert into maquinas
-values (null, 'windows', '123456789paola7', null, null, 1, 1);
-
-insert into maquinas
-values (null, 'windows', '123456789jonny7', null, null, 1, 1);
-
-insert into Componentes_Monitorados
-values (null, null, 1, 1, 1),
-       (null, 2, 2, 1, 1);
-       
-insert into Componentes_Monitorados
-values (null, null, 1, 2, 1),
-       (null, 2, 2, 2, 1);
-
-Update Componentes_Monitorados set valor = null where idComponente_monitorado = 1;
-Update Componentes_Monitorados set valor = 8  where idComponente_monitorado = 2;
 
 select * from Componentes_Monitorados;
-
-desc monitoramento;
-
-insert into monitoramento 
-values (null, '2023-11-26', '01:28', 0.22, 2, 2, 1, 1),
-	   (null, '2023-11-26', '01:28', 1.22, 2, 2, 1, 1),
-       (null, '2023-11-26', '01:28', 2, 2, 2, 1, 1),
-       (null, '2023-11-26', '01:28', 3.22, 2, 2, 1, 1),
-       (null, '2023-11-26', '01:28', 0.42, 2, 2, 1, 1),
-       (null, '2023-11-26', '01:28', 12, 2, 2, 1, 1),
-       (null, '2023-11-26', '01:28', 2.2, 2, 2, 1, 1);
-
-insert into monitoramento 
-values (null, '2023-11-28', '23:17', 6, 2, 1, 2, 1),
-	   (null, '2023-11-28', '23:17', 5, 2, 1, 2, 1),
-       (null, '2023-11-28', '23:17', 89, 1, 1, 2, 1),
-       (null, '2023-11-28', '23:18', 40, 1, 1, 2, 1),
-       (null, '2023-11-28', '23:18', 45, 1, 1, 2, 1),
-       (null, '2023-11-28', '23:18', 36, 1, 1, 2, 1),
-       (null, '2023-11-28', '23:18', 90, 1, 1, 2, 1);
        
 select * from monitoramento;
        
@@ -247,3 +216,8 @@ select round(avg(Dado_Capturado),1) as mediaCPU, Hora_captura as horaCaptura
     
     select * from viewDesempenhoMedio 
         WHERE fkEmpMaqCompMoni = 1;
+        
+SELECT
+    round(Dado_Capturado,2) as mediaRAM,
+    Hora_captura as horaCaptura
+    FROM monitoramento where fkCompMonitorados = 2 and fkEmpMaqCompMoni = 1;

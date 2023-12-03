@@ -2,7 +2,6 @@ DROP DATABASE IF EXISTS centrix;
 CREATE DATABASE IF NOT EXISTS centrix;
 USE centrix;
 
-
 CREATE TABLE IF NOT EXISTS Monitoramento (
 	idMonitoramento INT primary key auto_increment,
     Data_captura DATE,
