@@ -53,15 +53,15 @@
               <div class="kpisPaola">
                 <div class="kpiPaola">
                   <div class="tituloPaolaKpi">
-                    Desempenho da CPU
-                  </div><br>
+                    Média da CPU
+                  </div>
                   <div id="desempenhoCpuPaola">
                     X%
                   </div>
                 </div>
                 <div class="kpiPaola">
                   <div class="tituloPaolaKpi">
-                    Desempenho da RAM
+                    Média da RAM
                   </div>
                   <div id="desempenhoRamPaola">
                     X%
@@ -77,7 +77,7 @@
                 </div>
                 <div class="kpiPaola">
                   <div class="tituloPaolaKpi">
-                    Maior valor da CPU
+                    Valor máximo da CPU
                   </div>
                   <div id="maxCpuPaola">
                     X%
@@ -85,7 +85,7 @@
                 </div>
                 <div class="kpiPaola">
                   <div class="tituloPaolaKpi">
-                    Maior valor da RAM
+                    Valor máximo da RAM
                   </div>
                   <div id="maxRamPaola">
                     X%
@@ -99,11 +99,11 @@
                 <div class="graficosPaola">
 
                   <div class="chartPaola">
-                    <h1>CPU</h1>
+                    <h1>Gráfico CPU</h1>
                     <canvas id="graficoCpuPaola"></canvas>
                   </div>
                   <div class="chartPaola">
-                    <h1>RAM</h1>
+                    <h1>Gráfico RAM</h1>
                     <canvas id="graficoRamPaola"></canvas>
                   </div>
                 </div>
@@ -152,7 +152,6 @@
     conteudoEdson.style.display = 'none'
 
     // fazendo a a rota do kpi
-
     var KpiCpuPaola = document.getElementById("desempenhoCpuPaola");
     var KpiRamPaola = document.getElementById("desempenhoRamPaola");
     var KpiTotalPaola = document.getElementById("totalMaquinaPaola");
@@ -163,7 +162,7 @@
     function obterDadosDesempenhoMedia() {
 
       valoresKpiDesempenho = [KpiCpuPaola, KpiRamPaola]
-      valorTotal = [KpiTotalPaola]
+      // valorTotal = [KpiTotalPaola]
       valoresKpiMax = [KpiMaxCpuPaola, KpiMaxRamPaola]
 
       console.log("Desempenho")
@@ -197,9 +196,9 @@
           valoresKpiDesempenho[1].innerHTML = (registro.usoMedio) + "%";
           valoresKpiMax[1].innerHTML = (registro.usoMax) + "%";
         }
-        if (registro.tipo === "TotalMaquinas") {
-          valorTotal[0].innerHTML = (registro.totalMaquinas);
-        }
+        // if (registro.tipo === "TotalMaquinas") {
+        //   valorTotal[0].innerHTML = (registro.totalMaquinas);
+        // }
       }
 
       setTimeout(() => atualizarGraficoDesempenhoMedia(idEmpresa), 2000);
@@ -213,7 +212,7 @@
             console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
             valoresKpiDesempenho = [KpiCpuPaola, KpiRamPaola]
             valoresKpiMax = [KpiMaxCpuPaola, KpiMaxRamPaola]
-            valorTotal = [KpiTotalPaola]
+            // valorTotal = [KpiTotalPaola]
 
             for (i = 0; i < novoRegistro.length; i++) {
               var dados = novoRegistro[i];
@@ -225,16 +224,15 @@
                 valoresKpiDesempenho[1].innerHTML = (registro.usoMedio) + "%";
                 valoresKpiMax[1].innerHTML = (registro.usoMax) + "%";
               }
-              if (dados.tipo === "TotalMaquinas") {
-                valorTotal[0].innerHTML = (registro.totalMaquinas);
-              }
+              // if (dados.tipo === "TotalMaquinas") {
+              //   valorTotal[0].innerHTML = (registro.totalMaquinas);
+              // }
             }
 
             proximaAtualizacaoDesempenho = setTimeout(() => atualizarGraficoDesempenhoMedia(idEmpresa), 5000);
           });
         } else {
           console.error('Nenhum dado encontrado ou erro na API');
-          // Altere aqui o valor em ms se quiser que o gráfico atualize mais rápido ou mais devagar
           proximaAtualizacaoDesempenho = setTimeout(() => atualizarGraficoDesempenhoMedia(idEmpresa), 2000);
         }
       })
@@ -243,6 +241,67 @@
         });
     }
 
+    // kpi total maquinas
+    function obterDadosTotal() {
+      valorTotal = [KpiTotalPaola]
+
+      console.log("Desempenho")
+
+      fetch(`/dashPaola/ultimasTotal/`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+          response.json().then(function (resposta) {
+            console.log(`Dados recebidos da kpi total: ${JSON.stringify(resposta)}`);
+            resposta.reverse();
+
+            plotarGraficoDesempenhoMedia(resposta);
+          });
+        } else {
+          console.error('Nenhum dado encontrado ou erro na API');
+        }
+      })
+        .catch(function (error) {
+          console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+    }
+
+    function plotarKpiTotal(resposta) {
+      for (i = 0; i < resposta.length; i++) {
+        var registro = resposta[i];
+        if (registro.TotalMaquinas > 0) {
+          valorTotal[0].innerHTML = (registro.TotalMaquinas);
+        }
+      }
+
+      setTimeout(() => atualizarKpiTotal(), 2000);
+    }
+
+    function atualizarKpiTotal() {
+
+      fetch(`/dashPaola/tempoRealKpiTotal/`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+          response.json().then(function (novoRegistro) {
+            console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
+            valorTotal = [KpiTotalPaola]
+
+            for (i = 0; i < novoRegistro.length; i++) {
+              var dados = novoRegistro[i];
+              if (dados.TotalMaquinas > 0 ) {
+                valorTotal[0].innerHTML = (registro.TotalMaquinas);
+              }
+            }
+            proximaAtualizacaoDesempenho = setTimeout(() => atualizarKpiTotal(), 5000);
+          });
+        } else {
+          console.error('Nenhum dado encontrado ou erro na API');
+          proximaAtualizacaoDesempenho = setTimeout(() => atualizarKpiTotal(), 2000);
+        }
+      })
+        .catch(function (error) {
+          console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+    }
+
+    // limpando kpis
     function limparDesempenhoMedia() {
       for (i = 0; i <= valores.length; i++) {
         valoresKpiDesempenho[i].innerHTML = "";
@@ -283,7 +342,7 @@
       let dados = {
         labels: labels,
         datasets: [{
-          label: 'Média de uso da RAM',
+          label: 'Média de uso da CPU',
           data: [],
           backgroundColor: [],
           borderColor: ['#393d42'],
@@ -317,7 +376,6 @@
         fill: false,
       }
 
-      // Adicionando gráfico criado em div na tela
       let chartMediaCPU = new Chart(
         document.getElementById(`graficoCpuPaola`),
         config
@@ -334,9 +392,6 @@
             console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
             console.log(`Dados atuais do gráfico:`);
             console.log(dados);
-
-            // let avisoCaptura = document.getElementById(`avisoCaptura${disco}`)
-            // avisoCaptura.innerHTML = ""
 
             if (novoRegistro[0].horaCaptura == dados.datasets[0].horaCaptura) {
               console.log("---------------------------------------------------------------")

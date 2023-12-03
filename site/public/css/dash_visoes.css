@@ -129,29 +129,39 @@ body {
 }
 
 .kpiPaola {
-    display: flex;
-    height: 17vh;
-    width: 12vw;
+    /* display: flex; */
+    height: 15vh;
+    width: 12.5vw;
     background-color: #231F40;
-    box-shadow: 0 0 1.2rem #67548d;
+    box-shadow: 0 0 1.2rem #403d46;
     border-radius: 1rem;
+    padding: 1vh;
 }
 
 .tituloPaolaKpi {
     width: 100%;
     height: 4vh;
     color: whitesmoke;
-    font-size: 2vh;
+    font-size: 2.5vh;
     font-weight: bold;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+#desempenhoCpuPaola, #desempenhoRamPaola,
+#totalMaquinaPaola, #maxCpuPaola, #maxRamPaola{
+    color: whitesmoke;
+    width: 100%;
+    height: 8vh;
+    font-size: 4.5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .inferiorPaola {
     height: 65vh;
     width: 95%;
-    /* background-color: black; */
     margin: 1rem;
     border-radius: 1rem;
     padding: 1vh;
@@ -165,6 +175,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 2vh;
 }
 
 .graficosPaola{
@@ -176,6 +187,9 @@ body {
 .graficosPaola h1 {
     font-size: 3vh;
     font-weight: 300;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .chartPaola {
@@ -187,26 +201,8 @@ body {
     background-color: #000000;
     border-radius: 1rem;
     margin: 1vh;
+    box-shadow: 0 0 1rem #403d46;
 }
-
-/* .tooltip {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .tooltip:hover:after {
-    content: attr(data-hint);
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #333;
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 5px;
-    white-space: nowrap;
-  } */
-  
 
 /* Individual Rafa */
 .conteudoRafael {
