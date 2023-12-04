@@ -139,8 +139,9 @@
       obterDadosGraficoRAM(idEmpresa);
       atualizarGraficoMediaRAM(idEmpresa);
       // KPIs
-      obterDadosDesempenhoMedia(idEmpresa);
-      atualizarGraficoDesempenhoMedia(idEmpresa);
+      obterDadosDesempenhoMedia();
+      atualizarGraficoDesempenhoMedia();
+      atualizarFeed()
     } catch (error) {
       console.error("Erro no carregamento da página: " + error.message);
     }
@@ -154,7 +155,6 @@
     // fazendo a a rota do kpi
     var KpiCpuPaola = document.getElementById("desempenhoCpuPaola");
     var KpiRamPaola = document.getElementById("desempenhoRamPaola");
-    var KpiTotalPaola = document.getElementById("totalMaquinaPaola");
     var KpiMaxCpuPaola = document.getElementById("maxCpuPaola");
     var KpiMaxRamPaola = document.getElementById("maxRamPaola");
 
@@ -162,7 +162,6 @@
     function obterDadosDesempenhoMedia() {
 
       valoresKpiDesempenho = [KpiCpuPaola, KpiRamPaola]
-      // valorTotal = [KpiTotalPaola]
       valoresKpiMax = [KpiMaxCpuPaola, KpiMaxRamPaola]
 
       console.log("Desempenho")
@@ -196,23 +195,18 @@
           valoresKpiDesempenho[1].innerHTML = (registro.usoMedio) + "%";
           valoresKpiMax[1].innerHTML = (registro.usoMax) + "%";
         }
-        // if (registro.tipo === "TotalMaquinas") {
-        //   valorTotal[0].innerHTML = (registro.totalMaquinas);
-        // }
       }
 
       setTimeout(() => atualizarGraficoDesempenhoMedia(idEmpresa), 2000);
     }
 
     function atualizarGraficoDesempenhoMedia() {
-
       fetch(`/dashPaola/tempoRealDesempenhoMedia/`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
           response.json().then(function (novoRegistro) {
             console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
             valoresKpiDesempenho = [KpiCpuPaola, KpiRamPaola]
             valoresKpiMax = [KpiMaxCpuPaola, KpiMaxRamPaola]
-            // valorTotal = [KpiTotalPaola]
 
             for (i = 0; i < novoRegistro.length; i++) {
               var dados = novoRegistro[i];
@@ -224,16 +218,12 @@
                 valoresKpiDesempenho[1].innerHTML = (registro.usoMedio) + "%";
                 valoresKpiMax[1].innerHTML = (registro.usoMax) + "%";
               }
-              // if (dados.tipo === "TotalMaquinas") {
-              //   valorTotal[0].innerHTML = (registro.totalMaquinas);
-              // }
             }
-
-            proximaAtualizacaoDesempenho = setTimeout(() => atualizarGraficoDesempenhoMedia(idEmpresa), 5000);
+            proximaAtualizacaoDesempenho = setTimeout(() => atualizarGraficoDesempenhoMedia(), 5000);
           });
         } else {
           console.error('Nenhum dado encontrado ou erro na API');
-          proximaAtualizacaoDesempenho = setTimeout(() => atualizarGraficoDesempenhoMedia(idEmpresa), 2000);
+          proximaAtualizacaoDesempenho = setTimeout(() => atualizarGraficoDesempenhoMedia(), 2000);
         }
       })
         .catch(function (error) {
@@ -242,65 +232,28 @@
     }
 
     // kpi total maquinas
-    function obterDadosTotal() {
-      valorTotal = [KpiTotalPaola]
-
-      console.log("Desempenho")
-
-      fetch(`/dashPaola/ultimasTotal/`, { cache: 'no-store' }).then(function (response) {
-        if (response.ok) {
-          response.json().then(function (resposta) {
-            console.log(`Dados recebidos da kpi total: ${JSON.stringify(resposta)}`);
-            resposta.reverse();
-
-            plotarGraficoDesempenhoMedia(resposta);
-          });
-        } else {
-          console.error('Nenhum dado encontrado ou erro na API');
-        }
-      })
-        .catch(function (error) {
-          console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
-        });
-    }
-
-    function plotarKpiTotal(resposta) {
-      for (i = 0; i < resposta.length; i++) {
-        var registro = resposta[i];
-        if (registro.TotalMaquinas > 0) {
-          valorTotal[0].innerHTML = (registro.TotalMaquinas);
-        }
-      }
-
-      setTimeout(() => atualizarKpiTotal(), 2000);
-    }
-
-    function atualizarKpiTotal() {
-
-      fetch(`/dashPaola/tempoRealKpiTotal/`, { cache: 'no-store' }).then(function (response) {
-        if (response.ok) {
-          response.json().then(function (novoRegistro) {
-            console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
-            valorTotal = [KpiTotalPaola]
-
-            for (i = 0; i < novoRegistro.length; i++) {
-              var dados = novoRegistro[i];
-              if (dados.TotalMaquinas > 0 ) {
-                valorTotal[0].innerHTML = (registro.TotalMaquinas);
-              }
+    function atualizarFeed() {
+      fetch(`/dashPaola/tempoRealKpiTotal`).then(function (resposta) {
+        if (resposta.ok) {
+          if (resposta.status == 204) {
+            throw "Nenhum resultado encontrado!!";
+          }
+          resposta.json().then(function (resposta) {
+            console.log("Dados recebidos: ", JSON.stringify(resposta));
+            for (let i = 0; i <= resposta.length; i++) {
+              var total = resposta[i];
+              totalMaquinas = 0
+              totalMaquinas += total.TotalMaquinas
+              totalMaquinaPaola.innerHTML = totalMaquinas;
             }
-            proximaAtualizacaoDesempenho = setTimeout(() => atualizarKpiTotal(), 5000);
-          });
+          })
         } else {
-          console.error('Nenhum dado encontrado ou erro na API');
-          proximaAtualizacaoDesempenho = setTimeout(() => atualizarKpiTotal(), 2000);
+          throw ('Houve um erro na API!');
         }
-      })
-        .catch(function (error) {
-          console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
-        });
+      }).catch(function (resposta) {
+        console.log("nao achei")
+      });
     }
-
     // limpando kpis
     function limparDesempenhoMedia() {
       for (i = 0; i <= valores.length; i++) {
@@ -385,51 +338,37 @@
     }
 
     function atualizarGraficoMediaCPU(idEmpresa, dados, chartMediaCPU) {
+
       fetch(`/dashPaola/graficoAtualizarCPU/${idEmpresa}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
           response.json().then(function (novoRegistro) {
 
-            console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
-            console.log(`Dados atuais do gráfico:`);
-            console.log(dados);
-
-            if (novoRegistro[0].horaCaptura == dados.datasets[0].horaCaptura) {
+            if (novoRegistro[0].horaCaptura == dados.datasets[0].data.horaCaptura) {
               console.log("---------------------------------------------------------------")
               console.log("Como não há dados novos para captura, o gráfico não atualizará.")
-              // avisoCaptura.innerHTML = "<i class='fa-solid fa-triangle-exclamation'></i> Foi trazido o dado mais atual capturado pelo sensor. <br> Como não há dados novos a exibir, o gráfico não atualizará."
               console.log("Horário do novo dado capturado:")
               console.log(novoRegistro[0].horaCaptura)
               console.log("Horário do último dado capturado:")
               console.log(dados.labels[dados.labels.length - 1])
               console.log("---------------------------------------------------------------")
             } else {
-              // tirando e colocando valores no gráfico
-              dados.labels.shift(); // apagar o primeiro
-              dados.labels.push(novoRegistro[0].horaCaptura);
+              dados.labels.shift();
+              dados.labels.push(novoRegistro[0].horaCaptura); 
 
-              dados.datasets[0].data.shift();
-              dados.datasets[0].data.push(novoRegistro[0].mediaCPU); // incluir uma nova medida de umidade
-
-              // dados.datasets[1].data.shift();  // apagar o primeiro de temperatura
-              // dados.datasets[1].data.push(novoRegistro[0].temperatura); // incluir uma nova medida de temperatura
+              dados.datasets[0].data.shift(); 
+              dados.datasets[0].data.push(novoRegistro[0].mediaCPU); 
 
               chartMediaCPU.update();
             }
-
-            // Altere aqui o valor em ms se quiser que o gráfico atualize mais rápido ou mais devagar
-            // proximaAtualizacao = setTimeout(() => atualizarGrafico(disco, dados, myChart), 2000);
+            proximaAtualizacao = setTimeout(() => atualizarGraficoMediaCPU(idEmpresa, dados, chartMediaCPU), 2000);
           });
         } else {
           console.error('Nenhum dado encontrado ou erro na API');
-          // Altere aqui o valor em ms se quiser que o gráfico atualize mais rápido ou mais devagar
-          // proximaAtualizacao = setTimeout(() => atualizarGrafico(disco, dados, myChart), 2000);
+         proximaAtualizacao = setTimeout(() => atualizarGraficoMediaCPU(idEmpresa, dados, chartMediaCPU), 2000);
         }
-      })
-        .catch(function
-          (error) {
+      }).catch(function (error) {
           console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
         });
-
     }
 
     // Gráfico RAM

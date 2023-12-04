@@ -225,7 +225,7 @@ SELECT
         SELECT
     Dado_Capturado as mediaCpu,
     Hora_captura as horaCaptura
-    FROM monitoramento where fkCompMoniExistentes = 1 and fkEmpMaqCompMoni = 1 limit 3;
+    FROM monitoramento where fkCompMoniExistentes = 1 and fkEmpMaqCompMoni = 1;
         
 SELECT
     round(Dado_Capturado,2) as mediaRAM,

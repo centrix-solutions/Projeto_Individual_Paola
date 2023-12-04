@@ -30,32 +30,30 @@ while True:
     # CPU
     add_leitura_CPU = (
         "INSERT INTO Monitoramento"
-        "(Data_captura, Hora_captura, Dado_Capturado, fkCompMonitorados, fkCompMoniExistentes, fkMaqCompMoni, fkEmpMaqCompMoni)"
-        "VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        "(Data_captura, Hora_captura, Dado_Capturado, fkCompMoniExistentes, fkMaqCompMoni, fkEmpMaqCompMoni)"
+        "VALUES (%s, %s, %s, %s, %s, %s)"
     )
     bdLocal_cursor.execute(add_leitura_CPU, 
                            (data_atual, 
                            hora_atual, 
-                           CPU, 
+                           CPU,  
                            1, 
-                           1, 
-                           1, 
-                           1))
+                           7, 
+                           7))
 
     # RAM
     add_leitura_RAM = (
         "INSERT INTO Monitoramento"
-        "(Data_captura, Hora_captura, Dado_Capturado, fkCompMonitorados, fkCompMoniExistentes, fkMaqCompMoni, fkEmpMaqCompMoni)"
-        "VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        "(Data_captura, Hora_captura, Dado_Capturado, fkCompMoniExistentes, fkMaqCompMoni, fkEmpMaqCompMoni)"
+        "VALUES (%s, %s, %s, %s, %s, %s)"
     )
     bdLocal_cursor.execute(add_leitura_RAM, 
                           (data_atual, 
                           hora_atual, 
                           RAM, 
-                          2, 
                           3, 
-                          1, 
-                          1))
+                          7, 
+                          7))
 
     bdLocal_cursor.close()
 
@@ -71,19 +69,17 @@ while True:
                            str(hora_atual), 
                            CPU, 
                            1, 
-                           1, 
-                           1, 
-                           1))
+                           7, 
+                           7))
 
     # RAM
     bdServer_cursor.execute(add_leitura_RAM, 
                            (str(data_atual), 
                            str(hora_atual), 
                            RAM, 
-                           2, 
                            3, 
-                           1, 
-                           1))
+                           7, 
+                           7))
     
     bdServer_cursor.close()
 

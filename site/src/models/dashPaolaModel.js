@@ -173,30 +173,9 @@ function buscarMediasEmTempoRealDesempenho(idEmpresa) {
 }
 
 // kpi total
-function buscarUltimasTotal() {
-
-    instrucaoSql = ''
-
-    if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `
-        SELECT COUNT(*) AS TotalMaquinas FROM Maquinas WHERE fkEmpMaq = 1;
-        `;
-    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `
-        SELECT COUNT(*) AS TotalMaquinas FROM Maquinas WHERE fkEmpMaq = 1;
-        `;
-    } else {
-        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
-        return
-    }
-
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
-}
-
 function buscarUltimasTotalEmTempoReal() {
 
-    console.log(idEmpresa);
+    // console.log(idEmpresa);
 
     instrucaoSql = ''
 
@@ -225,6 +204,5 @@ module.exports = {
     buscarMedidasEmTempoRealRam,
     buscarUltimasMedidasDesempenhoMedia,
     buscarMediasEmTempoRealDesempenho,
-    buscarUltimasTotal,
     buscarUltimasTotalEmTempoReal
 };
