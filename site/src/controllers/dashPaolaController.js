@@ -58,9 +58,9 @@ function buscarUltimasMedidasRam(req, res) {
 }
 
 function buscarMedidasEmTempoRealRam(req, res) {
-
     
     var idEmpresa =  req.params.idEmpresa;
+    console.log("ID DA EMPRESAAAA ------------->", idEmpresa)
 
     console.log(`Recuperando medidas em tempo real`);
 

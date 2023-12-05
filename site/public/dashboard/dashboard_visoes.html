@@ -192,8 +192,8 @@
           valoresKpiMax[0].innerHTML = (registro.usoMax) + "%";
         }
         if (registro.tipo === "RAM") {
-          valoresKpiDesempenho[1].innerHTML = (registro.usoMedio) + "%";
-          valoresKpiMax[1].innerHTML = (registro.usoMax) + "%";
+          valoresKpiDesempenho[1].innerHTML = (registro.usoMedio);
+          valoresKpiMax[1].innerHTML = (registro.usoMax);
         }
       }
 
@@ -201,31 +201,33 @@
     }
 
     function atualizarGraficoDesempenhoMedia() {
-      fetch(`/dashPaola/tempoRealDesempenhoMedia/`, { cache: 'no-store' }).then(function (response) {
-        if (response.ok) {
-          response.json().then(function (novoRegistro) {
-            console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
-            valoresKpiDesempenho = [KpiCpuPaola, KpiRamPaola]
-            valoresKpiMax = [KpiMaxCpuPaola, KpiMaxRamPaola]
+      fetch(`/dashPaola/tempoRealDesempenhoMedia/`, { cache: 'no-store' })
+        .then(function (response) {
+          if (response.ok) {
+            response.json().then(function (novoRegistro) {
+              console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
+              valoresKpiDesempenho = [KpiCpuPaola, KpiRamPaola];
+              valoresKpiMax = [KpiMaxCpuPaola, KpiMaxRamPaola];
 
-            for (i = 0; i < novoRegistro.length; i++) {
-              var dados = novoRegistro[i];
-              if (dados.tipo === "CPU") {
-                valoresKpiDesempenho[0].innerHTML = (registro.usoMedio) + "%";
-                valoresKpiMax[0].innerHTML = (registro.usoMax) + "%";
+              for (let i = 0; i < novoRegistro.length; i++) {
+                var dados = novoRegistro[i];
+                if (dados.tipo === "CPU") {
+                  valoresKpiDesempenho[0].innerHTML = `${dados.usoMedio}%`;
+                  valoresKpiMax[0].innerHTML = `${dados.usoMax}%`;
+                }
+                if (dados.tipo === "RAM") {
+                  valoresKpiDesempenho[1].innerHTML = `${dados.usoMedio}`;
+                  valoresKpiMax[1].innerHTML = `${dados.usoMax}`;
+                }
               }
-              if (dados.tipo === "RAM") {
-                valoresKpiDesempenho[1].innerHTML = (registro.usoMedio) + "%";
-                valoresKpiMax[1].innerHTML = (registro.usoMax) + "%";
-              }
-            }
-            proximaAtualizacaoDesempenho = setTimeout(() => atualizarGraficoDesempenhoMedia(), 5000);
-          });
-        } else {
-          console.error('Nenhum dado encontrado ou erro na API');
-          proximaAtualizacaoDesempenho = setTimeout(() => atualizarGraficoDesempenhoMedia(), 2000);
-        }
-      })
+
+              proximaAtualizacaoDesempenho = setTimeout(() => atualizarGraficoDesempenhoMedia(), 5000);
+            });
+          } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+            proximaAtualizacaoDesempenho = setTimeout(() => atualizarGraficoDesempenhoMedia(), 2000);
+          }
+        })
         .catch(function (error) {
           console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
         });
@@ -273,7 +275,7 @@
               console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
               resposta.reverse();
 
-              plotarDadosGrafico(resposta);
+              plotarDadosGrafico(resposta, idEmpresa);
             });
           } else {
             console.error("Nenhum dado encontrado ou erro na API");
@@ -291,7 +293,6 @@
       console.log('iniciando plotagem do gráfico...')
 
       let labels = [];
-
       let dados = {
         labels: labels,
         datasets: [{
@@ -321,8 +322,7 @@
         console.log(dados.datasets)
         console.log('----------------------------------------------')
       }
-
-      // Criando estrutura para plotar gráfico - config
+      
       const config = {
         type: 'line',
         data: dados,
@@ -332,41 +332,48 @@
       let chartMediaCPU = new Chart(
         document.getElementById(`graficoCpuPaola`),
         config
-      );
+      );    
 
       setTimeout(() => atualizarGraficoMediaCPU(idEmpresa, dados, chartMediaCPU), 2000);
     }
 
     function atualizarGraficoMediaCPU(idEmpresa, dados, chartMediaCPU) {
+    console.log("ID DA EMPRESAAAA ------------->", idEmpresa)
 
-      fetch(`/dashPaola/graficoAtualizarCPU/${idEmpresa}`, { cache: 'no-store' }).then(function (response) {
-        if (response.ok) {
-          response.json().then(function (novoRegistro) {
+      fetch(`/dashPaola/graficoAtualizarCPU/${idEmpresa}`, { cache: 'no-store' })
+        .then(function (response) {
+          if (response.ok) {
+            response.json().then(function (novoRegistro) {
+              const novaHoraCaptura = novoRegistro[0].horaCaptura;
 
-            if (novoRegistro[0].horaCaptura == dados.datasets[0].data.horaCaptura) {
-              console.log("---------------------------------------------------------------")
-              console.log("Como não há dados novos para captura, o gráfico não atualizará.")
-              console.log("Horário do novo dado capturado:")
-              console.log(novoRegistro[0].horaCaptura)
-              console.log("Horário do último dado capturado:")
-              console.log(dados.labels[dados.labels.length - 1])
-              console.log("---------------------------------------------------------------")
-            } else {
-              dados.labels.shift();
-              dados.labels.push(novoRegistro[0].horaCaptura); 
+              // const novaHoraCaptura = new Date(novoRegistro.horaCaptura).toISOString().slice(11, 19);
 
-              dados.datasets[0].data.shift(); 
-              dados.datasets[0].data.push(novoRegistro[0].mediaCPU); 
+              if (novaHoraCaptura === dados.labels[dados.labels.length - 1]) {
+                console.log("---------------------------------------------------------------")
+                console.log("Como não há dados novos para captura, o gráfico não atualizará.")
+                console.log("Horário do novo dado capturado:")
+                console.log(novaHoraCaptura)
+                console.log("Horário do último dado capturado:")
+                console.log(dados.labels[dados.labels.length - 1])
+                console.log("---------------------------------------------------------------")
+              } else {
+                dados.labels.shift();
+                dados.labels.push(novaHoraCaptura);
 
-              chartMediaCPU.update();
-            }
+                dados.datasets[0].data.shift();
+                dados.datasets[0].data.push(novoRegistro[0].mediaCPU);
+
+                chartMediaCPU.update();
+              }
+
+              proximaAtualizacao = setTimeout(() => atualizarGraficoMediaCPU(idEmpresa, dados, chartMediaCPU), 2000);
+            });
+          } else {
+            console.error('Nenhum dado encontrado ou erro na API');
             proximaAtualizacao = setTimeout(() => atualizarGraficoMediaCPU(idEmpresa, dados, chartMediaCPU), 2000);
-          });
-        } else {
-          console.error('Nenhum dado encontrado ou erro na API');
-         proximaAtualizacao = setTimeout(() => atualizarGraficoMediaCPU(idEmpresa, dados, chartMediaCPU), 2000);
-        }
-      }).catch(function (error) {
+          }
+        })
+        .catch(function (error) {
           console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
         });
     }
@@ -398,7 +405,6 @@
       console.log('iniciando plotagem do gráfico...')
 
       let labels = [];
-
       let dados = {
         labels: labels,
         datasets: [{
@@ -454,39 +460,27 @@
             console.log(`Dados atuais do gráfico:`);
             console.log(dados);
 
-            // let avisoCaptura = document.getElementById(`avisoCaptura${disco}`)
-            // avisoCaptura.innerHTML = ""
-
-            if (novoRegistro[0].horaCaptura == dados.datasets[0].horaCaptura) {
-              console.log("---------------------------------------------------------------")
-              console.log("Como não há dados novos para captura, o gráfico não atualizará.")
-              // avisoCaptura.innerHTML = "<i class='fa-solid fa-triangle-exclamation'></i> Foi trazido o dado mais atual capturado pelo sensor. <br> Como não há dados novos a exibir, o gráfico não atualizará."
-              console.log("Horário do novo dado capturado:")
-              console.log(novoRegistro[0].horaCaptura)
-              console.log("Horário do último dado capturado:")
-              console.log(dados.labels[dados.labels.length - 1])
-              console.log("---------------------------------------------------------------")
+            if (novoRegistro[0].horaCaptura === dados.labels[dados.labels.length - 1]) {
+              console.log("---------------------------------------------------------------");
+              console.log("Como não há dados novos para captura, o gráfico não atualizará.");
+              console.log("Horário do novo dado capturado:");
+              console.log(novoRegistro[0].horaCaptura);
+              console.log("Horário do último dado capturado:");
+              console.log(dados.labels[dados.labels.length - 1]);
+              console.log("---------------------------------------------------------------");
             } else {
-              // tirando e colocando valores no gráfico
-              dados.labels.shift(); // apagar o primeiro
+              dados.labels.shift(); 
               dados.labels.push(novoRegistro[0].horaCaptura);
 
               dados.datasets[0].data.shift();
-              dados.datasets[0].data.push(novoRegistro[0].mediaRAM); // incluir uma nova medida de umidade
-
-              // dados.datasets[1].data.shift();  // apagar o primeiro de temperatura
-              // dados.datasets[1].data.push(novoRegistro[0].temperatura); // incluir uma nova medida de temperatura
+              dados.datasets[0].data.push(novoRegistro[0].mediaRAM); 
 
               chartMediaRAM.update();
             }
 
-            // Altere aqui o valor em ms se quiser que o gráfico atualize mais rápido ou mais devagar
-            // proximaAtualizacao = setTimeout(() => atualizarGrafico(disco, dados, myChart), 2000);
           });
         } else {
           console.error('Nenhum dado encontrado ou erro na API');
-          // Altere aqui o valor em ms se quiser que o gráfico atualize mais rápido ou mais devagar
-          // proximaAtualizacao = setTimeout(() => atualizarGrafico(disco, dados, myChart), 2000);
         }
       })
         .catch(function
@@ -497,7 +491,6 @@
     }
 
   }
-
 
   // individual Rafa
   function carregarRafael() {
