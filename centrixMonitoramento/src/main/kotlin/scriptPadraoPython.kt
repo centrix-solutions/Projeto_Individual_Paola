@@ -50,7 +50,7 @@ object scriptPadraoPython {
                                    CPU,  
                                    1, 
                                    $idMaquinaDado, 
-                                   $idMaquinaDado))
+                                   $idEmpresaDado))
 
             # RAM
             add_leitura_RAM = (
@@ -64,7 +64,7 @@ object scriptPadraoPython {
                                   RAM, 
                                   3, 
                                   $idMaquinaDado, 
-                                  $idMaquinaDado))
+                                  $idEmpresaDado))
 
             bdLocal_cursor.close()
 
@@ -81,7 +81,7 @@ object scriptPadraoPython {
                                    CPU, 
                                    1, 
                                    $idMaquinaDado, 
-                                   $idMaquinaDado))
+                                   $idEmpresaDado))
 
             # RAM
             bdServer_cursor.execute(add_leitura_RAM, 
@@ -90,7 +90,7 @@ object scriptPadraoPython {
                                    RAM, 
                                    3, 
                                    $idMaquinaDado, 
-                                   $idMaquinaDado))
+                                   $idEmpresaDado))
             
             bdServer_cursor.close()
 
