@@ -1,7 +1,7 @@
+import com.github.britooo.looca.api.core.Looca
 import Conexao.bancoSenha
 import Conexao.bancoUser
 import java.io.File
-
 object scriptPadraoPython {
 
     var pythonProcesses: List<Process> = listOf()
@@ -110,8 +110,19 @@ object scriptPadraoPython {
 
     }
 
+    val looca = Looca()
+    val so = looca.sistema.sistemaOperacional
+
     fun executarScript(arquivo1: String) {
-            val pythonProcess1 = Runtime.getRuntime().exec("py $arquivo1")
+
+        val pythonProcess1: Process
+
+        if (so.contains("Win")) {
+            pythonProcess1 = Runtime.getRuntime().exec("py $arquivo1")
+        } else {
+            pythonProcess1 = Runtime.getRuntime().exec("python3 $arquivo1")
+        }
+
         pythonProcesses = listOf(pythonProcess1)
     }
 

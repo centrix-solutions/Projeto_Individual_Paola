@@ -1,11 +1,20 @@
 import org.apache.commons.dbcp2.BasicDataSource
 import org.springframework.jdbc.core.JdbcTemplate
-
+import com.github.britooo.looca.api.core.Looca
 object Conexao {
 
     //substitua aqui
     var bancoUser = "root"
-    var bancoSenha = "#Gf53359131851"
+    
+
+    private val looca = Looca()
+    private val so = looca.sistema.sistemaOperacional
+
+    val bancoSenha = if (so.contains("Win")){
+         "#Gf53359131851"
+    } else {
+        "urubu100"
+    }
 
     var bancoUserServer = "sa"
     var bancoSenhaServer = "centrix"
