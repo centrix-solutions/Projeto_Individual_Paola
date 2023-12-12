@@ -1,7 +1,5 @@
 <img src="header-paola.png">
 
-Este repositório contém o código-fonte de um Dashboard de Desempenho que oferece uma visão detalhada do uso da CPU e RAM em um ambiente específico. O projeto é construído usando HTML, CSS e JavaScript, com a integração de bibliotecas como Chart.js e SweetAlert.
-
 ## Introdução
 
 O Dashboard de Desempenho fornece uma interface intuitiva para monitorar o desempenho médio da CPU e RAM, apresentando gráficos e indicadores-chave de desempenho (KPIs). Ele é projetado para oferecer uma compreensão clara do comportamento desses componentes essenciais em um ambiente de computação.
