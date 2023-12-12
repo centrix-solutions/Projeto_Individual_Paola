@@ -10,13 +10,6 @@ O Dashboard de Desempenho fornece uma interface intuitiva para monitorar o desem
 - **Indicadores-Chave de Desempenho (KPIs):** Obtenha métricas importantes, como desempenho da CPU, desempenho da RAM, total de máquinas, maior valor da CPU e maior valor da RAM.
 - **Explicação Detalhada:** Compreenda melhor o desempenho da CPU e RAM por meio de uma explicação detalhada, incluindo conceitos fundamentais e uma tabela informativa.
 
-## Pré-Requisitos
-
-Antes de começar, certifique-se de ter os seguintes requisitos instalados:
-
-- Navegador web moderno (recomendado: Google Chrome, Mozilla Firefox)
-- Conexão à internet para carregar bibliotecas externas
-
 ## Tecnologias Utilizadas
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
