@@ -154,16 +154,6 @@ CREATE TABLE Alertas (
     FOREIGN KEY (FKMonitoramento) REFERENCES Monitoramento (idMonitoramento)
 );
 
-INSERT INTO Empresa (Nome_fantasia, CNPJ, Responsavel_legal, CEP, numero, complemento)
-VALUES
-   ('Empresa A', '12.345.678/9012-34', 'Responsável A', '12345-678', 123, 'Complemento A'),
-('Empresa B', '98.765.432/1098-76', 'Responsável B', '54321-876', 456, 'Complemento B'),
-     ('Empresa C', '56.789.012/3456-78', 'Responsável C', '98765-432', 789, 'Complemento C');
-
-INSERT INTO Funcionario (nome, email, senha, fkEmpFunc, fkNivelAcesso)
-VALUES
-    ('Funcionário 1', 'a', 'b', 1, 4);
-
 INSERT INTO ComponentesQuePrestamosServico (nome) VALUES
     ('CPU'),
     ('DISCO'),
@@ -172,4 +162,40 @@ INSERT INTO ComponentesQuePrestamosServico (nome) VALUES
     ('Taxa Dowload'),
     ('Taxa Upload'),
     ('Janelas do Sistema'),
-    ('Processos');
+    ('Processos'),
+    ('Latência');
+
+    CREATE TABLE info_sistema (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    data_hora DATETIME DEFAULT GETDATE(),
+    cpu_cores INT,
+    ram_total INT,
+    disco_total INT,
+    fkMaquina INT,
+    FOREIGN KEY (fkMaquina) REFERENCES Maquinas(idMaquina)
+);
+
+CREATE TABLE metricas_tempo_real (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    data_hora DATETIME DEFAULT GETDATE(),
+    cpu_percent FLOAT,
+    ram_percent FLOAT,
+    disco_percent FLOAT,
+    fkMaquina INT,
+    FOREIGN KEY (fkMaquina) REFERENCES Maquinas(idMaquina)
+);
+
+CREATE TABLE Processo(
+    idProcesso INT IDENTITY(1,1) PRIMARY KEY,
+    idProcessoMaquina INT unique,
+    PID INT,
+    titulo VARCHAR(255),
+    fkCompMonitoradosProc INT,
+    CONSTRAINT fkCompMonitoradosProc FOREIGN KEY (fkCompMonitoradosProc) REFERENCES Componentes_Monitorados (idComponente_monitorado),
+    fkCompExistentesProc INT,
+    CONSTRAINT fkCompExistentesProc FOREIGN KEY (fkCompExistentesProc) REFERENCES ComponentesQuePrestamosServico (idComponentes_Que_PrestamosServicos),
+    fkMaqProc INT,
+    CONSTRAINT fkMaqProc FOREIGN KEY (fkMaqProc) REFERENCES Maquinas (idMaquina),
+    fkEmpProc INT,
+    CONSTRAINT fkEmpProc FOREIGN KEY (fkEmpProc) REFERENCES Empresa (idEmpresa)
+);

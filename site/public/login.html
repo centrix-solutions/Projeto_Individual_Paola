@@ -135,8 +135,8 @@
 </html>
 <script>
     // tirar antes de apresentar a sprint
-    email_input.value = "paola@email.com";
-    senha_input.value = "59794277";
+    email_input.value = "alexandre@gmail.com";
+    senha_input.value = "a@12345678";
     function verificar() {
         var emailVar = email_input.value
         var senhaVar = senha_input.value
@@ -182,22 +182,17 @@
                         setTimeout(function () {
                             window.location = windowLocation;
                         }, 1000);
-
                     });
-
                 } else {
-
                     console.log("Houve um erro ao tentar realizar o login!");
 
                     resposta.text().then(texto => {
                         console.error(texto);
                     });
                 }
-
             }).catch(function (erro) {
                 console.log(erro);
             })
-
             return false;
         }
     }

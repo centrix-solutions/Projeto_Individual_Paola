@@ -1,28 +1,30 @@
 var notificacoes = [];
 
-function buscarImportanciaMaquina(idMaquina, idEmpresa) {
-    buscarTotalMaquinasEmpresa(idEmpresa)
-        .then(totalMaquinas => {
+function buscarImportanciaMaquina(fkAndarDeTrabalho) {
+    contarMaquinasAndar(fkAndarDeTrabalho)
+        .then(totalMaquinasAndar => {
             return new Promise((resolve) => {
-                fetch(`/rede/importancia/${idMaquina}`)
+                fetch(`/rede/importancia/${fkAndarDeTrabalho}`)
                     .then(resposta => resposta.json()) // Transforma em um Json, melhor formato?
                     .then(resposta => {
-                        const i = totalMaquinas;
+                        console.log(resposta)
                         var idMaquinaAnterior = 0
                         // AQUI O ID É 1
+                        notificacoes = [];
                         separar();
                         async function separar() {
-                            for (; i > notificacoes.length;) {
-                                if (idMaquina != idMaquinaAnterior) {
+                            for (i = totalMaquinasAndar; i > notificacoes.length;) {
+                                if (resposta.idMaquina != idMaquinaAnterior) {
                                     console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
-                                    var importanciaAnterior = resposta[0].Importancia;
-                                    var novaImportancia = resposta[0].Importancia;
+                                    var importanciaAnterior = resposta[notificacoes.length].Importancia;
+                                    var novaImportancia = resposta[notificacoes.length].Importancia;
+                                    var idMaquina = resposta[notificacoes.length].idMaquina
 
-                                    if (notificacoes.length < totalMaquinas) {
+                                    if (notificacoes.length < totalMaquinasAndar) {
                                         notificacoes.push({
-                                            idMaquina,
-                                            importancia: resposta.Importancia
+                                            idMaquina: idMaquina,
+                                            importancia: resposta[notificacoes.length].Importancia
                                         });
                                     } else if (novaImportancia !== importanciaAnterior) {
                                         // A importância mudou, execute o bloco de código aqui
@@ -31,11 +33,10 @@ function buscarImportanciaMaquina(idMaquina, idEmpresa) {
                                         // Atualize a importância anterior com a nova importância
                                         importanciaAnterior = novaImportancia;
                                         notificacoes.push({
-                                            idMaquina,
-                                            importancia: resposta.Importancia
+                                            idMaquina: idMaquina,
+                                            importancia: resposta[notificacoes.length].Importancia
                                         });
                                     }
-                                    console.log(novaImportancia)
 
                                     notificar(novaImportancia, idMaquina)
                                     idMaquinaAnterior = idMaquina
@@ -54,17 +55,17 @@ function buscarImportanciaMaquina(idMaquina, idEmpresa) {
         });
 
     function notificar(novaImportancia, idMaquina) {
+        console.log(novaImportancia)
 
         var importancia = novaImportancia;
         var grauDeAviso = "";
 
-
         var listar = {
-            Alta: {
+            Perigo: {
                 classe: 'cor-importancia critico',
                 grau: 'critico'
             },
-            Média: {
+            Atenção: {
                 classe: 'cor-importancia cuidado',
                 grau: 'cuidado'
             }
@@ -84,78 +85,45 @@ function buscarImportanciaMaquina(idMaquina, idEmpresa) {
             if (document.getElementById(`importancia_${idMaquina}`) != null) {
                 document.getElementById(`importancia_${idMaquina}`).innerHTML = importancia;
             }
-
-            if (document.getElementById(`corAlerta_${idMaquina}`)) {
-                var card = document.getElementById(`corAlerta_${idMaquina}`);
-                card.className = classe_listagem;
-            }
         }
     }
 
-    function exibirAlerta(importancia, idMaquina, grauDeAviso, grauDeAvisoCor) {
+    function exibirAlerta(importancia, idMaquina, grauDeAvisoCor) {
+        var card_container = document.getElementById("cards_container");
+        var card = document.getElementById(`card_${idMaquina}`);
 
-        var card = document.getElementById(`corAlerta_${idMaquina}`);
         if (card == null) {
             // Se o card não existe, crie-o
-            var cardContainer = document.createElement('div');
-            cardContainer.id = `cardContainer_${idMaquina}`;
-            cardContainer.className = 'card-container';
-            document.body.appendChild(cardContainer);
-
             card = document.createElement('div');
-            card.id = `corAlerta_${idMaquina}`;
+            card.id = `card_${idMaquina}`;
             card.className = 'card';
-            cardContainer.appendChild(card);
+            card.innerHTML = transformarEmDiv({
+                importancia,
+                idMaquina,
+                grauDeAvisoCor
+            });
+            card_container.appendChild(card);
+            card_container.appendChild(document.createElement(`br`))
         }
         card.innerHTML = transformarEmDiv({
             importancia,
             idMaquina,
-            grauDeAviso,
             grauDeAvisoCor
-        });
-    }
-
-    function removerAlerta(idMaquina) {
-        notificacoes = notificacoes.filter(item => item.idMaquina != idMaquina);
-        exibirCards(idMaquina);
-    }
-
-    function exibirCards(idMaquina) {
-        // Encontre o contêiner para esta máquina
-        var cardContainer = document.getElementById(`cardContainer_${idMaquina}`);
-
-        if (!cardContainer) {
-            // Se o contêiner para este idMaquina não existir, crie um novo.
-            cardContainer = document.createElement('div');
-            cardContainer.id = `cardContainer_${idMaquina}`;
-            cardContainer.className = 'card-container';
-            document.body.appendChild(cardContainer);
-        } else {
-            // Limpe o conteúdo existente
-            cardContainer.innerHTML = '';
-        }
-
-        // Adicione os cartões
-        notificacoes.forEach(notificacao => {
-            if (notificacao.idMaquina === idMaquina) {
-                cardContainer.innerHTML += transformarEmDiv(notificacao);
-            }
         });
     }
 
     function transformarEmDiv({
         idMaquina,
         importancia,
-        grauDeAviso,
         grauDeAvisoCor
     }) {
         // Crie o HTML para o card individual.
+        console.log(importancia)
         var cardHTML = `
             <div class="card">
                 <div class="container_card">
-                    <span>Importância do Alarme:</span>
-                    <div class="alerta ${grauDeAvisoCor}"><h4>${importancia}</h4></div>
-                    <p>Computador com o Id: <span>${idMaquina}</span></p>
+                    <div class="alerta ${grauDeAvisoCor}">!!!</div>
+                    <p>Máquina com o Id:<span>${idMaquina} em \r\n${importancia}</span></p>
                 </div>
             </div>
             <br>
@@ -163,17 +131,10 @@ function buscarImportanciaMaquina(idMaquina, idEmpresa) {
         return cardHTML;
     }
 
-    function atualizacaoPeriodica() {
-        // JSON.parse(sessionStorage.AQUARIOS).forEach(item => {
-        //     obterdados(item.id)
-        // });
-        setTimeout(atualizacaoPeriodica, 5000);
-    }
-
     // PARA PODER RECUPERAR O COUNT DAS MAQUINAS
-    async function buscarTotalMaquinasEmpresa(idEmpresa) {
+    async function contarMaquinasAndar(fkAndarDeTrabalho) {
         return new Promise((resolve, reject) => {
-            fetch(`/rede/maqEmp/${idEmpresa}`)
+            fetch(`/rede/maqEmp/${fkAndarDeTrabalho}`)
                 .then(resposta => resposta.text())
                 .then(resposta => {
                     resolve(resposta)

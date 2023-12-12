@@ -2,9 +2,48 @@ var database = require("../database/config");
 
 function buscarComputadores(idEmpresa, idAndar) {
     if (idAndar == null) {
-        var instrucao = `SELECT Maquinas.idMaquina, Maquinas.Sistema_Operacional, Maquinas.Id_do_dispositivo, Maquinas.posicaoX, Maquinas.posicaoY, Maquinas.fkEmpMaq, Maquinas.fkAndarDeTrabalho, Login.dataHoraEntrada, Login.dataHoraSaida, Login.Email FROM Maquinas LEFT JOIN Login on Maquinas.idMaquina = Login.idMaquina WHERE fkEmpMaq = ${idEmpresa} AND fkAndarDeTrabalho IS NULL;`;
+        var instrucao = `SELECT 
+        Maquinas.idMaquina, 
+        MAX(Maquinas.Sistema_Operacional) as Sistema_Operacional, 
+        MAX(Maquinas.Id_do_dispositivo) as Id_do_dispositivo, 
+        MAX(Maquinas.posicaoX) as posicaoX, 
+        MAX(Maquinas.posicaoY) as posicaoY, 
+        MAX(Maquinas.fkEmpMaq) as fkEmpMaq, 
+        MAX(Maquinas.fkAndarDeTrabalho) as fkAndarDeTrabalho, 
+        MAX(Login.dataHoraEntrada) as dataHoraEntrada, 
+        MAX(Login.dataHoraSaida) as dataHoraSaida, 
+        MAX(Login.Email) as Email 
+    FROM 
+        Maquinas 
+    LEFT JOIN 
+        Login ON Maquinas.idMaquina = Login.idMaquina 
+    WHERE 
+        fkEmpMaq = ${idEmpresa} 
+        AND fkAndarDeTrabalho IS NULL 
+    GROUP BY 
+        Maquinas.idMaquina;
+    `
     } else {
-        var instrucao = `SELECT Maquinas.idMaquina, Maquinas.Sistema_Operacional, Maquinas.Id_do_dispositivo, Maquinas.posicaoX, Maquinas.posicaoY, Maquinas.fkEmpMaq, Maquinas.fkAndarDeTrabalho, Login.dataHoraEntrada, Login.dataHoraSaida, Login.Email FROM Maquinas LEFT JOIN Login on Maquinas.idMaquina = Login.idMaquina WHERE fkEmpMaq = ${idEmpresa} AND fkAndarDeTrabalho = ${idAndar}`;
+        var instrucao = `SELECT 
+        Maquinas.idMaquina, 
+        MAX(Maquinas.Sistema_Operacional) as Sistema_Operacional, 
+        MAX(Maquinas.Id_do_dispositivo) as Id_do_dispositivo, 
+        MAX(Maquinas.posicaoX) as posicaoX, 
+        MAX(Maquinas.posicaoY) as posicaoY, 
+        MAX(Maquinas.fkEmpMaq) as fkEmpMaq, 
+        MAX(Maquinas.fkAndarDeTrabalho) as fkAndarDeTrabalho, 
+        MAX(Login.dataHoraEntrada) as dataHoraEntrada, 
+        MAX(Login.dataHoraSaida) as dataHoraSaida, 
+        MAX(Login.Email) as Email 
+    FROM 
+        Maquinas 
+    LEFT JOIN 
+        Login ON Maquinas.idMaquina = Login.idMaquina 
+    WHERE 
+        fkEmpMaq = ${idEmpresa} 
+        AND fkAndarDeTrabalho = ${idAndar} 
+    GROUP BY 
+        Maquinas.idMaquina;`
     }
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);

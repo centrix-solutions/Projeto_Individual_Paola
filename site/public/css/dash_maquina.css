@@ -138,7 +138,8 @@ body {
     margin-top: 10px;
     border: black solid 1px;
 }
-.select_andares:hover{
+
+.select_andares:hover {
     cursor: pointer;
 }
 
@@ -154,16 +155,17 @@ body {
     color: white;
     font-weight: bolder;
     border: black solid 1px;
-    
+
 }
 
 .botao_deletar :active {
     box-shadow: 0 0 1rem #5A34A9;
 }
 
-.botao_deletar:hover{
+.botao_deletar:hover {
     cursor: pointer;
 }
+
 /* .bloco_info button {
     display: flex;
     justify-content: center;
@@ -201,6 +203,43 @@ body {
     color: white;
     border-right: 1px solid #ccc;
     height: 45vh;
+    display: flex;
+}
+
+.painel-container {
+    width: 90%;
+}
+
+.div_bola {
+    display: flex;
+    align-items: center;
+}
+
+.bola {
+    height: 10px;
+    width: 10px;
+    border-radius: 100%;
+    margin-right: 2%;
+}
+
+.verde {
+    background-color: lime;
+}
+
+.laranja {
+    background-color: orange;
+}
+
+.vermelha {
+    background-color: red;
+}
+
+.roxa {
+    background-color: blueviolet;
+}
+
+.azul {
+    background-color: blue;
 }
 
 .area_barra {
@@ -221,12 +260,31 @@ progress::-webkit-progress-bar {
     border-radius: 8px;
 }
 
-progress::-webkit-progress-value {
+
+/* .barra_painel::-webkit-progress-value {
     background: linear-gradient(90deg, #A36BFD 0%, #6B8AEB 103.21%);
+    border-radius: 8px;
+}  */
+
+progress[name="verde"]::-webkit-progress-value {
+    background-color: lime;
+    border-radius: 8px;
+}
+
+progress[name="laranja"]::-webkit-progress-value {
+    background-color: orange;
+    border-radius: 8px;
+}
+
+progress[name="vermelho"]::-webkit-progress-value {
+    background-color: red;
     border-radius: 8px;
 }
 
 
+/* progress::-moz-progress-bar {
+    background: linear-gradient(90deg, lime 0%, orange 25%, red 75%);
+}  */
 .painel h2 {
     margin: 0.5rem;
     /* text-align: left; */
@@ -276,5 +334,61 @@ progress::-webkit-progress-value {
 #grafico_ram {
     background-color: #000000;
     border-radius: 10px;
-    
+
+}
+
+/* Estilo para o pop-up de informações */
+.popup {
+    display: none;
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 80%;
+    max-height: 80%;
+    overflow: auto;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.9);
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+/* Estilo para os parágrafos dentro do pop-up */
+.popup p {
+    margin-bottom: 15px;
+}
+
+/* Estilo para o botão de fechar o pop-up */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+/* Efeito de hover para o botão de fechar o pop-up */
+.close:hover {
+    transform: scale(2);
+}
+
+/* Estilo para a imagem do botão de pop-up */
+.botao-popup img {
+    width: 30px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+/* Efeito de hover para a imagem do botão de pop-up */
+.botao-popup img:hover {
+    transform: scale(1.5);
+}
+
+/* Estilo para a área do botão de pop-up */
+.botao-popup {
+    display: flex;
+    justify-content: end;
+    padding: 5%;
 }

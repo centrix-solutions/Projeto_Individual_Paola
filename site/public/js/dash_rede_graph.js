@@ -95,11 +95,11 @@ function obterDadosGraficoStacked(canvaId) {
                     dadosAtencaoStacked.AlertasAtencao = novoRegistro.AlertasAtencao;
                     ctx2.data.datasets[0].data[0] = novoRegistro.AlertasAtencao;
                 }
-                setTimeout(atualizarGraficoStacked, 4000);
+                setTimeout(atualizarGraficoStacked, 2000);
             })
             .catch(error => {
                 console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`);
-                setTimeout(atualizarGraficoStacked, 4000);
+                setTimeout(atualizarGraficoStacked, 2000);
             });
 
         fetch(`/rede/alertaMes`, {
@@ -250,6 +250,7 @@ function obterDadosGraficoMeiaLua(fkAndarDeTrabalho, canvaId) {
                     if (dados[0] == undefined || dados[1] == undefined){
                         atualizarGraficoMeiaLua();
                     }
+                    sessionStorage.setItem('TotalMaquinasAndar', resposta[0].TotalMaquinas)
                     var subAlerta = Number(resposta[0].TotalMaquinas) - (Number(dados[0]) + Number(dados[1]))
                     dados.push(subAlerta);
                     i++
@@ -260,4 +261,45 @@ function obterDadosGraficoMeiaLua(fkAndarDeTrabalho, canvaId) {
                 console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`);
             });
     }
+}
+
+function buscarKPIAtencao(){
+    fetch(`/rede/kpiAtencao`, {
+        cache: 'no-store'
+    })
+    .then((response) => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('Erro na requisição.');
+        }
+    })  .then((resposta) => {
+        if (resposta[0] == undefined){
+            resposta[0] = 0
+            sessionStorage.setItem('KPIAtenção', resposta[0])
+        }else{
+            sessionStorage.setItem('KPIAtenção', resposta[0].IdAtencao)
+        }
+    })
+}
+
+function buscarKPIPerigo(){ 
+    fetch(`/rede/kpiPerigo`, {
+        cache: 'no-store'
+    })
+    .then((response) => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('Erro na requisição.');
+        }
+    })  .then((resposta) => {
+        if (resposta[0] == undefined){
+            resposta[0] = 0
+            sessionStorage.setItem('KPIPerigo', resposta[0])
+        }else{
+            sessionStorage.setItem('KPIPerigo', resposta[0].IdPerigo)
+        }
+        console.log(resposta)
+    })
 }

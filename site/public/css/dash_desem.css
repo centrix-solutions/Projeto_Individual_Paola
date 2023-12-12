@@ -1,0 +1,257 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+body {
+    margin: 0;
+}
+
+.container_principal {
+    height: 120vh;
+    display: flex;
+}
+
+.barra_lateral {
+    height: 120vh;
+}
+
+.area_dash {
+    width: 100%;
+    color: white;
+    background: linear-gradient(180deg, #4B3753 0%, #4B3753 0%, #4B3753 0.01%, rgba(90, 52, 169, 0.93) 9.09%,
+            #8565C9 18.18%, rgba(180, 153, 238, 0.96) 27.27%, rgba(170, 143, 225, 0.63) 39.58%,
+            rgba(206, 185, 249, 0.93) 50%, rgba(151, 116, 222, 0.68) 57.29%, rgba(161, 122, 243, 0.85) 64.58%,
+            rgba(167, 131, 242, 0.90) 70.31%, rgba(139, 89, 245, 0.63) 81.82%, #5A34A9 90.91%, rgba(75, 55, 83, 0.99) 100%);
+}
+
+.dash_superior {
+    height: 8vh;
+    margin: 1rem;
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+}
+
+.bem_vindo {
+    display: flex;
+    flex-direction: column;
+}
+
+.text_bemVindo1 {
+    font-size: 5vh;
+    font-weight: bolder;
+    padding: 1rem;
+}
+
+.text_bemVindo2 {
+    font-size: 4vh;
+}
+
+a{
+    font-style: none;
+    text-decoration: none;
+    color: white;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4); 
+    border-radius: 1rem;
+    
+  }
+  
+  /* Modal Content/Box */
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; 
+    padding: 20px;
+    border: none;
+    width: 60%; 
+    border-radius: 1rem;
+    color: #000000;
+  }
+  
+  .izinho {
+    padding: 2vh;
+  }
+
+  /* The Close Button */
+  .close {
+    color: #000000;
+    float: right;
+    font-size: 5vh;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .tabela {
+    width: 55vw;
+    height: 45vh;
+  }
+
+  .aa {
+    font-weight: bold;
+  }
+
+/*DIV CENTRAL*/
+.div_central {
+    height: 80vh;
+    display: flex;
+    justify-content: space-around;
+}
+
+.div_conteudo {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.menu_visoes {
+    height: 25vh;
+    width: 88vw;
+    background-color: #1E1E1E;
+    border-radius: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: center;
+    padding: 0.5rem;
+}
+
+.botao_visoes {
+    background-color: #8565C9;
+    height: 14vh;
+    width: 14vw;
+    margin: 1rem;
+    border-radius: 1rem;
+    padding: 1vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.botao_visoes:hover {
+    box-shadow: 0 0 1rem #bf8cd3;
+}
+
+.botao_visoes:active {
+    box-shadow: 0 0 1rem #4e3681;
+}
+
+/* Individual Paola */
+.div_individual {
+    height: 95vh;
+    width: 85vw;
+    background-color: #1E1E1E;
+    border-radius: 1rem;
+    padding: 1vh;
+    margin-top: 2rem;
+}
+
+#conteudoPaola{
+    height: 100%;
+    width: 100%;
+}
+
+.kpisPaola {
+    height: 22vh;
+    width: 95%;
+    margin: 1rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: center;
+}
+
+.kpiPaola {
+    height: 15vh;
+    width: 12.5vw;
+    background-color: #231F40;
+    box-shadow: 0 0 1.2rem #403d46;
+    border-radius: 1rem;
+    padding: 1vh;
+}
+
+.tituloPaolaKpi {
+    width: 100%;
+    height: 4vh;
+    color: whitesmoke;
+    font-size: 2.5vh;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#desempenhoCpuPaola, #desempenhoRamPaola,
+#totalMaquinaPaola, #maxCpuPaola, #maxRamPaola{
+    color: whitesmoke;
+    width: 100%;
+    height: 8vh;
+    font-size: 4.5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.inferiorPaola {
+    height: 65vh;
+    width: 95%;
+    margin: 1rem;
+    border-radius: 1rem;
+    padding: 1vh;
+}
+
+.tituloPaola {
+    width: 100%;
+    height: 4vh;
+    color: white;
+    font-size: 3vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.graficosPaola{
+    height: 50vh;
+    display: flex;
+    justify-content: space-around;
+}
+
+.graficosPaola h1 {
+    font-size: 3vh;
+    font-weight: 300;
+}
+
+.chartPaola {
+    width: 42vw;
+}
+
+#graficoCpuPaola,
+#graficoRamPaola {
+    background-color: #000000;
+    border-radius: 1rem;
+    margin: 1vh;
+    box-shadow: 0 0 1rem #403d46;
+}

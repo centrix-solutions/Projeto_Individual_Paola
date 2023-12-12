@@ -9,23 +9,72 @@ function mudarAndarMaquina(IDMaquina, IDAndar) {
 }
 
 function buscarComputadores(idEmpresa, idAndar) {
-
-    if(idAndar == 0){
-        var instrucao = `SELECT * FROM Maquinas WHERE fkEmpMaq = ${idEmpresa} AND fkAndarDeTrabalho IS NULL;`
+    if (idAndar == null) {
+        var instrucao = `SELECT 
+        Maquinas.idMaquina, 
+        MAX(Maquinas.Sistema_Operacional) as Sistema_Operacional, 
+        MAX(Maquinas.Id_do_dispositivo) as Id_do_dispositivo, 
+        MAX(Maquinas.posicaoX) as posicaoX, 
+        MAX(Maquinas.posicaoY) as posicaoY, 
+        MAX(Maquinas.fkEmpMaq) as fkEmpMaq, 
+        MAX(Maquinas.fkAndarDeTrabalho) as fkAndarDeTrabalho, 
+        MAX(Login.dataHoraEntrada) as dataHoraEntrada, 
+        MAX(Login.dataHoraSaida) as dataHoraSaida, 
+        MAX(Login.Email) as Email 
+    FROM 
+        Maquinas 
+    LEFT JOIN 
+        Login ON Maquinas.idMaquina = Login.idMaquina 
+    WHERE 
+        fkEmpMaq = ${idEmpresa} 
+        AND fkAndarDeTrabalho IS NULL 
+    GROUP BY 
+        Maquinas.idMaquina;
+    `
     } else {
-        var instrucao = `SELECT * FROM Maquinas WHERE fkEmpMaq = ${idEmpresa} AND fkAndarDeTrabalho = ${idAndar};`
+        var instrucao = `SELECT 
+        Maquinas.idMaquina, 
+        MAX(Maquinas.Sistema_Operacional) as Sistema_Operacional, 
+        MAX(Maquinas.Id_do_dispositivo) as Id_do_dispositivo, 
+        MAX(Maquinas.posicaoX) as posicaoX, 
+        MAX(Maquinas.posicaoY) as posicaoY, 
+        MAX(Maquinas.fkEmpMaq) as fkEmpMaq, 
+        MAX(Maquinas.fkAndarDeTrabalho) as fkAndarDeTrabalho, 
+        MAX(Login.dataHoraEntrada) as dataHoraEntrada, 
+        MAX(Login.dataHoraSaida) as dataHoraSaida, 
+        MAX(Login.Email) as Email 
+    FROM 
+        Maquinas 
+    LEFT JOIN 
+        Login ON Maquinas.idMaquina = Login.idMaquina 
+    WHERE 
+        fkEmpMaq = ${idEmpresa} 
+        AND fkAndarDeTrabalho = ${idAndar} 
+    GROUP BY 
+        Maquinas.idMaquina;`
     }
-    console.log("Executando a instrução SQL: \n" + instrucao)
-    return database.executar(instrucao)
-
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
 }
 
 function deletarComputador(IDMaquina) {
-     
-    var instrucao = `DELETE FROM Maquinas WHERE idMaquina = ${IDMaquina};`
 
-    console.log("Executando a instrução SQL: \n" + instrucao);
-    return database.executar(instrucao);
+    var instrucao1 = `DELETE FROM Monitoramento WHERE fkMaqCompMoni = ${IDMaquina};`
+    
+    var instrucao2 = `DELETE FROM Login WHERE idMaquina = ${IDMaquina}`
+
+    var instrucao3 = `DELETE FROM Componentes_Monitorados WHERE fkMaquina = ${IDMaquina}`
+
+    var instrucao4 = `DELETE FROM Maquinas WHERE idMaquina = ${IDMaquina};`
+
+    console.log("Executando a instrução SQL: \n" + instrucao4)
+    
+    database.executar(instrucao1)
+    .then(() => database.executar(instrucao2))
+    .then(() => database.executar(instrucao3))
+    .then(() => database.executar(instrucao4))
+    .then(() => console.log("Instruções SQL executadas com sucesso."))
+    .catch((erro) => console.error("Erro ao executar instruções SQL:", erro));
 }
 
 function buscarComponentes(fkMaquina, fkEmpresa) {

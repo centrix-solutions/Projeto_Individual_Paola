@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Desempenho</title>
+    <link rel="icon" href="../assets/icon/favicon.ico">
+    <link rel="stylesheet" href="../css/dash_desem.css">
+    <link rel="stylesheet" href="../css/barra_lateral.css">
+    <script src="../js/nivelAcesso.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+</head>
+
+<body onload="listarLateral(), carregarPaola()">
+    <div class="container_principal">
+        <div class="barra_lateral" id="lateral_barra"></div>
+        <div class="area_dash">
+            <div class="dash_superior">
+                <div class="bem_vindo">
+                    <span class="text_bemVindo1">
+                        Entenda o desempenho médio da CPU e RAM </span>
+                </div>
+            </div>
+            <div class="div_central">
+                <div class="div_conteudo">
+                    <div class="div_individual" id="div_individual">
+                        <div class="conteudoPaola" id="conteudoPaola">
+                            <div class="tituloPaola">
+                                Entenda o desempenho médio da CPU e RAM <div class="izinho"><button id="myBtn">
+                                        i</button></div>
+                            </div>
+
+                            <!-- The Modal -->
+                            <div id="myModal" class="modal">
+                                <!-- Modal content -->
+                                <div class="modal-content">
+                                    <span class="close">&times;</span>
+                                    <p>
+                                        <span class="aa">CPU</span> ➪ processa as instruções do programa e produz resultados desejados;</p>
+                                    <p>
+                                        <span class="aa">RAM</span> ➪ quantidade de espaço/memória necessária para armazenar o aplicativo
+                                        enquanto ele está sendo executado;
+                                    </p>
+                                    <p>
+                                        Quanto mais RAM, mais aplicativos podem ser executados simultaneamente.
+                                    </p>
+                                    <p>
+                                        Quanto mais CPU, mais cálculos/operações complexos podem ser executados
+                                    </p>
+                                    <img src="../assets/imgs/tabelinha.png" alt="Tabela dos componentes" class="tabela">
+
+                                </div>
+
+                            </div>
+                            <div class="kpisPaola">
+                                <div class="kpiPaola">
+                                    <div class="tituloPaolaKpi">
+                                        Desempenho da CPU
+                                    </div><br>
+                                    <div id="desempenhoCpuPaola">
+                                        X%
+                                    </div>
+                                </div>
+                                <div class="kpiPaola">
+                                    <div class="tituloPaolaKpi">
+                                        Desempenho da RAM
+                                    </div>
+                                    <div id="desempenhoRamPaola">
+                                        X%
+                                    </div>
+                                </div>
+                                <div class="kpiPaola">
+                                    <div class="tituloPaolaKpi">
+                                        Total de Máquinas
+                                    </div>
+                                    <div id="totalMaquinaPaola">
+                                        X%
+                                    </div>
+                                </div>
+                                <div class="kpiPaola">
+                                    <div class="tituloPaolaKpi">
+                                        Maior valor da CPU
+                                    </div>
+                                    <div id="maxCpuPaola">
+                                        X%
+                                    </div>
+                                </div>
+                                <div class="kpiPaola">
+                                    <div class="tituloPaolaKpi">
+                                        Maior valor da RAM
+                                    </div>
+                                    <div id="maxRamPaola">
+                                        X%
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="inferiorPaola">
+                                <div class="tituloPaola">
+                                    Tenha uma visão geral do uso da CPU e RAM a partir de gráficos
+                                </div>
+                                <div class="graficosPaola">
+
+                                    <div class="chartPaola">
+                                        <h1>CPU</h1>
+                                        <canvas id="graficoCpuPaola"></canvas>
+                                    </div>
+                                    <div class="chartPaola">
+                                        <h1>RAM</h1>
+                                        <canvas id="graficoRamPaola"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="conteudoRafael" id="conteudoRafael"></div>
+                        <div class="conteudoRuan" id="conteudoRuan"></div>
+                        <div class="conteudoAle" id="conteudoAle"></div>
+                        <div class="conteudoEdson" id="conteudoEdson"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>
+
+<script>
+
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on the button, open the modal
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    window.onload = async function () {
+
+        await listarLateral();
+        await carregarPaola();
+
+    };
+    function carregarPaola() {
+
+        const idEmpresa = sessionStorage.Empresa;
+        try {
+
+
+            // Gráfico CPU
+            obterDadosGraficoCPU(idEmpresa);
+
+            // Gráfico RAM
+            obterDadosGraficoRAM(idEmpresa);
+            atualizarGraficoMediaRAM(idEmpresa);
+            // KPIs
+            obterDadosDesempenhoMedia();
+            atualizarGraficoDesempenhoMedia();
+            atualizarFeed()
+        } catch (error) {
+            console.error("Erro no carregamento da página: " + error.message);
+        }
+
+        // fazendo a a rota do kpi
+        var KpiCpuPaola = document.getElementById("desempenhoCpuPaola");
+        var KpiRamPaola = document.getElementById("desempenhoRamPaola");
+        var KpiMaxCpuPaola = document.getElementById("maxCpuPaola");
+        var KpiMaxRamPaola = document.getElementById("maxRamPaola");
+
+
+        function obterDadosDesempenhoMedia() {
+
+            valoresKpiDesempenho = [KpiCpuPaola, KpiRamPaola]
+            valoresKpiMax = [KpiMaxCpuPaola, KpiMaxRamPaola]
+
+            console.log("Desempenho")
+
+            fetch(`/dashPaola/ultimasDesempenhoMedia/`, { cache: 'no-store' }).then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (resposta) {
+                        console.log(`Dados recebidos das kpis: ${JSON.stringify(resposta)}`);
+                        resposta.reverse();
+
+                        // plotarGraficoDesempenhoMedia(resposta, idEmpresa);
+
+                    });
+                } else {
+                    console.error('Nenhum dado encontrado ou erro na API');
+                }
+            })
+                .catch(function (error) {
+                    console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+                });
+        }
+
+        // function plotarGraficoDesempenhoMedia(resposta) {
+        //   for (i = 0; i < resposta.length; i++) {
+        //     var registro = resposta[i];
+        //     if (registro.tipo === "CPU") {
+        //       valoresKpiDesempenho[0].innerHTML = (registro.usoMedio) + "%";
+        //       valoresKpiMax[0].innerHTML = (registro.usoMax) + "%";
+        //     }
+        //     if (registro.tipo === "RAM") {
+        //       valoresKpiDesempenho[1].innerHTML = (registro.usoMedio);
+        //       valoresKpiMax[1].innerHTML = (registro.usoMax);
+        //     }
+        //   }
+
+        //   setTimeout(() => atualizarGraficoDesempenhoMedia(idEmpresa), 2000);
+        // }
+
+        function atualizarGraficoDesempenhoMedia() {
+            fetch(`/dashPaola/tempoRealDesempenhoMedia/`, { cache: 'no-store' })
+                .then(function (response) {
+                    if (response.ok) {
+                        response.json().then(function (novoRegistro) {
+                            console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
+                            valoresKpiDesempenho = [KpiCpuPaola, KpiRamPaola];
+                            valoresKpiMax = [KpiMaxCpuPaola, KpiMaxRamPaola];
+
+                            for (let i = 0; i < novoRegistro.length; i++) {
+                                var dados = novoRegistro[i];
+                                if (dados.tipo === "CPU") {
+                                    valoresKpiDesempenho[0].innerHTML = `${dados.usoMedio}%`;
+                                    valoresKpiMax[0].innerHTML = `${dados.usoMax}%`;
+                                }
+                                if (dados.tipo === "RAM") {
+                                    valoresKpiDesempenho[1].innerHTML = `${dados.usoMedio}`;
+                                    valoresKpiMax[1].innerHTML = `${dados.usoMax}`;
+                                }
+                            }
+
+                            proximaAtualizacaoDesempenho = setTimeout(() => atualizarGraficoDesempenhoMedia(), 5000);
+                        });
+                    } else {
+                        console.error('Nenhum dado encontrado ou erro na API');
+                        proximaAtualizacaoDesempenho = setTimeout(() => atualizarGraficoDesempenhoMedia(), 2000);
+                    }
+                })
+                .catch(function (error) {
+                    console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+                });
+        }
+
+        // kpi total maquinas
+        function atualizarFeed() {
+            fetch(`/dashPaola/tempoRealKpiTotal`).then(function (resposta) {
+                if (resposta.ok) {
+                    if (resposta.status == 204) {
+                        throw "Nenhum resultado encontrado!!";
+                    }
+                    resposta.json().then(function (resposta) {
+                        console.log("Dados recebidos: ", JSON.stringify(resposta));
+                        totalMaquinas = 0
+
+                        for (let i = 0; i < resposta.length; i++) {
+                            var total = resposta[i];
+                            totalMaquinas += total.TotalMaquinas;
+                        }
+
+                        totalMaquinaPaola.innerHTML = totalMaquinas;
+                    });
+                } else {
+                    throw ('Houve um erro na API!');
+                }
+            }).catch(function (resposta) {
+                console.log("Não achei");
+            });
+        }
+
+        // limpando kpis
+        function limparDesempenhoMedia() {
+            for (i = 0; i <= valores.length; i++) {
+                valoresKpiDesempenho[i].innerHTML = "";
+                valoresKpiMax[i].innerHTML = "";
+                valorTotal[i].innerHTML = "";
+            }
+        }
+
+        // Gráfico CPU
+        function obterDadosGraficoCPU(idEmpresa) {
+            console.log("____________________________ idEmpresa", idEmpresa)
+            fetch(`/dashPaola/graficoCPU/${idEmpresa}`, { cache: "no-store" })
+                .then(function (response) {
+                    if (response.ok) {
+                        response.json().then(function (resposta) {
+                            console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                            resposta.reverse();
+
+                            plotarDadosGrafico(resposta, idEmpresa);
+                        });
+                    } else {
+                        console.error("Nenhum dado encontrado ou erro na API");
+                    }
+                })
+                .catch(function (error) {
+                    console.error(
+                        `Erro na obtenção dos dados p/ gráfico: ${error.message}`
+                    );
+                });
+        }
+
+        function plotarDadosGrafico(resposta, idEmpresa) {
+            console.log('Iniciando plotagem do gráfico...');
+
+
+            dados = {
+                labels: [],
+                datasets: [{
+                    label: 'Média de uso da CPU',
+                    data: [],
+                    backgroundColor: [],
+                    borderColor: ['#393d42'],
+                    tension: 0.3,
+                    fill: false,
+                    pointRadius: 6
+                }]
+            };
+
+            console.log('Dados recebidos pela função "obterDadosGrafico" e passados para "plotarGrafico":');
+            console.log(resposta);
+
+            for (let i = 0; i < resposta.length; i++) {
+                var registro = resposta[i];
+                console.log(registro)
+                dados.datasets[0].data.push(registro.mediaCpu);
+                const horaRegistro = new Date(registro.horaCaptura).toISOString().slice(11, 19);
+                dados.labels.push(horaRegistro);
+            }
+            console.log(dados.datasets[0].data)
+            const config = {
+                type: 'line',
+                data: dados,
+                fill: false,
+            };
+
+            let chartMediaCPU = new Chart(
+                document.getElementById(`graficoCpuPaola`),
+                config
+            );
+            console.log(dados)
+            setTimeout(() => atualizarGraficoMediaCPU(idEmpresa, dados, chartMediaCPU), 2000);
+        }
+
+        function atualizarGraficoMediaCPU(idEmpresa, dados, chartMediaCPU) {
+            console.log(dados)
+            console.log("ID DA EMPRESA ------------->", idEmpresa);
+
+            fetch(`/dashPaola/graficoAtualizarCPU/${idEmpresa}`, { cache: 'no-store' })
+                .then(function (response) {
+                    if (response.ok) {
+                        response.json().then(function (novoRegistro) {
+
+                            const novaHoraCaptura = new Date(novoRegistro[0].horaCaptura).toISOString().slice(11, 19);
+
+                            if (novaHoraCaptura === dados.labels[dados.labels.length - 1]) {
+                                console.log("Nenhum dado novo para captura, o gráfico não será atualizado.");
+                            } else {
+                                dados.labels.shift();
+                                dados.labels.push(novaHoraCaptura);
+
+                                dados.datasets[0].data.shift();
+                                dados.datasets[0].data.push(novoRegistro[0].mediaCPU);
+
+                                chartMediaCPU.update();
+                            }
+
+                            // Agendando próxima atualização
+                            setTimeout(() => atualizarGraficoMediaCPU(idEmpresa, dados, chartMediaCPU), 2000);
+                        });
+                    } else {
+                        console.error('Nenhum dado encontrado ou erro na API');
+
+                        // Agendando próxima atualização em caso de erro
+                        setTimeout(() => atualizarGraficoMediaCPU(idEmpresa, dados, chartMediaCPU), 2000);
+                    }
+                })
+                .catch(function (error) {
+                    console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`);
+
+                    // Agendando próxima atualização em caso de erro
+                    setTimeout(() => atualizarGraficoMediaCPU(idEmpresa, dados, chartMediaCPU), 2000);
+                });
+        }
+
+        // Gráfico RAM
+        let dadosRAM = {
+            labels: [],
+            datasets: [{
+                label: 'Média de uso da RAM',
+                data: [],
+                backgroundColor: [],
+                borderColor: ['#393d42'],
+                tension: 0.3,
+                fill: false,
+                pointRadius: 6
+            }]
+        };
+
+        let chartMediaRAM;
+
+        function obterDadosGraficoRAM(idEmpresa) {
+            fetch(`/dashPaola/graficoRAM/${idEmpresa}`, { cache: 'no-store' })
+                .then(function (response) {
+                    if (response.ok) {
+                        response.json().then(function (resposta) {
+                            console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                            resposta.reverse();
+                            plotarDadosGraficoRAM(resposta);
+                        });
+                    } else {
+                        console.error('Nenhum dado encontrado ou erro na API');
+                    }
+                })
+                .catch(function (error) {
+                    console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+                });
+        }
+
+        function plotarDadosGraficoRAM(resposta) {
+            console.log('Iniciando plotagem do gráfico de RAM...');
+
+            dadosRAM.labels = [];
+            dadosRAM.datasets[0].data = [];
+
+            for (var i = resposta.length - 1; i >= 0; i--) {
+                var registro = resposta[i];
+                dadosRAM.datasets[0].data.push(registro.mediaRAM);
+                const horaRegistro = new Date(registro.horaCaptura).toISOString().slice(11, 19);
+                dadosRAM.labels.push(horaRegistro);
+            }
+
+            if (!chartMediaRAM) {
+                chartMediaRAM = new Chart(
+                    document.getElementById('graficoRamPaola'),
+                    {
+                        type: 'line',
+                        data: dadosRAM,
+                        fill: false
+                    }
+                );
+            } else {
+                chartMediaRAM.update();
+            }
+        }
+
+        function atualizarGraficoMediaRAM(idEmpresa) {
+            setInterval(function () {
+                fetch(`/dashPaola/graficoAtualizarRAM/${idEmpresa}`, { cache: 'no-store' })
+                    .then(function (response) {
+                        if (response.ok) {
+                            response.json().then(function (novoRegistro) {
+                                console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
+                                console.log('Dados atuais do gráfico:');
+                                console.log(dadosRAM);
+
+                                if (novoRegistro[0].horaCaptura !== dadosRAM.labels[dadosRAM.labels.length - 1]) {
+                                    dadosRAM.labels.shift();
+                                    const horaRegistro = new Date(novoRegistro[0].horaCaptura).toISOString().slice(11, 19);
+                                    dadosRAM.labels.push(horaRegistro);
+
+                                    dadosRAM.datasets[0].data.shift();
+                                    dadosRAM.datasets[0].data.push(novoRegistro[0].mediaRAM);
+
+                                    chartMediaRAM.update();
+                                }
+                            });
+                        } else {
+                            console.error('Nenhum dado encontrado ou erro na API');
+                        }
+                    })
+                    .catch(function (error) {
+                        console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+                    });
+            }, 2000);
+        }
+
+    }
+</script>

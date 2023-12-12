@@ -16,7 +16,8 @@
     <script src="../js/nivelAcesso.js"></script>
 </head>
 
-<body onload="buscarAndares(), listarLateral(), buscarComponentes(idMaquina, idEmpresa), obterDadosGraficos(), buscarDadosMonitoramento(idMaquina, idEmpresa)">
+<body
+    onload="buscarAndares(), listarLateral(), buscarComponentes(idMaquina, idEmpresa), obterDadosGraficos(), buscarDadosMonitoramento(idMaquina, idEmpresa)">
     <div class="container_principal">
         <div class="barra_lateral" id="lateral_barra"></div>
         <div class="area_dash">
@@ -26,12 +27,12 @@
                         Computadores
                     </span>
                     <span class="text_bemVindo2">
-                        Veja as princípais informações das suas máquinas cadastradas.                    
+                        Veja as princípais informações das suas máquinas cadastradas.
                     </span>
                 </div>
             </div>
             <div class="card_monitoramento">
-            
+
                 <div class="info">
                     <div class="bloco_info">
                         <h2>Operador</h2>
@@ -59,32 +60,59 @@
                     </div>
                     <div class="bloco_info">
                         <h2>Deletar Máquina</h2>
-                        <button class="botao_deletar" onclick="deletarComputador(idMaquina)" id="deletarMaquina" >Deletar</button>
+                        <button class="botao_deletar" onclick="deletarComputador(idMaquina)"
+                            id="deletarMaquina">Deletar</button>
                     </div>
                 </div>
                 <div class="area_meio">
                     <div class="area_meio_esquerda">
+                        <!-- Pop-up com informações sobre configurações -->
+                        <div id="popup" class="popup">
+                            <div onclick="fecharPopup()" class="close">X</div>
+                            <div class="div_bola">
+                                <div class="bola verde"></div>
+                                <span>ativo e sem problemas</span>
+                            </div>
+                            <div class="div_bola">
+                                <div class="bola laranja"></div>
+                                <span>ativo e com nível em atenção nos alertas</span>
+                            </div>
+                            <div class="div_bola">
+                                <div class="bola vermelha"></div>
+                                <span>ativo e com nível em perigo nos alertas</span>
+                            </div>
+                        </div>
                         <div class="painel">
-                            <div class="area_barra">
-                                <h3>Uso de CPU</h3>
-                                <h2 id="cpu"></h2>
-                                <progress class="barra_painel"  max="100" value="60" id="barra_cpu">
+                            <div class="painel-container">
+                                <div>
+                                    <h3>Uso de CPU</h3>
+                                    <h2 id="cpu"></h2>
+                                    <progress class="barra_painel" name="barraCor" max="100" value="60" id="barra_cpu">
+                                </div>
+
+                                <div class="area_barra">
+                                    <h3>Uso de RAM</h3>
+                                    <h2 id="ram"></h2>
+                                    <progress class="barra_painel" name="barraCor" max="100" value="90" id="barra_ram">
+                                </div>
+                                <div class="area_barra">
+                                    <h3>Uso de Disco</h3>
+                                    <h2 id="disco"></h2>
+                                    <progress class="barra_painel" name="barraCor" max="100" value="49"
+                                        id="barra_disco">
+                                </div>
                             </div>
-                            <div class="area_barra">
-                                <h3>Uso de RAM</h3>
-                                <h2 id="ram"></h2>
-                                <progress class="barra_painel" max="100" value="90" id="barra_ram">
+                            <div class="popup-container">
+                                <div class="botao-popup" onclick="abrirPopup()"><img src="../assets/icon/informacao.png"
+                                        alt="Informação"></div>
                             </div>
-                            <div class="area_barra">
-                                <h3>Uso de Disco</h3>
-                                <h2 id="disco"></h2>
-                                <progress class="barra_painel" max="100" value="49" id="barra_disco">
-                            </div>
+                        </div>
+                        <div class="area_barra">
                         </div>
                     </div>
                     <div class="area_meio_direita">
                         <div class="kpi">
-                            <h3>Velocidade de  Rede</h3>
+                            <h3>Velocidade de Rede</h3>
                             <h4>Download:<span id="download"></span></h4>
                             <h4>Upload:<span id="upload"></span></h4>
                             <img src="../assets/icon/wifi.png" alt="" class="img_wifi">
@@ -117,6 +145,7 @@
     </div>
     </div>
 </body>
+
 </html>
 <script>
     setTimeout(() => {
@@ -154,7 +183,7 @@
             },
             body: JSON.stringify({
                 idComputadorServer: idComputador,
-                andarSelecionadoServer: andarSelecionado                                        
+                andarSelecionadoServer: andarSelecionado
             })
         })
     }
@@ -164,6 +193,9 @@
     }, 50);
 
     async function buscarComputadores(idEmpresa, idAndar) {
+        if (idAndar == 0) {
+            idAndar = null
+        }
         try {
             var resposta = await fetch("/dashboard/buscarComputadores", {
                 method: "POST",
@@ -201,5 +233,15 @@
         } catch (erro) {
             console.log("Erro: ", erro);
         }
+    }
+
+    // Função para abrir o pop-up de informações
+    function abrirPopup() {
+        document.getElementById('popup').style.display = 'block';
+    }
+
+    // Função para fechar o pop-up de informações
+    function fecharPopup() {
+        document.getElementById('popup').style.display = 'none';
     }
 </script>

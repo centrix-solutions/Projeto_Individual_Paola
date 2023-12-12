@@ -20,6 +20,33 @@ function buscarSelect(select) {
 
 }
 
+function buscarSelectSummary(select) {
+
+    var instrucao = select
+
+    console.log("Executando a instrução SQL: \n" + instrucao)
+    return database.executar(instrucao)
+
+}
+
+function buscarSelectRede(select) {
+
+    var instrucao = select
+
+    console.log("Executando a instrução SQL: \n" + instrucao)
+    return database.executar(instrucao)
+
+}
+
+function buscarSelectLatencia(select) {
+
+    var instrucao = select
+
+    console.log("Executando a instrução SQL: \n" + instrucao)
+    return database.executar(instrucao)
+
+}
+
 function verificarDatas(selectData) {
 
     var instrucao = selectData
@@ -31,6 +58,10 @@ function verificarDatas(selectData) {
 
 module.exports = {
     buscarComputadoresRelatorio,
+    buscarSelectLatencia,
+    buscarSelectSummary,
+    buscarSelectRede,
     verificarDatas,
     buscarSelect
+    
 };

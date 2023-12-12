@@ -11,11 +11,11 @@
     <script src="../js/andar.js"></script>
     <script src="../js/nivelAcesso.js"></script>
     <script src="../js/dash_rede_graph.js"></script>
+    <script src="../js/notificacao_rede.js"></script>
 </head>
 
-<!-- obterdados(), -->
-
-<body onload="buscarAndares(), listarLateral(), graficoStacked()">
+<!-- <body onload="buscarAndares(), listarLateral(), graficoStacked(), obterKpis()"> -->
+<body onload="buscarAndares(), listarLateral()">
     <div class="container_principal">
         <div class="barra_lateral" id="lateral_barra"></div>
         <div class="area_dash">
@@ -49,58 +49,9 @@
                     </div>
                     <div class="scroll_alertas">
                         <!-- JAVASCRIPT ALERTA -->
-                        <!-- <div class="cards-container">
-                            <div id="card_1">
-                            </div>
-                            <div id="card_2">
-                            </div>
-                        </div> -->
+                        <div id="cards_container" class="cards-container">
+                        </div>
                         <!-- JAVASCRIPT ALERTA -->
-                        <div class="card">
-                            <div class="container_card">
-                                <div class="div_bola">
-                                    <div class="bola critico"> </div>
-                                </div>
-                                <p>Computador com o Id: <span>1</span></p>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="card">
-                            <div class="container_card">
-                                <div class="div_bola">
-                                    <div class="bola cuidado"> </div>
-                                </div>
-                                <p>Computador com o Id: <span>2</span></p>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="card">
-                            <div class="container_card">
-                                <div class="div_bola">
-                                    <div class="bola critico"> </div>
-                                </div>
-                                <p>Computador com o Id: <span>3</span></p>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="card">
-                            <div class="container_card">
-                                <div class="div_bola">
-                                    <div class="bola cuidado"></div>
-                                </div>
-                                <p>Computador com o Id: <span>4</span></p>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="card">
-                            <div class="container_card">
-                                <div class="div_bola">
-                                    <div class="bola critico"></div>
-                                </div>
-                                <p>Computador com o Id: <span>5</span></p>
-                            </div>
-                        </div>
-                        <br>
                     </div>
                 </div>
                 <div class="graficos_kpi">
@@ -113,7 +64,7 @@
                             <div class="titulo_select">
                                 <span class="text_alertas">Últimos alertas do andar</span>
                                 <div class="custom_select" style="width:109px;">
-                                    <select onchange="graficoMeiaLua()" name="andares" class="select_andares"
+                                    <select onchange="graficoMeiaLua(),limparNotificacaoAndar(),obterdados()" name="andares" class="select_andares"
                                         id="andares"></select>
                                 </div>
                             </div>
@@ -126,11 +77,11 @@
                     <div class="kpis_computador">
                         <div class="kpi_card">
                             <span>Computador com mais alertas de atenção na última semana</span><br>
-                            <span class="cuidado_text">$Computador 001</span>
+                            <span class="cuidado_text" id="kpiAtencao">$Computador 001</span>
                         </div>
                         <div class="kpi_card">
                             <span>Computador com mais alertas de perigo na última semana</span><br>
-                            <span class="critico_text">$Computador 001</span>
+                            <span class="critico_text" id="kpiPerigo">$Computador 001</span>
                         </div>
                     </div>
                 </div>
@@ -144,8 +95,10 @@
                 </div>
                 <div class="kpis_rede">
                     <div class="kpi_card_rede">
-                        <span>Latência</span><br>
-                        <span>Status: <span class="seguro_text">Seguro</span></span>
+                        <span>Taxa Download</span><br>
+                        <input type="number" id="input_download" oninput="atualizarRede()"/>
+                        <span>Taxa Upload</span><br>
+                        <input type="number" id="input_upload" oninput="atualizarRede()"/>
                     </div>
                     <div class="kpi_card_dowload">
                         <div class="icon_dowload">
@@ -155,8 +108,8 @@
                         <div class="text_dowload">
                             <br>
                             <span>Dowload</span><br>
-                            <span>Status:<span class="critico_text"> Alta Utilização</span></span><br>
-                            <span>Usado: $100MB</span>
+                            <span>Status: <span id="status_download"></span></span><br>
+                            <span id="span_download"></span>
                             <br>
                         </div>
                     </div>
@@ -168,8 +121,8 @@
                         <div class="text_dowload">
                             <br>
                             <span>Upload</span><br>
-                            <span>Status:<span class="seguro_text"> Seguro</span></span><br>
-                            <span>Usado: $10MB</span>
+                            <span>Status: <span id="status_download"></span></span><br>
+                            <span id="span_upload"></span>
                         </div>
                     </div>
                 </div>
@@ -185,17 +138,10 @@
 <script>
     nomeFuncionario.innerHTML = sessionStorage.nome;
     emailFuncionario.innerHTML = sessionStorage.email;
-
-    var empresaFunc = sessionStorage.getItem('Empresa');
-
-    function obterdados() {
-
-        // buscarImportanciaMaquina(1, empresaFunc);
-        // buscarImportanciaMaquina(2, empresaFunc);
-        // buscarImportanciaMaquina(3, empresaFunc);
-
-        setTimeout(obterdados, 5000);
-    }
+    kpiAtencao.innerHTML = ((sessionStorage.KPIAtenção == 0) ? 'Nenhum Computador em Atenção na última Semana' : ` Computador com Id: ${sessionStorage.KPIAtenção}` ); 
+    kpiPerigo.innerHTML = ((sessionStorage.KPIPerigo == 0) ? 'Nenhum Computador em Perigo na última Semana' :` Computador com Id: ${sessionStorage.KPIPerigo}` ); 
+    
+    var cards_container = document.getElementById('cards_container')
 
     // Stacked
     function graficoStacked() {
@@ -207,4 +153,144 @@
         var idAndarVar = Number(andares.value.split('-')[1]);
         obterDadosGraficoMeiaLua(idAndarVar, 'meia_lua')
     }
+
+    // Notificações
+    function limparNotificacaoAndar(){
+        cards_container.innerText = " ";
+    }
+
+    function obterdados() {
+        var idAndarVar = Number(andares.value.split('-')[1]);
+        buscarImportanciaMaquina(idAndarVar);
+    }
+
+    // KPI
+    function obterKpis(){
+        buscarKPIAtencao();
+        buscarKPIPerigo();
+    }
+    var vetorComputadores = [];
+    async function buscarComputadoresPorAndar() {
+        var idAndarVar = (andares.value).split('-')[1];
+        if(idAndarVar == 0 || idAndarVar == undefined){
+            idAndarVar = null;
+        }
+        try {
+            var resposta = await fetch("/rede/buscarComputadoresPorAndar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    idAndarServer: idAndarVar
+                })
+            });
+            if (resposta.ok) {
+                var respostaJson = await resposta.json();
+                console.log('JSON VETOR COMPUTADORES: ', respostaJson);
+                respostaJson.forEach(i => {
+                    vetorComputadores.push(i.idMaquina);
+                });
+            }
+        } catch (erro) {
+            console.log("Erro: ", erro);
+        }
+    }
+    async function atualizarRede(){
+        var idEmpresaVar = sessionStorage.Empresa;
+        var downloadVar = Number(input_download.value);
+        var uploadVar = Number(input_upload.value);
+        var arrayComputadores = vetorComputadores
+        try {
+            var resposta = await fetch("/rede/atualizarRede", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    idEmpresaServer: idEmpresaVar,
+                    downloadServer: downloadVar,
+                    uploadServer: uploadVar,
+                    vetorComputadorServer: arrayComputadores
+                })
+            });
+            if (resposta.ok) {
+                var respostaJson = await resposta.json();
+                console.log('JSON ATUALIZAR REDE: ', respostaJson);
+            }
+        } catch (erro) {
+            console.log("Erro atualizarRede: ", erro);
+        }
+    }
+    async function buscarMaxDownUp(){
+        var idAndarVar = (andares.value).split('-')[1];
+        if(idAndarVar == 0 || idAndarVar == undefined){
+            idAndarVar = null
+        }
+        try {
+            var resposta = await fetch("/rede/buscarMaxDownUp", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    idAndarServer: idAndarVar
+                })
+            });
+            if (resposta.ok) {
+                var respostaJson = await resposta.json();
+                console.log('JSON BUSCAR MAX DOWN UP: ', respostaJson);
+                input_download.value = respostaJson[0].valor;
+                input_upload.value = respostaJson[1].valor;
+            }
+        } catch (erro) {
+            console.log("Erro: ", erro);
+        }
+    }
+    async function buscarDadoDownUp() {
+        var idEmpresaVar = sessionStorage.Empresa;
+        var arrayComputadores = vetorComputadores
+        try {
+            var resposta = await fetch("/rede/buscarDadoDownUp", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    idEmpresaServer: idEmpresaVar,
+                    vetorComputadorServer: arrayComputadores
+                })
+            });
+            if (resposta.ok) {
+                var respostaJson = await resposta.json();
+                console.log('JSON BUSCAR DADO DOWN UP: ', respostaJson);
+                respostaJson.forEach(i => {
+                    var media = i.media;
+                    var status = "";
+                    if (respostaJson.Componente == 5) {
+                        status = document.getElementById("status_download");
+                    } else {
+                        status = document.getElementById("status_upload");
+                    }
+                    if(media <= 25){
+                        status.className = "seguro_text";
+                        status.innerHTML = "Seguro"
+                    } else if (media >= 75) {
+                        status.className = "critico_text";
+                        status.innerHTML = "Crítico"
+                    } else {
+                        status.className = "cuidado_text";
+                        status.innerHTML = "Alerta"
+                    }
+                });
+                span_download.innerHTML = `Usado: ${respostaJson[0].media}MB`;
+                span_upload.innerHTML = `Usado: ${respostaJson[1].media}MB`;
+            }
+        } catch (erro) {
+            console.log("Erro: ", erro);
+        }
+    }
+    buscarComputadoresPorAndar()
+    buscarMaxDownUp()
+    // buscarDadoDownUp()
 </script>

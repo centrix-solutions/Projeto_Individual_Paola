@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Processos</title>
+    <link rel="icon" href="../assets/icon/favicon.ico">
+    <link rel="stylesheet" href="../css/dash_visoes.css">
+    <link rel="stylesheet" href="../css/barra_lateral.css">
+    <script src="../js/nivelAcesso.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../css/dash_processos.css">
+    <script src="../js/dashboard_processos.js"></script>
+    <script src="../js/andar.js"></script>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha384-GLhlTQ8iK16HMI9z0i7WHPsGJ8a9PeHdH2g+iEzPn1qOG2Emv8OrCgqE2KZfEbah" crossorigin="anonymous">
+</head>
+
+<body onload="listarLateral(),buscarAndares()">
+    <div class="container_principal">
+        <div id="divRelatorio" class="div-relatorio">
+            <div class="div-relatorio-conteudo">
+                <div>
+                    <span class="titulo-relatorio">Computadores:</span>
+                    <span class="close" onclick="gerarRelatorio()">&times;</span>
+                </div>
+                <div id="listaComputadoresFiltro"></div>
+                <div>
+                    <button class="style-fltro cursor" onclick="SelecionarTodos()">Selecionar Todos</button>
+                    <button class="style-fltro cursor vermelho" onclick="buscarDadosGrafico()">Concluído</button>
+                </div>
+            </div>
+        </div>
+        <div class="barra_lateral" id="lateral_barra"></div>
+        <div class="area_dash">
+            <div class="dash_superior">
+                <div class="bem_vindo">
+                    <span class="text_bemVindo1">
+                        Processos...
+                    </span>
+                </div>
+            </div>
+            <div class="div_central">
+                <div class="div_conteudo">
+                    <div class="div_individual" id="div_individual">
+                        <div class="div_superior">
+                            <div class="div-esquerda">
+                                <div class="divPesquisa">
+                                    <input type="text" placeholder="Insira o id da maquina..." class="style-fltro"
+                                        id="inputPesquisa" />
+                                    <div>
+                                        <label class="branco" for="filtro">Separar por Andar:</label>
+                                        <input type="checkbox" class="chk-filtro" name="filtro" id="chkFiltro" />
+                                    </div>
+                                    <select name="andares" class="style-fltro" id="andares"></select>
+                                    <button class="btn-reload" onclick="listarProcessos()">
+                                        <svg class="rotate-arrow cursor" width="15" height="15" viewBox="0 0 212 213"
+                                            fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path id="Vector" stroke="white"
+                                                d="M6.62305 93.5C9.7841 69.3843 21.6258 47.2472 39.9315 31.2328C58.2372 15.2183 81.752 6.4244 106.074 6.49712C130.396 6.56985 153.858 15.5043 172.067 31.6279C190.277 47.7515 201.986 69.959 205.003 94.0932C208.019 118.227 202.137 142.634 188.457 162.744C174.776 182.854 154.236 197.288 130.68 203.346C107.124 209.403 82.1685 206.668 60.484 195.652C38.7995 184.637 21.873 166.096 12.873 143.5M6.62305 206V143.5H69.1231"
+                                                stroke="black" stroke-width="11.495" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+                                    </button>
+                                    <button class="style-fltro cursor" onclick="gerarRelatorio()">Gerar
+                                        relatório</button>
+                                </div>
+                                <div id="listaComputadores" class="lista-computadores"></div>
+                            </div>
+                            <div class="div-direita">
+                                <div class="divProcessosDiferentes">
+                                    <div>
+                                        <span id="tituloProcessosDiferentes" class="branco">Processos Diferentes</span>
+                                    </div>
+                                    <div id="listaProcessosDiferentes"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="div_inferior">
+                            <div class="grafico">
+                                <span class="texto-grafico">Gráfico Quantidade de Processos x Computador x Cpu x
+                                    Ram</span>
+                                <canvas id="grafico1"></canvas>
+                            </div>
+                            <div class="grafico">
+                                <span class="texto-grafico">Total de Processos x Processos com janelas visíveis</span>
+                                <canvas id="grafico2"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+    const chart1 = new Chart('grafico1', {
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Quantidade de Processos',
+                data: [],
+                type: 'bar',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }, {
+                label: 'CPU',
+                data: [],
+                type: 'line',
+                fill: false,
+                borderColor: '#8565C9',
+                backgroundColor: '#8565C9',
+                borderWidth: 2
+            }, {
+                label: 'RAM',
+                data: [],
+                type: 'line',
+                fill: false,
+                borderColor: 'rgb(60, 0, 255)',
+                backgroundColor: 'rgb(60, 0, 255)',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    const chart2 = new Chart('grafico2', {
+        type: 'bar',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Quantidade de Processos Total',
+                data: [],
+                backgroundColor: '#6a29f8',
+                borderColor: '#6a29f8',
+                borderWidth: 1
+            }, {
+                label: 'Quantidade de Processos Visíveis',
+                data: [],
+                fill: false,
+                backgroundColor: '#5732a6',
+                borderColor: '#5732a6',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    var idComputador = [];
+    var qtdProcessos = [];
+    var vetorCpu = [];
+    var vetorRam = [];
+    async function buscarDadosGrafico() {
+        var chks = document.getElementsByName('chkRelatorio');
+        var vetorCheckbox = [];
+        chks.forEach(i => {
+            var idCheckbox = (i.id).split('-')[1];
+            var checkbox = document.getElementById(`chkRelatorio-${idCheckbox}`);
+            if (checkbox.checked == true) {
+                vetorCheckbox.push(idCheckbox);
+            }
+        });
+        try {
+            var resposta = await fetch("/processos/buscarDadosGrafico", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    vetorCheckboxServer: vetorCheckbox
+                })
+            });
+            if (resposta.ok) {
+                idComputador = [];
+                qtdProcessos = [];
+                vetorCpu = [];
+                vetorRam = [];
+                var respostaJson = await resposta.json();
+                console.log('JSON buscarDadosGrafico: ', respostaJson);
+                respostaJson.forEach(i => {
+                    idComputador.push(i.Id_do_dispositivo);
+                    qtdProcessos.push(i.qtdProcessos);
+                    vetorCpu.push(i.cpu);
+                    vetorRam.push(i.ram);
+                });
+                atualizarDadosGrafico(vetorCheckbox);
+            }
+        } catch (erro) {
+            console.log("Erro: ", erro);
+        }
+    }
+    function atualizarDadosGrafico(vetorCheckbox) {
+        chart1.data.labels = idComputador;
+        const datasets = chart1.data.datasets;
+        datasets[0].data = qtdProcessos;
+        datasets[1].data = vetorCpu;
+        datasets[2].data = vetorRam;
+        chart1.update();
+
+        chart2.data.labels = idComputador;
+        const datasets2 = chart2.data.datasets;
+        vetorCheckbox.forEach(i => {
+            var dado = (sessionStorage.count).split(',')[i]
+            if (dado != undefined) {
+                datasets2[0].data = qtdProcessos;
+                datasets2[1].data.push(dado);
+            }
+        });
+        chart2.update();
+    }
+</script>
+<!-- 
+    Gráficos para fazer
+    duas barras para cada computador
+    uma quantidade de processos total
+    outra quantidade de processos de janelas visiveis
+-->

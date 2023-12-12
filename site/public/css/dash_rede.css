@@ -122,15 +122,25 @@ body {
 }
 
 .container_card {
-  padding: 7px 16px;
+  padding: 7px 14px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  height: 40px;
+}
+
+.cards-container{
+  display: flex;
+  flex-direction: column;
+  height: min-content;
+  justify-content: space-between;
+}
+
+.exclamacaoAlerta{
+  font-size: 1.5rem;
 }
 
 .alerta {
-  border-radius: 7px;
+  border-radius: 14px;
+  min-width: 10px;
   border: 1px;
 }
 
@@ -155,10 +165,12 @@ body {
 }
 
 .critico {
-  background-color: red;
+ color: red;
+ background-color: red;
 }
 
 .cuidado {
+  color: yellow;
   background-color: yellow;
 }
 

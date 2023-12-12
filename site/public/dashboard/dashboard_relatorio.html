@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../assets/icon/favicon.ico">
-    <title>Dashboard | Máquina</title>
+    <title>Dashboard | Relatórios</title>
     <link rel="stylesheet" href="../css/barra_lateral.css">
     <link rel="stylesheet" href="../css/relatorio.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -16,6 +16,7 @@
 </head>
 
 <body onload="listarLateral(), buscarComputadoresRelatorio(idEmpresa)">
+
     <div class="container_principal">
         <div class="barra_lateral" id="lateral_barra">
 
@@ -35,19 +36,19 @@
                 <div class="area_superior">
                     <div class="area_superior_esquerda">
                         <div class="texto_ajuda">
-                            <!-- sempre que hooverar qualquer parte do site, mudar o texto de ajuda -->
-                            <h2>Selecione no minimo 1 componente que voce deseja obter os dados</h2>
+                            <h2 id="textoAjuda">Selecione pelo menos um componente para o qual você deseja obter os
+                                dados</h2>
                         </div>
                         <div class="botoes_filtro">
                             <button onclick="exibirComp()">Componentes</button>
                             <button onclick="exibirInicio()">Início</button>
                             <button onclick="exibirFim()">Fim</button>
                         </div>
-                        <div class="filtros_opçoes" id="idfiltros" style="display: block;">
+                        <div class="filtros_opçoes" id="idfiltros" style="display: block">
                             <div class="filtros_componentes">
                                 <ul class="lista">
                                     <li><button onclick="selecionarTodosComponentes()"
-                                            style="color: rgb(0, 255, 0);">Selecionar Todos</button></li>
+                                            style="color: rgb(0, 255, 0)">Selecionar Todos</button></li>
                                     <li><input type="checkbox" name="checkComp" id="cpu" value="1">CPU</li>
                                     <li><input type="checkbox" name="checkComp" id="disco" value="2">DISCO</li>
                                     <li><input type="checkbox" name="checkComp" id="ram" value="3">RAM</li>
@@ -58,26 +59,26 @@
                                     </li>
                                     <li><input type="checkbox" name="checkComp" id="janelas" value="7">Janelas</li>
                                     <li><input type="checkbox" name="checkComp" id="processos" value="8">Processos</li>
+                                    <li><input type="checkbox" name="checkComp" id="latencia" value="9">Latência</li>
                                     <li><button onclick="limpar()" id="limpar">Limpar</button>
                                         <button onclick="exibirInicio()" id="continuar">Continuar</button>
                                     </li>
                                 </ul>
                             </div>
                         </div>
-                        <div class="filtros_opçoes" id="idInicio" style="display: none;">
+                        <div class="filtros_opçoes" id="idInicio" style="display: none">
                             <input type="datetime-local" id="input_inicio">
                         </div>
-                        <div class="filtros_opçoes" id="idFim" style="display: none;">
+                        <div class="filtros_opçoes" id="idFim" style="display: none">
                             <input type="datetime-local" id="input_fim">
                         </div>
-                        <!-- colocar icone computador -->
                         <div class="container_divisor">
                             <div class="container_maq">
                                 <div class="select-btn">
                                     <span class="btn-text">Selecione o(s) computador(es)</span>
-                                    <button onclick="selecionarTodosMaquina()" style="color: rgb(0, 255, 0);">Selecionar
+                                    <button onclick="selecionarTodosMaquina()" style="color: rgb(0, 255, 0)">Selecionar
                                         Todos</button>
-                                    <button onclick="removerTodos()" style="color: red;">Remover Todos</button>
+                                    <button onclick="removerTodos()" style="color: red">Remover Todos</button>
                                 </div>
 
                                 <ul class="list-items" id="computadoresList">
@@ -85,10 +86,10 @@
                                 </ul>
                             </div>
                             <div class="botoes_finais">
-                                <button onclick="criarPrevia()" style="color: rgb(0, 255, 0);">Gerar Prévia</button>
-                                <button style="color: yellow;"
+                                <button onclick="criarPrevia()" style="color: rgb(0, 255, 0)">Gerar Prévia</button>
+                                <button style="color: yellow"
                                     onclick="limparTodos()">Limpar</button><!-- reseta os filtros -->
-                                <button style="color: red;"
+                                <button style="color: red"
                                     onclick="cancelar()">Cancelar</button><!-- recarrega a pagina -->
                             </div>
                         </div>
@@ -104,6 +105,7 @@
                                 <option value="pdf">PDF</option>
                                 <option value="csv">CSV</option>
                             </select>
+
                             <button class="baixar_botao" onclick="criarRelatorio()">Criar</button>
                         </div>
                         <div id="exibicao">
@@ -124,12 +126,21 @@
                                     </tbody>
                                 </table>
                             </div>
+
                         </div>
                     </div>
                 </div>
+
+            </div>
+            <div class="grafico" style="width: 70%; margin: 1000px">
+                <canvas id="myChart"></canvas>
+            </div>
+            <div class="grafico" style="width: 70%; margin: 1000px">
+                <canvas id="myChart2"></canvas>
             </div>
         </div>
     </div>
+
 </body>
 
 </html>
@@ -139,8 +150,10 @@
     var varDtFim = ""
     var nomeArquivo = ""
     var selectGeral = ''
+    var selectLatencia = ''
+    var selectRede = ''
     var varSelectSummary = ''
-    var idEmpresa = sessionStorage.Empresa;
+    var idEmpresa = sessionStorage.Empresa
     var dados = []
     var dadosSummary = []
     var rotulo = {
@@ -152,18 +165,19 @@
         5: "Taxa Dowload",
         6: "Taxa Upload",
         7: "Janelas",
-        8: "Processos"
+        8: "Processos",
+        9: "Latência"
 
     }
 
-    const selectBtn = document.querySelector(".select-btn");
+    const selectBtn = document.querySelector(".select-btn")
 
     selectBtn.addEventListener("click", () => {
-        selectBtn.classList.toggle("open");
-    });
+        selectBtn.classList.toggle("open")
+    })
 
     async function buscarComputadoresRelatorio(idEmpresa) {
-        console.log(idEmpresa);
+        console.log(idEmpresa)
         try {
             var resposta = await fetch("/relatorios/buscarComputadoresRelatorio", {
                 method: "POST",
@@ -173,7 +187,7 @@
                 body: JSON.stringify({
                     idEmpresaServer: idEmpresa,
                 })
-            });
+            })
             if (resposta.ok) {
                 var respostaJson = await resposta.json()
                 console.log('JSON BuscarComputadores SelecOption: ', respostaJson)
@@ -209,22 +223,25 @@
         document.getElementById('idfiltros').style.display = 'block'
         document.getElementById('idInicio').style.display = 'none'
         document.getElementById('idFim').style.display = 'none'
+        textoAjuda.innerHTML = "Selecione pelo menos um componente para o qual você deseja obter os dados"
     }
     function exibirInicio() {
         document.getElementById('idfiltros').style.display = 'none'
         document.getElementById('idInicio').style.display = 'block'
         document.getElementById('idFim').style.display = 'none'
+        textoAjuda.innerHTML = "Escolha uma data e hora de início e fim válidas"
     }
     function exibirFim() {
         document.getElementById('idfiltros').style.display = 'none'
         document.getElementById('idInicio').style.display = 'none'
         document.getElementById('idFim').style.display = 'block'
+        textoAjuda.innerHTML = "Escolha uma data e hora de início e fim válidas"
     }
     function selecionarTodosMaquina() {
         var todosMaqui = document.querySelectorAll('input[name="checkMaqui"]')
         todosMaqui.forEach(checkbox => {
             checkbox.checked = true
-        });
+        })
     }
     function selecionarTodosComponentes() {
 
@@ -232,26 +249,26 @@
 
         todosComponentes.forEach(function (checkbox) {
             checkbox.checked = true
-        });
+        })
     }
     function limpar() {
         var todosComponentes = document.querySelectorAll('input[name="checkComp"]')
 
         todosComponentes.forEach(function (checkbox) {
             checkbox.checked = false
-        });
+        })
     }
     function removerTodos() {
         var checkboxes = document.querySelectorAll('input[name="checkMaqui"]')
         checkboxes.forEach(checkbox => {
             checkbox.checked = false
-        });
+        })
     }
     function limparTodos() {
 
         var checkboxes = document.querySelectorAll('input[type="checkbox"]')
         checkboxes.forEach(function (checkbox) {
-            checkbox.checked = false;
+            checkbox.checked = false
 
         })
     }
@@ -303,6 +320,50 @@
         } else if (dataFimVerificar < dataInicioVerificar) {
             window.alert("selecione uma data de fim maior que a data de inicio")
         } else {
+
+            selectRede =
+                `SELECT TOP 40
+            Dado_Capturado AS Dado,
+            fkCompMoniExistentes AS Componente,
+            CONCAT(Data_captura, ' ', Hora_captura) AS DataHora
+        FROM
+            Monitoramento
+        WHERE
+            fkCompMoniExistentes IN (5, 6) AND
+            fkEmpMaqCompMoni = ${idEmpresa} AND
+            (
+            Data_captura > '${varDtInicio}' OR
+            (Data_captura = '${varDtInicio}' AND Hora_captura >= '${varHrInicio}')
+            ) AND
+            (
+            Data_captura < '${varDtFim}' OR
+            (Data_captura = '${varDtFim}' AND Hora_captura <= '${varHrFim}')
+            )
+        ORDER BY
+            Data_captura ASC,
+            Hora_captura ASC
+        `
+            selectLatencia =
+                `SELECT TOP 20
+            Dado_Capturado AS Dado,
+            fkCompMoniExistentes AS Componente,
+            CONCAT(Data_captura, ' ', Hora_captura) AS DataHora
+        FROM 
+            Monitoramento
+        WHERE
+            fkCompMoniExistentes = 9 AND 
+            fkEmpMaqCompMoni = ${idEmpresa} AND
+            (
+            Data_captura > '${varDtInicio}' OR
+            (Data_captura = '${varDtInicio}' AND Hora_captura >= '${varHrInicio}')
+            ) AND
+            (
+            Data_captura < '${varDtFim}' OR
+            (Data_captura = '${varDtFim}' AND Hora_captura <= '${varHrFim}')
+            )
+        ORDER BY
+            Data_captura ASC,
+            Hora_captura ASC`
             selectGeral = `
         SELECT
             maq.Id_do_dispositivo AS Maquina,
@@ -315,7 +376,7 @@
         JOIN
             Maquinas maq ON moni.fkMaqCompMoni = maq.idMaquina
         WHERE 
-            fkEmpMaqCompMoni IN (${selecionadosMaqui}) AND 
+            fkMaqCompMoni IN (${selecionadosMaqui}) AND 
             fkCompMoniExistentes IN (${selecionadosComp}) AND 
         (
             Data_captura > '${varDtInicio}' OR 
@@ -327,7 +388,7 @@
         ) 
         ORDER BY 
         maq.Id_do_dispositivo ASC,
-        moni.Data_Captura ASC;
+        moni.Data_Captura ASC
         `
             varSelectSummary = `
         SELECT
@@ -343,7 +404,7 @@
         JOIN
             Maquinas maq ON moni.fkMaqCompMoni = maq.idMaquina
         WHERE 
-            fkEmpMaqCompMoni IN (${selecionadosMaqui}) AND 
+            fkMaqCompMoni IN (${selecionadosMaqui}) AND 
             fkCompMoniExistentes IN (${selecionadosComp}) AND 
         (
         Data_captura > '${varDtInicio}' OR 
@@ -355,29 +416,36 @@
         ) 
         GROUP BY 
         maq.Id_do_dispositivo,
-        moni.fkCompMoniExistentes;
-            `  
-
+        moni.fkCompMoniExistentes
+        ORDER BY 
+        moni.fkCompMoniExistentes
+            `
             buscarSelect(selectGeral)
+            obterDadosRede(selectRede)
+            obterDadosLatencia(selectLatencia)
 
             function buscarSelect(selectGeral) {
+                console.log(selectGeral)
                 fetch("/relatorios/buscarSelect", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
+
                         selectGeralServer: selectGeral
                     })
                 }).then(function (response) {
                     if (response.ok) {
                         response.json().then(function (resposta) {
 
+                            console.log(resposta)
                             dados = resposta
+                            console.log(dados)
                             formatarDados(dados)
                             criarLinhasTabela(dados)
 
-                        });
+                        })
                     } else {
                         console.error('Nenhum dado encontrado ou erro na API')
                         window.alert('Período de datas não existente')
@@ -385,7 +453,7 @@
                 })
                     .catch(function (error) {
                         console.error(`Erro na obtenção dos dados: ${error.message}`)
-                    });
+                    })
             }
         }
         function formatarDados(dados) {
@@ -424,28 +492,96 @@
     }
 
     function criarRelatorio(dataHoje, varDtInicio, varDtFim, nomeArquivo) {
-        var selectExtensao = document.getElementById('select_ext');
-        var extensaoSelecionada = selectExtensao.value;
-        var nomeArquivo = document.getElementById('input_nome_arquivo').value;
+        var selectExtensao = document.getElementById('select_ext')
+        var extensaoSelecionada = selectExtensao.value
+        var nomeArquivo = document.getElementById('input_nome_arquivo').value
 
         if (extensaoSelecionada === "pdf") {
-            criarPDF(dataHoje, varDtInicio, varDtFim, nomeArquivo, selectGeral, varSelectSummary);
+            criarPDF(dataHoje, varDtInicio, varDtFim, nomeArquivo, selectGeral, varSelectSummary)
+        }
+        if (extensaoSelecionada === "csv") {
+            criarCSV(dataHoje, varDtInicio, varDtFim, nomeArquivo, selectGeral)
+        }
+    }
+
+    function criarCSV(dataHoje, varDtInicio, varDtFim, nomeArquivo, selectGeral) {
+        buscarSelectCSV()
+            .then(dados => {
+                console.log("Dados obtidos:", dados);
+                formatarDadosCSV(dados);
+
+                gerarCSV(dados, nomeArquivo);
+            })
+            .catch(error => {
+                console.error("Erro ao buscar e formatar dados:", error.message);
+            });
+
+        function buscarSelectCSV() {
+            return new Promise(function (resolve, reject) {
+                fetch("/relatorios/buscarSelect", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        selectGeralServer: selectGeral
+                    })
+                })
+                    .then(function (response) {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            console.error("Nenhum dado encontrado ou erro na API");
+                            reject(new Error("Erro ao buscar dados para select2"));
+                        }
+                    })
+                    .then(function (resposta) {
+                        resolve(resposta);
+                    })
+                    .catch(function (error) {
+                        console.error(`Erro na obtenção dos dados: ${error.message}`);
+                        reject(error);
+                    });
+            });
+        }
+
+        function formatarDadosCSV(dados) {
+            for (var i = 0; i < dados.length; i++) {
+                dados[i].Data = dados[i].Data.split("T")[0];
+                dados[i].Hora = dados[i].Hora.split("T")[1];
+                dados[i].Hora = dados[i].Hora.slice(0, 8);
+                dados[i].Componente = rotulo[dados[i].Componente] || dados[i].Componente;
+            }
+        }
+
+        function gerarCSV(dados, nomeArquivo) {
+            const csvContent = "data:text/csv;charset=utf-8," +
+                dados.map(row => Object.values(row).join(",")).join("\n")
+
+            const encodedUri = encodeURI(csvContent)
+            const link = document.createElement("a")
+            link.setAttribute("href", encodedUri)
+            link.setAttribute("download", `${nomeArquivo}.csv`)
+            document.body.appendChild(link)
+            link.click();
+            document.body.removeChild(link)
         }
     }
 
     function criarPDF(dataHoje, varDtInicio, varDtFim, nomeArquivo, selectGeral, varSelectSummary) {
-        console.log(selectGeral);
-        console.log(varSelectSummary);
+
+        console.log(selectGeral)
+        console.log(varSelectSummary)
 
         Promise.all([buscarSelect2(), selectSummary()])
             .then(function ([dados, dadosSummary]) {
-                console.log(dados);
-                console.log(dadosSummary);
-                gerarPDF(dados, dadosSummary);
+                console.log(dados)
+                console.log(dadosSummary)
+                gerarPDF(dados, dadosSummary)
             })
             .catch(function (error) {
-                console.error(`Erro na obtenção dos dados: ${error.message}`);
-            });
+                console.error(`Erro na obtenção dos dados: ${error.message}`)
+            })
 
         function buscarSelect2() {
             return new Promise(function (resolve, reject) {
@@ -460,25 +596,25 @@
                 }).then(function (response) {
                     if (response.ok) {
                         response.json().then(function (resposta) {
-                            var dados = resposta;
-                            console.log(dados);
-                            formatarDados2(dados);
-                            resolve(dados);
-                        });
+                            var dados = resposta
+                            console.log(dados)
+                            formatarDados2(dados)
+                            resolve(dados)
+                        })
                     } else {
-                        console.error('Nenhum dado encontrado ou erro na API');
-                        reject(new Error('Erro ao buscar dados para select2'));
+                        console.error('Nenhum dado encontrado ou erro na API')
+                        reject(new Error('Erro ao buscar dados para select2'))
                     }
                 }).catch(function (error) {
-                    console.error(`Erro na obtenção dos dados: ${error.message}`);
-                    reject(error);
-                });
-            });
+                    console.error(`Erro na obtenção dos dados: ${error.message}`)
+                    reject(error)
+                })
+            })
         }
 
         function selectSummary() {
             return new Promise(function (resolve, reject) {
-                console.log(varSelectSummary);
+                console.log(varSelectSummary)
                 fetch("/relatorios/buscarSelectSummary", {
                     method: "POST",
                     headers: {
@@ -490,33 +626,33 @@
                 }).then(function (response) {
                     if (response.ok) {
                         response.json().then(function (resposta) {
-                            var dadosSummary = resposta;
-                            formatarDadosSummary(dadosSummary);
-                            resolve(dadosSummary);
-                        });
+                            var dadosSummary = resposta
+                            formatarDadosSummary(dadosSummary)
+                            resolve(dadosSummary)
+                        })
                     } else {
-                        console.error('Nenhum dado encontrado ou erro na API');
-                        reject(new Error('Erro ao buscar dados para selectSummary'));
+                        console.error('Nenhum dado encontrado ou erro na API')
+                        reject(new Error('Erro ao buscar dados para selectSummary'))
                     }
                 }).catch(function (error) {
-                    console.error(`Erro na obtenção dos dados: ${error.message}`);
-                    reject(error);
-                });
-            });
+                    console.error(`Erro na obtenção dos dados: ${error.message}`)
+                    reject(error)
+                })
+            })
         }
 
         function formatarDados2(dados) {
             for (var i = 0; i < dados.length; i++) {
-                dados[i].Data = dados[i].Data.split("T")[0];
-                dados[i].Hora = dados[i].Hora.split("T")[1];
-                dados[i].Hora = dados[i].Hora.slice(0, 8);
-                dados[i].Componente = rotulo[dados[i].Componente] || dados[i].Componente;
+                dados[i].Data = dados[i].Data.split("T")[0]
+                dados[i].Hora = dados[i].Hora.split("T")[1]
+                dados[i].Hora = dados[i].Hora.slice(0, 8)
+                dados[i].Componente = rotulo[dados[i].Componente] || dados[i].Componente
             }
         }
 
         function formatarDadosSummary(dadosSummary) {
             for (var i = 0; i < dadosSummary.length; i++) {
-                dadosSummary[i].Componente = rotulo[dadosSummary[i].Componente] || dadosSummary[i].Componente;
+                dadosSummary[i].Componente = rotulo[dadosSummary[i].Componente] || dadosSummary[i].Componente
             }
         }
 
@@ -530,14 +666,13 @@
             varDtInicio = dataInicioVerificar.toLocaleDateString('pt-BR')
             varDtFim = dataFimVerificar.toLocaleDateString('pt-BR')
 
-            // Função para converter imagem em base64
             function imageToBase64(imgUrl, callback) {
                 var img = new Image()
 
                 img.onload = function () {
                     var canvas = document.createElement('canvas')
-                    canvas.width = img.width;
-                    canvas.height = img.height;
+                    canvas.width = img.width
+                    canvas.height = img.height
 
                     var context = canvas.getContext('2d')
                     context.drawImage(img, 0, 0, img.width, img.height)
@@ -549,11 +684,9 @@
                     }
                 }
 
-                img.crossOrigin = 'Anonymous';
-                img.src = imgUrl;
+                img.crossOrigin = 'Anonymous'
+                img.src = imgUrl
             }
-            //tentar colocar um fundo preto antes da imagem no pdf 
-            //aumentar o tamanho dos titulos dos graficos
             var imageUrl = 'https://raw.githubusercontent.com/Centrix-Solutions-Grupo-07/Ambiente_Teste/2db18d618bee85d2e1cae1d6185b4d98a290deab/site/public/assets/imgs/CentrixLogoRelatorio.jpg'
             imageToBase64(imageUrl, function (base64) {
                 var docDefinition = {
@@ -562,7 +695,12 @@
                         { text: `${nomeArquivo}`, style: 'subtitulo' },
                         { text: `Data de criação: ${formatDataHj}`, style: 'subtitulo' },
                         { text: `Criador: ${sessionStorage.nome}`, style: 'subtitulo' },
+                        { text: `Contato: ${sessionStorage.email}`, style: 'subtitulo' },
                         { text: `Dados coletados de ${varDtInicio} até ${varDtFim}`, style: 'subtitulo' },
+                        { text: 'Velocidade de download e upload', style: 'subtitulo' },
+                        { image: convertCanvasToImage(document.getElementById('myChart')), width: 430 },
+                        { text: 'Latência geral', style: 'subtitulo' },
+                        { image: convertCanvasToImage(document.getElementById('myChart2')), width: 430 },
                         { text: 'Sumário dos dados', style: 'subtitulo' },
                         {
                             style: 'tabela',
@@ -602,10 +740,10 @@
                         },
                         pageMargins: [0, 0, 0, 0],
                     },
-                };
+                }
 
                 for (var i = 0; i < dadosSummary.length; i++) {
-                    docDefinition.content[6].table.body.push([
+                    docDefinition.content[11].table.body.push([
                         { text: dadosSummary[i].Maquina, style: 'tableCell' },
                         { text: dadosSummary[i].total_registros, style: 'tableCell' },
                         { text: dadosSummary[i].min, style: 'tableCell' },
@@ -613,24 +751,254 @@
                         { text: dadosSummary[i].media, style: 'tableCell' },
                         { text: dadosSummary[i].desvio, style: 'tableCell' },
                         { text: dadosSummary[i].Componente, style: 'tableCell' },
-                    ]);
+                    ])
                 }
 
                 for (var i = 0; i < dados.length; i++) {
-                    docDefinition.content[8].table.body.push([
+                    docDefinition.content[13].table.body.push([
                         { text: dados[i].Maquina, style: 'tableCell' },
                         { text: dados[i].Data, style: 'tableCell' },
                         { text: dados[i].Hora, style: 'tableCell' },
                         { text: dados[i].Dado, style: 'tableCell' },
                         { text: dados[i].Componente, style: 'tableCell' },
-                    ]);
+                    ])
                 }
-                var pdfDoc = pdfMake.createPdf(docDefinition);
-                pdfMake.createPdf(docDefinition).open();
-                pdfDoc.download(`${nomeArquivo}`);
-            });
+                var pdfDoc = pdfMake.createPdf(docDefinition)
+                pdfMake.createPdf(docDefinition).open()
+                pdfDoc.download(`${nomeArquivo}`)
+            })
         }
     }
+    function obterDadosRede() {
 
+        const labels = []
+        const data = [[], []]
+
+        fetch("/relatorios/buscarSelectRede", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                selectRedeServer: selectRede
+            })
+        })
+            .then((resposta) => resposta.json())
+            .then((dados) => {
+
+
+                const vetorDowload = []
+                const vetorUpload = []
+                const momentoFormatado = new Set()
+
+                for (let i = 0; i < dados.length; i++) {
+                    if (dados[i].Componente === 5) {
+                        vetorDowload.push(dados[i].Dado)
+                    }
+                    if (dados[i].Componente === 6) {
+                        vetorUpload.push(dados[i].Dado)
+                    }
+
+                    const momento = new Date(dados[i].DataHora)
+                    const momentoFormatadoAtual = momento.toLocaleDateString('pt-BR', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit'
+                    })
+
+                    momentoFormatado.add(momentoFormatadoAtual)
+                }
+
+
+                const excluindoRepetidas = Array.from(momentoFormatado)
+
+
+                labels.push(...excluindoRepetidas)
+                data[0].push(...vetorDowload)
+                data[1].push(...vetorUpload)
+
+                const config = {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Download',
+                            data: data[0],
+                            fill: false,
+                            tension: 0.1,
+                            borderColor: 'lime',
+                            backgroundColor: 'lime',
+                        }, {
+                            label: 'Upload',
+                            data: data[1],
+                            fill: false,
+                            borderColor: '#45A7A4',
+                            backgroundColor: '#45A7A4',
+                            tension: 0.1
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: {
+                                display: true
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: {
+                                    color: 'black',
+                                    lineWidth: 0.4,
+                                    borderDash: [1, 1]
+                                },
+                                ticks: {
+                                    color: 'black'
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'black',
+                                    lineWidth: 0.4,
+                                    borderDash: [1, 1]
+                                },
+                                ticks: {
+                                    callback: (value) => value + ' Mb/s',
+                                    color: 'red'
+                                }
+                            }
+                        },
+                        layout: {
+                            padding: {
+                                left: 1
+                            }
+                        }
+                    }
+                }
+
+                const myChart = new Chart(document.getElementById('myChart'), config)
+            })
+            .catch((error) => {
+                console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`)
+            })
+    }
+    function obterDadosLatencia() {
+
+        const labels = []
+        const data = []
+
+        fetch("/relatorios/buscarSelectLatencia", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                selectLatenciaServer: selectLatencia
+            })
+        })
+            .then((resposta) => resposta.json())
+            .then((dados) => {
+
+
+                const vetorLatencia = []
+                const momentoFormatado = []
+
+                for (let i = 0; i < dados.length; i++) {
+
+                    vetorLatencia.push(dados[i].Dado)
+
+                }
+
+                for (let i = 0; i < dados.length; i++) {
+                    const momento = new Date(dados[i].DataHora)
+
+                    const momentoFormatadoAtual = momento.toLocaleDateString('pt-BR', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit'
+                    })
+                    momentoFormatado.push(momentoFormatadoAtual)
+
+                }
+
+
+                labels.push(...momentoFormatado)
+                data.push(vetorLatencia)
+
+                const config = {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Latência',
+                            data: data[0],
+                            fill: false,
+                            borderColor: '#845ED7',
+                            backgroundColor: '#845ED7',
+                            tension: 0.1
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: {
+                                display: true
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: {
+                                    color: 'black',
+                                    lineWidth: 0.5,
+                                    borderDash: [1, 1]
+                                },
+                                ticks: {
+                                    color: 'black'
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'black',
+                                    lineWidth: 0.5,
+                                    borderDash: [1, 1]
+                                },
+                                ticks: {
+                                    callback: (value) => value + ' ms',
+                                    color: 'red'
+                                }
+                            }
+                        },
+                        layout: {
+                            padding: {
+                                left: 1
+                            }
+                        }
+                    }
+                }
+
+                const myChart = new Chart(document.getElementById('myChart2'), config)
+            })
+            .catch((error) => {
+                console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`)
+            })
+    }
+    function salvarImagem(chartId, fileName) {
+        const canvas = document.getElementById(chartId)
+        const chartImageBase64 = convertCanvasToImage(canvas)
+
+        const link = document.createElement('a')
+        link.href = chartImageBase64
+        link.download = fileName
+        link.click()
+    }
+    function convertCanvasToImage(canvas) {
+        const dataURL = canvas.toDataURL('image/png')
+        return dataURL
+    }
 
 </script>

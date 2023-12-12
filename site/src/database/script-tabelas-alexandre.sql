@@ -142,6 +142,32 @@ CREATE TABLE IF NOT EXISTS Alertas (
     FOREIGN KEY (FKMonitoramento) REFERENCES Monitoramento(idMonitoramento)
 );
 
+CREATE TABLE IF NOT EXISTS Processo(
+	idProcesso INT primary key auto_increment,
+    idProcessoMaquina INT unique,
+    PID INT,
+    titulo VARCHAR(255),
+    fkCompMonitoradosProc INT,
+    constraint fkCompMonitoradosProc foreign key (fkCompMonitoradosProc) references Componentes_Monitorados(idComponente_monitorado),
+    fkCompExistentesProc INT,
+    constraint fkCompExistentesProc foreign key (fkCompExistentesProc) references Componentes_Monitorados(fkComponentesExistentes),
+    fkMaqProc INT,
+    constraint fkMaqProc foreign key (fkMaqProc) references Componentes_Monitorados(fkMaquina),
+    fkEmpProc INT,
+    constraint fkEmpProc foreign key (fkEmpProc) references Componentes_Monitorados(fkEmpMaqComp)
+);
+
+create table dadosGrafico(
+	idDadosGrafico int primary key auto_increment,
+    qtdProcessos int,
+    cpu double,
+    ram double,
+    fkMaqDados int,
+	CONSTRAINT fkMaqDados FOREIGN KEY (fkMaqDados) REFERENCES Maquinas (idMaquina),
+    fkEmpDados int,
+    CONSTRAINT fkEmpDados FOREIGN KEY (fkEmpDados) REFERENCES Empresa (idEmpresa)
+);
+
 INSERT INTO Empresa (Nome_fantasia, CNPJ, Responsavel_legal, CEP, numero, complemento)
 VALUES
    ('Empresa A', '12.345.678/9012-34', 'Responsável A', '12345-678', 123, 'Complemento A'),
@@ -169,14 +195,21 @@ INSERT INTO ComponentesQuePrestamosServico (nome) VALUES
     ('Taxa Upload'),
     ('Janelas do Sistema'),
     ('Processos');
-    
-select * from Componentes_Monitorados;
-select * from funcionario;
-select * from monitoramento order by fkCompMoniExistentes;
-select * from empresa;
-select idMonitoramento, Data_captura, Hora_captura, Dado_Capturado, fkCompMoniExistentes from monitoramento;
-select idMonitoramento, Data_captura, Hora_captura, Dado_Capturado, fkCompMoniExistentes from monitoramento order by Hora_captura desc;
-select idMonitoramento, Data_captura, Hora_captura, Dado_Capturado, fkCompMoniExistentes from monitoramento;
-select * from login;
-select * from maquinas;
-select * from notificacao;
+
+/*
+sql server
+CREATE TABLE Processo(
+	idProcesso INT primary key auto_increment,
+    idProcessoMaquina INT unique,
+    PID INT,
+    titulo VARCHAR(255),
+    fkCompMonitoradosProc INT,
+    CONSTRAINT fkCompMonitoradosProc FOREIGN KEY (fkCompMonitoradosProc) REFERENCES Componentes_Monitorados (idComponente_monitorado),
+    fkCompExistentesProc INT,
+    CONSTRAINT fkCompExistentesProc FOREIGN KEY (fkCompExistentesProc) REFERENCES ComponentesQuePrestamosServico (idComponentes_Que_PrestamosServicos),
+    fkMaqProc INT,
+    CONSTRAINT fkMaqProc FOREIGN KEY (fkMaqProc) REFERENCES Maquinas (idMaquina),
+    fkEmpProc INT,
+    CONSTRAINT fkEmpProc FOREIGN KEY (fkEmpProc) REFERENCES Empresa (idEmpresa)
+);
+*/

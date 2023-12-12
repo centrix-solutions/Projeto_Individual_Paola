@@ -119,7 +119,7 @@ function obterDadosGrafico(idMaquina, chartId) {
     function atualizarGrafico() {
         fetch(`/medidas/tempo-real/${idMaquina}`, { cache: 'no-store' })
             .then((response) => {
-                
+
                 if (response.ok) {
                     return response.json();
                 } else {
@@ -158,7 +158,7 @@ function obterDadosGrafico(idMaquina, chartId) {
             resposta.reverse();
             for (const registro of resposta) {
                 const momentoFormatado = new Date(registro.momento_grafico).toISOString().slice(11, 19);
-                
+
                 labels.push(momentoFormatado);
                 data.push(registro.cpu);
             }
@@ -245,7 +245,7 @@ function obterDadosGraficoRAM(idMaquina, chartId) {
                 const usoRAMGB = novoRegistro[0].ram;
 
                 const usoRAMPercent = (usoRAMGB / totalRAMGB) * 100;
-                
+
                 const momento = new Date(novoRegistro[0].momento_grafico).toISOString().slice(11, 19);
                 if (momento !== labels[labels.length - 1]) {
                     labels.shift();
@@ -535,7 +535,7 @@ function buscarDadosMonitoramento(idMaquina, idEmpresa) {
                 response.json().then(function (resposta) {
 
                     console.log(resposta[0])
-                    nome_funcionario.innerHTML = resposta[0].Email
+                    nome_funcionario.innerHTML = resposta[0].NomeFuncionario
                     id_maquina.innerHTML = resposta[0].idComputador
                     atividade.innerHTML = resposta[0].Atividade
                     inicio_turno.innerHTML = resposta[0].HoraInicioTurno
@@ -549,6 +549,37 @@ function buscarDadosMonitoramento(idMaquina, idEmpresa) {
                 console.error(`Erro na obtenção dos dados: ${error.message}`);
             });
     }
+    
+    function atualizarCorBarra() {
+
+        var barraCpu = document.getElementById('barra_cpu')
+        var barraRam = document.getElementById('barra_ram')
+        var barraDisco = document.getElementById('barra_disco')
+
+        for (let i = 0; i < 3; i++) {
+            var barra = ""
+            switch (i) {
+                case 0:
+                    barra = barraCpu;
+                    break;
+                case 1:
+                    barra = barraRam;
+                    break;
+                case 2:
+                    barra = barraDisco;
+                    break;
+            }
+            var valor = barra.value
+            console.log(barra.id)
+            if (valor <= 25) {
+                barra.setAttribute('name', 'verde')
+            } else if (valor >= 75) {
+                barra.setAttribute('name', 'vermelho')
+            } else {
+                barra.setAttribute('name', 'laranja')
+            }
+        }        
+    }
 
     buscarCpu(idMaquina, idEmpresa)
     buscarRam(idMaquina, idEmpresa)
@@ -559,6 +590,7 @@ function buscarDadosMonitoramento(idMaquina, idEmpresa) {
     buscarLogin(idMaquina, idEmpresa)
     buscarJanelas(idMaquina, idEmpresa)
     buscarProcessos(idMaquina, idEmpresa)
+    atualizarCorBarra()
 }
 
 

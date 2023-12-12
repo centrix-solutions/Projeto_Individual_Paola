@@ -1,0 +1,259 @@
+.branco{
+    color: white;
+}
+.preto{
+    color: black;
+}
+/* .pretoFundo{
+    background-color: black;
+} */
+.cursor{
+    cursor: pointer;
+}
+.div-esquerda{
+    width: 70%;
+}
+.div-direita{
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.lista-computadores{
+    width: 100%;
+    overflow-y: auto;
+    max-height: 600px;
+}
+.computador {
+    border: 1px solid #ccc;
+    width: 90%;
+    overflow: hidden;
+    margin: auto;
+}
+.cabecalho {
+    background-color: #888;
+    padding: 10px;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+.conteudo {
+    padding: 10px;
+    display: none;
+    color: white;
+    flex-direction: column;
+}
+.div_individual{
+    height: fit-content;
+    width: 85vw;
+    background-color: #1E1E1E;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    overflow-y: auto;
+    border-radius: 1rem;
+    padding: 1vh;
+    margin-top: 2rem;
+}
+
+.div_superior{
+    display: flex;
+}
+.div_inferior{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 5%;
+}
+.grafico{
+    height: auto !important;
+    width: 45% !important;
+    background-color: lightgray;
+    border-radius: 10px;
+    text-align: center;
+}
+.texto-grafico{
+    margin: 10px 0;
+}
+.div-btn-deletar{
+    display: flex;
+    justify-content: end;
+}
+.btn-deletar{
+    cursor: pointer;
+}
+.divPesquisa {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+}
+#inputPesquisa {
+    width: 400px;
+}
+.divProcessosDiferentes {
+    width: 100%;
+    padding-top: 10px;
+    text-align: center;
+}
+#tituloProcessosDiferentes {
+    padding-bottom: 10px;
+}
+@keyframes rotate {
+    to {
+        transform: rotate(360deg);
+    }
+}
+.rotate-arrow:hover {
+    animation: rotate 1.5s linear infinite;
+}
+.balao {
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 8px;
+    border-radius: 4px;
+    display: inline-block;
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+}
+.hidden {
+    display: none;
+}
+#listaProcessosDiferentes{
+    overflow-y: auto;
+    max-height: 600px;
+}
+::-webkit-scrollbar{
+    width: 10px;
+}
+::-webkit-scrollbar-track{
+    border-radius: 10px;
+    background: #555;
+}
+::-webkit-scrollbar-thumb{
+    background: lightgray;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover{
+    background: #888;
+}
+.div_filtro{
+    /* display: none; */
+    position: fixed;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    width: 500px;
+    height: 500px;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.div-relatorio{
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+  
+.div-relatorio-conteudo{
+    background-color: black;
+    color: white;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%;
+}
+  
+.close{
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+  
+.close:hover,
+.close:focus{
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+.style-fltro{
+    border-radius: 10px;
+    padding: 5px;
+    background-color: #8565C9;
+    color: white;
+    border: none;
+    transition-duration: 0.5s;
+}
+.style-fltro:hover{
+    background-color: white;
+    color: #8565C9;
+    transition-duration: 0.5s;
+}
+
+::placeholder {
+    color: white;
+}
+.btn-reload{
+    height: 30px;
+    width: 30px;
+    background-color: #8565C9;
+    color: white;
+}
+.btn-deletar{
+    background-color: red;
+    border-radius: 10px;
+    padding: 5px;
+    color: white;
+}
+.linha{
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(180deg, #4B3753 0%, #4B3753 0%, #4B3753 0.01%, rgba(90, 52, 169, 0.93) 9.09%,
+        #8565C9 18.18%, rgba(180, 153, 238, 0.96) 27.27%, rgba(170, 143, 225, 0.63) 39.58%,
+        rgba(206, 185, 249, 0.93) 50%, rgba(151, 116, 222, 0.68) 57.29%, rgba(161, 122, 243, 0.85) 64.58%,
+        rgba(167, 131, 242, 0.90) 70.31%, rgba(139, 89, 245, 0.63) 81.82%, #5A34A9 90.91%, rgba(75, 55, 83, 0.99) 100%);
+}
+.div-copia{
+    display: flex;
+    justify-content: center;
+    height: 30px;
+    align-items: center;
+}
+.barra_lateral{
+    height: 750px;
+}
+.area_dash{
+    height: 750px;
+}
+.div_central {
+    height: 550px;
+}
+.container_principal{
+    height: 550px;
+}
+.sla{
+    background-color: rgb(60, 0, 255);
+}
+.vermelho{
+    background-color: red;
+}
+.vermelho:hover{
+    background-color: white;
+    color: red;
+    transition-duration: 0.5s;
+}
+.titulo-relatorio{
+    font-weight: bold;
+    font-size: 20px;
+    margin: 10px 0;
+}
