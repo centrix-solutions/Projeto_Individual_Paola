@@ -25,8 +25,6 @@ var mySqlConfig = {
     // password: "38762",
     //user: "root",
     //password: "TomboySupremacy2!",
-    // user: "root",
-    // password: "#Gf53359131851",
 };
 
 
